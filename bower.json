@@ -1,8 +1,9 @@
 {
-    "name": "dialog",
-    "version": "0.2.0",
+    "name": "gui",
+    "version": "0.1.0",
     "main": [
-        "./dist/dialog.js"
+        "./dist/gui.js",
+        "./dist/gui.css"
     ],
     "ignore": [
         "**/.*",
