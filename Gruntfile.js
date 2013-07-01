@@ -29,6 +29,13 @@ module.exports = function(grunt) {
             }
         },
         rig: {
+            options: {
+                processContent: true,
+                data: {
+                    version: '<%= pkg.version %><%= grunt.config("buildNumber") %>',
+                    build:'<%= grunt.template.today("mm/dd/yyyy hh:MM:ss TT") %>'
+                }
+            },
             all: {
                 files: {
                     "dist/<%=pkg.name%>.js": "src/<%=pkg.name%>.js"

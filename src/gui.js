@@ -41,6 +41,8 @@ var GUI = function(require) {
 		}
 	};
 	return {
-		AdDisplay: AdDisplay
+		AdDisplay: AdDisplay,
+		version: "<%=version%>",
+		build: "<%=build%>"
 	};
 }(MTVNPlayer.require);
