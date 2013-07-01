@@ -64,6 +64,8 @@ var GUI = function(require) {
 		}
 	};
 	return {
-		AdDisplay: AdDisplay
+		AdDisplay: AdDisplay,
+		version: "0.1.1",
+		build: "07/01/2013 11:28:04 AM"
 	};
 }(MTVNPlayer.require);
