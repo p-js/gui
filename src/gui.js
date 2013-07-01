@@ -10,14 +10,15 @@ var GUI = function(require) {
 		$ = require("$"),
 		_ = require("_");
 	//= template.js
-	var DEFAULT_TEMPLATE = this.Templates["src/template.html"];
-
-	function AdDisplay(options) {
-		this.options = _.defaults(options || {}, {
+	var DEFAULT_TEMPLATE = this.Templates["src/template.html"],
+		DEFAULT_COPY = {
 			countdownText: "Your content will resume in {{time}}.",
 			messageText: "Your content will resume shortly.",
 			buttonText: "Learn More"
-		});
+		};
+
+	function AdDisplay(options) {
+		this.options = _.defaults(options || {}, DEFAULT_COPY);
 		this.render(this.options);
 	}
 
