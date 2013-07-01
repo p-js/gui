@@ -1,0 +1,26 @@
+.mtvn-ad-gui {
+  background: rgba(33, 33, 33, 0.8);
+  color:white;
+  position:relative;
+  width:100%;
+}
+
+.mtvn-ad-gui-container {
+  padding: 10px 10px;
+  vertical-align:middle;
+}
+
+.mtvn-ad-gui-countdown {
+  padding:4px;
+  display:inline-block;
+}
+
+.mtvn-ad-gui-learn-more {
+  position:absolute;
+  right:10px;
+  background-color: #5E5E5E;
+  border: 1px solid #909090;
+  border-radius: 5px;
+  cursor: pointer;
+  padding:3px;
+}

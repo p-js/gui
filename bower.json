@@ -1,0 +1,22 @@
+{
+    "name": "dialog",
+    "version": "0.2.0",
+    "main": [
+        "./dist/dialog.js"
+    ],
+    "ignore": [
+        "**/.*",
+        "test",
+        "src",
+        "testem.json",
+        "build",
+        "node_modules",
+        "components"
+    ],
+    "dependencies": {
+        "underscore": "underscore#1.4.4",
+        "zepto": "zepto#1.0.0",
+        "mtvn-package-manager": "mtvn-player/mtvn-package-manager#0.6.0",
+        "mtvn-util": "mtvn-player/mtvn-util#1.0.0"
+    }
+}
