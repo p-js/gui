@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Dialog Test</title>
+	<title>GUI Test</title>
 	<meta charset="utf-8"/>
 	<link rel="stylesheet" type="text/css" href="../dist/gui.css">
 	<script	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -28,16 +28,17 @@
 		})).$el);
 		$("#ad-gui-3").append((new AdDisplay({
 			time: 30,
-			isAdClickable: true
+			buttonLink:"http://google.com"
 		})).$el);
 		$("#ad-gui-4").append((new AdDisplay({
 			time: 30,
 			isAdClickable: true,
 			countdownText:"Other message about ad resuming in {{time}}",
-			buttonText: "Aprende mas"
+			buttonText: "Aprende mas",
+			buttonLink:"http://google.com"
 		})).$el);
 		$("#ad-gui-5").append((new AdDisplay({
-			isAdClickable: true,
+			buttonLink:"http://google.com",
 			messageText:"Other message about ad with no time."
 		})).$el);
 	</script>

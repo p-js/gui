@@ -14,7 +14,8 @@ var GUI = function(require) {
 		DEFAULT_COPY = {
 			countdownText: "Your content will resume in {{time}}.",
 			messageText: "Your content will resume shortly.",
-			buttonText: "Learn More"
+			buttonText: "Learn More",
+			buttonTarget:"_blank"
 		};
 
 	function AdDisplay(options) {
