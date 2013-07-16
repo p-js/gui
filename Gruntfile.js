@@ -33,7 +33,7 @@ module.exports = function(grunt) {
                 processContent: true,
                 data: {
                     version: '<%= pkg.version %><%= grunt.config("buildNumber") %>',
-                    build:'<%= grunt.template.today("mm/dd/yyyy hh:MM:ss TT") %>'
+                    build: '<%= grunt.template.today("mm/dd/yyyy hh:MM:ss TT") %>'
                 }
             },
             all: {
@@ -48,7 +48,18 @@ module.exports = function(grunt) {
             },
             all: {
                 files: {
-                    "src/template.js": "src/template.html"
+                    "src/template.js": ["src/template.html", "src/controls/template.html"]
+                }
+            }
+        },
+        compass: {
+            dist: {
+                options: {
+                    sassDir: 'src/controls/sass',
+                    cssDir: 'dist',
+                    imagesDir:'src/controls/sass',
+                    httpGeneratedImagesPath:'.',
+                    generatedImagesDir:'dist'
                 }
             }
         },
@@ -62,7 +73,7 @@ module.exports = function(grunt) {
             files: ['package.json', 'bower.json']
         },
         watch: {
-            files: ['Gruntfile.js', 'src/<%=pkg.name%>.js', 'src/template.html', 'src/<%=pkg.name%>.css'],
+            files: ['Gruntfile.js', 'src/**/*.js', 'src/**/*.html', 'src/**/*.scss', '!src/template.js'],
             tasks: ["default"]
         }
     });
@@ -73,7 +84,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-handlebars');
+    grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-bumpx');
-    grunt.registerTask('default', ['clean', 'jshint:devel', 'handlebars', 'rig', 'copy']);
-    grunt.registerTask('release', ['clean', 'jshint:release', 'handlebars', 'rig', 'uglify', 'copy']);
+    grunt.registerTask('default', ['clean', 'jshint:devel', 'handlebars', 'compass', 'rig', 'copy']);
+    grunt.registerTask('release', ['clean', 'jshint:release', 'handlebars', 'compass', 'rig', 'uglify', 'copy']);
 };

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Controls Test</title>
+	<meta charset="utf-8"/>
+	<link rel="stylesheet" type="text/css" href="../dist/controls.css">
+	<script	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script	src="../components/underscore/underscore.js"></script>
+	<script	src="../components/mtvn-package-manager/dist/mtvn-package-manager.js"></script>
+	<script>
+		MTVNPlayer.provide("_",_);
+		MTVNPlayer.provide("$",$);
+	</script>
+	<script	src="../components/mtvn-util/dist/mtvn-util.js"></script>
+	<script	src="../dist/gui.js"></script>
+</head>
+<body>
+	<div id="controls" style="width:640px;height:80px;"></div>
+	<script>
+		var controls = new (GUI.Controls)(), 
+			Events = GUI.Events;
+		controls.$el.appendTo($("#controls"));
+		controls.on(Events.PLAY,function() {
+			console.log("controls.html:23 play");
+		});
+		controls.on(Events.PAUSE,function() {
+			console.log("controls.html:23 pause");
+		});
+	</script>
+</body>
+</html>

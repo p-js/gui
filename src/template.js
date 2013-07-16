@@ -30,3 +30,12 @@ function program1(depth0,data) {
   buffer += "\n	</div>\n</div>\n</div>";
   return buffer;
   });
+
+this["Templates"]["src/controls/template.html"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<div class=\"mtvn-controls-play mtvn-controls-button\"></div>\n<div class=\"mtvn-controls-slider\">\n	<div class=\"mtvn-controls-slider-time\"></div>\n	<div class=\"mtvn-controls-slider-progress-container\">\n		<div class=\"mtvn-controls-slider-buffered\"></div>\n		<div class=\"mtvn-controls-slider-progress\"></div>\n	</div>\n	<div class=\"mtvn-controls-slider-background\"></div>\n	<div class=\"mtvn-controls-slider-thumb-container\" style=\"left:0px;\">\n		<div class=\"mtvn-controls-slider-thumb\"/>\n	</div>\n</div>\n<div class=\"mtvn-controls-fullscreen mtvn-controls-button\"></div>";
+  });
