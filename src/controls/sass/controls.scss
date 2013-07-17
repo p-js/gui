@@ -9,13 +9,13 @@
 	display:-webkit-box;
 	background-color:rgba(33, 33, 33, 0.8);
 	height:50px;
-	-webkit-transition: -webkit-transform 0.5s ease;
 	-webkit-user-select:none;
 	-webkit-transform:translate3d(0,0,0);
 }
 
 .mtvn-controls-button{
 	margin:10px;
+	margin-top:13px;
 }
 
 .mtvn-controls-play {
@@ -28,6 +28,14 @@
 
 .mtvn-controls-fullscreen {
 	@include image-with-dims(fullscreen);
+}
+
+.mtvn-controls-mute {
+	@include image-with-dims(mute);
+}
+
+.mtvn-controls-unmute {
+	@include image-with-dims(unmute);
 }
 
 .mtvn-controls-slider {
@@ -43,10 +51,15 @@
 	-webkit-user-select: none;
 }
 
-.mtvn-controls-slider-time{
+.mtvn-controls-slider-time-display{
 	text-align: right;
 	height: 12px;
-	padding-bottom: 2px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+.mtvn-controls-slider-current-time{
+	color:white;
 }
 
 .mtvn-controls-slider-progress-container{
@@ -63,7 +76,7 @@
 .mtvn-controls-slider-progress {
 	background: rgba(21, 91, 104, 1);
 	height: 6px;
-	width:30px;
+	width:0px;
 	top:0px;
 	position: absolute;
 	margin-top:-1px;
@@ -72,7 +85,7 @@
 .mtvn-controls-slider-buffered {
 	background: rgba(255,255,255,.3);
 	height: 6px;
-	width:100px;
+	width:0px;
 	top:0px;
 	position: absolute;
 	margin-top:-1px;
@@ -94,4 +107,60 @@
 	@include image-with-dims(thumb-active);
 	margin-left:-19px;
 	margin-top:-9px;
+}
+
+.mtvn-ad-gui {
+  background: rgba(33, 33, 33, 0.8);
+  color:white;
+  position:relative;
+  width:100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-family: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+  text-decoration: none;
+  text-align: left;
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1em;
+}
+
+.mtvn-ad-gui * {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-family: inherit;
+    font-size: 100%;
+    vertical-align: baseline;
+    text-decoration: none;
+    text-align: left;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1em;
+}
+
+.mtvn-ad-gui-container {
+  padding: 10px 10px;
+  vertical-align:middle;
+}
+
+.mtvn-ad-gui-countdown {
+  padding:4px;
+  display:inline-block;
+}
+
+.mtvn-ad-gui-learn-more {
+  color:white;
+  text-decoration:none;
+  position:absolute;
+  right:10px;
+  background-color: #5E5E5E;
+  border: 1px solid #909090;
+  border-radius: 5px;
+  cursor: pointer;
+  padding:3px;
 }

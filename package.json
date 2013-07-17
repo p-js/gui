@@ -20,7 +20,8 @@
     "grunt-contrib-copy": "~0.4.1",
     "grunt-bumpx": "~0.1.5",
     "grunt-contrib-handlebars": "~0.5.9",
-    "grunt-contrib-compass": "~0.3.0"
+    "grunt-contrib-compass": "~0.3.0",
+    "grunt-contrib-cssmin": "~0.6.1"
   },
   "license": "MIT"
 }

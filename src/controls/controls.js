@@ -1,35 +1,80 @@
 /* exported Controls */
-/* global _, Backbone, $, Button, Events, Slider*/
-var CONTROLS_TEMPLATE = this.Templates["src/controls/template.html"];
-var Controls = Backbone.View.extend({
-	tagName: "div",
-	className: "mtvn-controls",
-	events: {
-		"click .mtvn-controls-play": "play",
-		"click .mtvn-controls-pause": "pause"
-	},
-	initialize: function() {
-		_.bindAll(this, "play");
-		this.render();
-	},
-	render: function() {
-		this.$el.html($(CONTROLS_TEMPLATE()));
-	},
-	createSlider: function() {
-		this.slider = new Slider({
-			el: this.$el.find(".mtvn-controls-slider")
-		});
-	},
-	play: function() {
-		var $el = this.$el.find(".mtvn-controls-play");
-		$el.removeClass("mtvn-controls-play");
-		$el.addClass("mtvn-controls-pause");
-		this.trigger(Events.PLAY);
-	},
-	pause: function() {
-		var $el = this.$el.find(".mtvn-controls-pause");
-		$el.removeClass("mtvn-controls-pause");
-		$el.addClass("mtvn-controls-play");
-		this.trigger(Events.PAUSE);
-	}
-});
+/* global _, Backbone, $, Events, Slider, PlayPauseButton, VolumeButton*/
+var Controls = function() {
+	var CONTROLS_TEMPLATE = this.Templates["src/controls/template.html"],
+		css = {
+			slider: "mtvn-controls-slider",
+			playPause: "mtvn-controls-play-pause"
+
+		};
+	return Backbone.View.extend({
+		tagName: "div",
+		className: "mtvn-controls",
+		events: {
+			"click .mtvn-controls-volume": "onVolume",
+			"click .mtvn-controls-fullscreen": "onFullscreen"
+		},
+		initialize: function() {
+			_.bindAll(this, "onSeek", "sendEvent");
+			_.extend(this.options, {
+				slider: css.slider
+			});
+			this.render();
+		},
+		render: function() {
+			var options = this.options;
+			this.$el.html($(CONTROLS_TEMPLATE(options)));
+			// PLAY PAUSE
+			this.playPauseButton = new PlayPauseButton({
+				el: this.$el.find("." + css.playPause),
+				paused: options.paused
+			});
+			this.listenTo(this.playPauseButton, Events.PLAY, this.sendEvent);
+			this.listenTo(this.playPauseButton, Events.PAUSE, this.sendEvent);
+			// SLIDER
+			this.slider = new Slider({
+				el: this.$el.find("." + css.slider),
+				playhead: options.playhead,
+				duration: options.duration
+			});
+			this.listenTo(this.slider, Events.SEEK, this.onSeek);
+			// VOLUME
+			this.volumeButton = new VolumeButton({
+				el: this.$el
+			});
+			this.listenTo(this.volumeButton, Events.MUTE, this.sendEvent);
+			this.listenTo(this.volumeButton, Events.UNMUTE, this.sendEvent);
+		},
+		setPaused: function(paused) {
+			this.playPauseButton.setPaused(paused);
+		},
+		getPlayhead: function() {
+			return this.slider.playhead;
+		},
+		setPlayhead: function(playhead) {
+			this.slider.setPlayhead(playhead);
+		},
+		setBuffer: function(buffer) {
+			this.slider.setBuffer(buffer);
+		},
+		setDuration: function(duration) {
+			this.slider.setDuration(duration);
+		},
+		sendEvent: function(type, data) {
+			this.trigger(type, {
+				type: type,
+				target: this,
+				data: data
+			});
+		},
+		onSeek: function(event) {
+			this.sendEvent(Events.SEEK, event);
+		},
+		onVolume: function(event) {
+			this.sendEvent(Events.VOLUME, event);
+		},
+		onFullscreen: function() {
+			this.sendEvent(Events.FULLSCREEN);
+		}
+	});
+}();

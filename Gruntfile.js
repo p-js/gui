@@ -57,9 +57,16 @@ module.exports = function(grunt) {
                 options: {
                     sassDir: 'src/controls/sass',
                     cssDir: 'dist',
-                    imagesDir:'src/controls/sass',
-                    httpGeneratedImagesPath:'.',
-                    generatedImagesDir:'dist'
+                    imagesDir: 'src/controls/sass',
+                    httpGeneratedImagesPath: '.',
+                    generatedImagesDir: 'dist'
+                }
+            }
+        },
+        cssmin: {
+            dist: {
+                files: {
+                    'dist/controls.min.css': 'dist/controls.css'
                 }
             }
         },
@@ -85,7 +92,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-handlebars');
     grunt.loadNpmTasks('grunt-contrib-compass');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-bumpx');
     grunt.registerTask('default', ['clean', 'jshint:devel', 'handlebars', 'compass', 'rig', 'copy']);
-    grunt.registerTask('release', ['clean', 'jshint:release', 'handlebars', 'compass', 'rig', 'uglify', 'copy']);
+    grunt.registerTask('release', ['clean', 'jshint:release', 'handlebars', 'compass', 'rig', 'uglify', 'cssmin', 'copy']);
 };
