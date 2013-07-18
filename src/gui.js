@@ -12,6 +12,7 @@ var GUI = function(require) {
 		Backbone = require("Backbone");
 	//= template.js
 	//= ad-display.js
+	//= controls/util
 	//= controls
 	/* global AdDisplay, Controls, Events */
 	return {
