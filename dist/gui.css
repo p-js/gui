@@ -1,5 +1,5 @@
 /* line 170, images/*.png */
-.images-sprite, .mtvn-controls-play, .mtvn-controls-pause, .mtvn-controls-fullscreen, .mtvn-controls-mute, .mtvn-controls-unmute, .mtvn-controls-slider-thumb, .mtvn-controls-slider-thumb-active {
+.images-sprite, .mtvn-controls-play, .mtvn-controls-pause, .mtvn-controls-fullscreen, .mtvn-controls-mute, .mtvn-controls-unmute, .mtvn-controls-slider-thumb, .mtvn-controls-slider-tool-tip-background, .mtvn-controls-slider-thumb-active {
   background: url('images-s1640c24150.png') no-repeat;
 }
 
@@ -132,7 +132,31 @@
   margin-top: -9px;
 }
 
-/* line 106, ../src/sass/gui.scss */
+/* line 107, ../src/sass/gui.scss */
+.mtvn-controls-slider-tool-tip-background {
+  background-position: 0 -121px;
+  width: 78px;
+  height: 52px;
+  margin-left: -37px;
+}
+
+/* line 111, ../src/sass/gui.scss */
+.mtvn-controls-slider-tool-tip-container {
+  margin-top: -62px;
+  height: 60px;
+  padding-bottom: 1px;
+}
+
+/* line 116, ../src/sass/gui.scss */
+.mtvn-controls-slider-tool-tip-time {
+  width: 78px;
+  margin-top: -45px;
+  margin-left: -37px;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* line 123, ../src/sass/gui.scss */
 .mtvn-controls-slider-thumb-active {
   background-position: 0 -90px;
   width: 39px;
@@ -141,7 +165,7 @@
   margin-top: -9px;
 }
 
-/* line 112, ../src/sass/gui.scss */
+/* line 129, ../src/sass/gui.scss */
 .mtvn-ad-gui {
   background: rgba(33, 33, 33, 0.8);
   color: white;
@@ -161,7 +185,7 @@
   line-height: 1em;
 }
 
-/* line 131, ../src/sass/gui.scss */
+/* line 148, ../src/sass/gui.scss */
 .mtvn-ad-gui * {
   margin: 0;
   padding: 0;
@@ -177,19 +201,19 @@
   line-height: 1em;
 }
 
-/* line 146, ../src/sass/gui.scss */
+/* line 163, ../src/sass/gui.scss */
 .mtvn-ad-gui-container {
   padding: 10px 10px;
   vertical-align: middle;
 }
 
-/* line 151, ../src/sass/gui.scss */
+/* line 168, ../src/sass/gui.scss */
 .mtvn-ad-gui-countdown {
   padding: 4px;
   display: inline-block;
 }
 
-/* line 156, ../src/sass/gui.scss */
+/* line 173, ../src/sass/gui.scss */
 .mtvn-ad-gui-learn-more {
   color: white;
   text-decoration: none;

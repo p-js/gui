@@ -103,6 +103,23 @@
 	margin-left:-19px;
 	margin-top:-9px;
 }
+
+.mtvn-controls-slider-tool-tip-background{
+	@include image-with-dims(toolTip);
+	margin-left:-37px;
+}
+.mtvn-controls-slider-tool-tip-container{
+	margin-top:-62px;
+	height:60px;
+	padding-bottom:1px;
+}
+.mtvn-controls-slider-tool-tip-time{
+	width:78px;
+	margin-top:-45px;
+	margin-left:-37px;
+	font-size:14px;
+	text-align:center;
+}
 .mtvn-controls-slider-thumb-active {
 	@include image-with-dims(thumb-active);
 	margin-left:-19px;
