@@ -1,10 +1,10 @@
 <div class="mtvn-ad-gui">
 	<div class="mtvn-ad-gui-container">
 	    <span class="mtvn-ad-gui-countdown"></span>
-	    {{#if isAdClickable}}
-	    <span class="mtvn-ad-gui-learn-more">
+	    {{#if buttonLink}}
+	    <a class="mtvn-ad-gui-learn-more" href="{{buttonLink}}" target="{{buttonTarget}}">
 	    	{{buttonText}}
-	    </span>
+	    </a>
 	    {{/if}}
 	</div>
 </div>

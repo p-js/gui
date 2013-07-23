@@ -3,7 +3,8 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         clean: {
-            folder: ["dist/*"]
+            pre: ["dist", "compiled-templates"],
+            post: ["compiled-templates"]
         },
         jshint: {
             devel: {
@@ -33,7 +34,7 @@ module.exports = function(grunt) {
                 processContent: true,
                 data: {
                     version: '<%= pkg.version %><%= grunt.config("buildNumber") %>',
-                    build:'<%= grunt.template.today("mm/dd/yyyy hh:MM:ss TT") %>'
+                    build: '<%= grunt.template.today("mm/dd/yyyy hh:MM:ss TT") %>'
                 }
             },
             all: {
@@ -48,7 +49,25 @@ module.exports = function(grunt) {
             },
             all: {
                 files: {
-                    "src/template.js": "src/template.html"
+                    "compiled-templates/template.js": ["src/ad-display/template.html", "src/controls/template.html"]
+                }
+            }
+        },
+        compass: {
+            dist: {
+                options: {
+                    sassDir: 'src/sass',
+                    cssDir: 'dist',
+                    imagesDir: 'src/sass',
+                    httpGeneratedImagesPath: '.',
+                    generatedImagesDir: 'dist'
+                }
+            }
+        },
+        cssmin: {
+            dist: {
+                files: {
+                    'dist/gui.min.css': 'dist/gui.css'
                 }
             }
         },
@@ -62,7 +81,7 @@ module.exports = function(grunt) {
             files: ['package.json', 'bower.json']
         },
         watch: {
-            files: ['Gruntfile.js', 'src/<%=pkg.name%>.js', 'src/template.html', 'src/<%=pkg.name%>.css'],
+            files: ['Gruntfile.js', 'src/**/*.js', 'src/**/*.html', 'src/**/*.scss', '!src/template.js'],
             tasks: ["default"]
         }
     });
@@ -73,7 +92,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-handlebars');
+    grunt.loadNpmTasks('grunt-contrib-compass');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-bumpx');
-    grunt.registerTask('default', ['clean', 'jshint:devel', 'handlebars', 'rig', 'copy']);
-    grunt.registerTask('release', ['clean', 'jshint:release', 'handlebars', 'rig', 'uglify', 'copy']);
+    grunt.registerTask('default', ['clean:pre', 'jshint:devel', 'handlebars', 'compass', 'rig', 'copy', 'clean:post']);
+    grunt.registerTask('release', ['clean:pre', 'jshint:release', 'handlebars', 'compass', 'rig', 'uglify', 'cssmin', 'copy', 'clean:post']);
 };

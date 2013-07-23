@@ -1,0 +1,21 @@
+<!-- controls -->
+{{#if live}}
+<div class="mtvn-controls-live mtvn-controls-button"></div>
+{{else}}
+<div class="mtvn-controls-play-pause mtvn-controls-button"></div>
+{{/if}}
+<div class="{{slider}}">
+	<div class="{{slider}}-time-display"></div>
+	<div class="{{slider}}-progress-container">
+		<div class="{{slider}}-buffered"></div>
+		<div class="{{slider}}-progress"></div>
+	</div>
+	<div class="{{slider}}-background"></div>
+	<div class="{{slider}}-thumb-container" style="left:0px;">
+		<div class="{{slider}}-thumb"/>
+	</div>
+</div>
+{{#if showVolume}}
+<div class="mtvn-controls-mute mtvn-controls-button"></div>
+{{/if}}
+<div class="mtvn-controls-fullscreen mtvn-controls-button"></div>
