@@ -60,6 +60,15 @@ var Slider = function() {
 			 * The time and duration.
 			 */
 			this.$timeDisplay = this.$el.find(".mtvn-controls-slider-time-display");
+			/**
+			 * Tool tip container
+			 */
+			this.$toolTipContainer = this.$el.find(".mtvn-controls-slider-tool-tip-container");
+			this.$toolTipContainer.hide();
+			/**
+			 * Tool tip time
+			 */
+			this.$toolTipTime = this.$el.find(".mtvn-controls-slider-tool-tip-time");
 			this.setDuration(this.options.duration);
 			this.setPlayhead(this.options.playhead);
 			this.setSliderWidth = _.throttle(this.setSliderWidth, 3000);
@@ -125,6 +134,8 @@ var Slider = function() {
 			this.$buffered.css({
 				width: 0
 			});
+			this.$toolTipTime.html(Util.formatTime(this.playhead));
+			this.$toolTipContainer.show();
 		},
 		onThumbMove: function(event) {
 			if (this.dragging) {
@@ -144,6 +155,7 @@ var Slider = function() {
 				$el.addClass(thumb);
 				this.dragging = false;
 				this.sendSeek();
+				this.$toolTipContainer.hide();
 			}
 		},
 		moveThumb: function(moveTo) {
@@ -155,6 +167,7 @@ var Slider = function() {
 			this.$progress.css({
 				width: left
 			});
+			this.$toolTipTime.html(Util.formatTime(this.getTimeFromThumb(left)));
 		},
 		setSliderWidth: function() {
 			this.sliderWidth = this.$el[0].offsetWidth;
@@ -166,9 +179,11 @@ var Slider = function() {
 			var percent = playhead / Math.max(1, this.duration);
 			return percent * this.sliderWidth;
 		},
-		getTimeFromThumb: function() {
-			var thumbLeft = parseFloat(this.$thumbContainer.css("left"), 10),
-				p = thumbLeft / this.sliderWidth;
+		getTimeFromThumb: function(thumbLeft) {
+			if (isNaN(thumbLeft)) {
+				thumbLeft = parseFloat(this.$thumbContainer.css("left"), 10);
+			}
+			var p = thumbLeft / this.sliderWidth;
 			return p * this.duration;
 		},
 		updateTime: function() {
@@ -179,6 +194,7 @@ var Slider = function() {
 		},
 		sendSeek: function() {
 			var playhead = this.playhead = this.getTimeFromThumb();
+			this.updateTime();
 			this.trigger(Events.SEEK, playhead);
 		}
 	});

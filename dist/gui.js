@@ -101,6 +101,18 @@ var GUI = function(require) {
 	  if (stack1 = helpers.slider) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
 	  else { stack1 = depth0.slider; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
 	  buffer += escapeExpression(stack1)
+	    + "-tool-tip-container\">\n			<div class=\"";
+	  if (stack1 = helpers.slider) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+	  else { stack1 = depth0.slider; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+	  buffer += escapeExpression(stack1)
+	    + "-tool-tip-background\"></div>\n			<div class=\"";
+	  if (stack1 = helpers.slider) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+	  else { stack1 = depth0.slider; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+	  buffer += escapeExpression(stack1)
+	    + "-tool-tip-time\"></div>\n		</div>\n		<div class=\"";
+	  if (stack1 = helpers.slider) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+	  else { stack1 = depth0.slider; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+	  buffer += escapeExpression(stack1)
 	    + "-thumb\"/>\n	</div>\n</div>\n";
 	  stack1 = helpers['if'].call(depth0, depth0.showVolume, {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
 	  if(stack1 || stack1 === 0) { buffer += stack1; }
@@ -354,6 +366,15 @@ var GUI = function(require) {
 				 * The time and duration.
 				 */
 				this.$timeDisplay = this.$el.find(".mtvn-controls-slider-time-display");
+				/**
+				 * Tool tip container
+				 */
+				this.$toolTipContainer = this.$el.find(".mtvn-controls-slider-tool-tip-container");
+				this.$toolTipContainer.hide();
+				/**
+				 * Tool tip time
+				 */
+				this.$toolTipTime = this.$el.find(".mtvn-controls-slider-tool-tip-time");
 				this.setDuration(this.options.duration);
 				this.setPlayhead(this.options.playhead);
 				this.setSliderWidth = _.throttle(this.setSliderWidth, 3000);
@@ -419,6 +440,8 @@ var GUI = function(require) {
 				this.$buffered.css({
 					width: 0
 				});
+				this.$toolTipTime.html(Util.formatTime(this.playhead));
+				this.$toolTipContainer.show();
 			},
 			onThumbMove: function(event) {
 				if (this.dragging) {
@@ -438,6 +461,7 @@ var GUI = function(require) {
 					$el.addClass(thumb);
 					this.dragging = false;
 					this.sendSeek();
+					this.$toolTipContainer.hide();
 				}
 			},
 			moveThumb: function(moveTo) {
@@ -449,6 +473,7 @@ var GUI = function(require) {
 				this.$progress.css({
 					width: left
 				});
+				this.$toolTipTime.html(Util.formatTime(this.getTimeFromThumb(left)));
 			},
 			setSliderWidth: function() {
 				this.sliderWidth = this.$el[0].offsetWidth;
@@ -460,9 +485,11 @@ var GUI = function(require) {
 				var percent = playhead / Math.max(1, this.duration);
 				return percent * this.sliderWidth;
 			},
-			getTimeFromThumb: function() {
-				var thumbLeft = parseFloat(this.$thumbContainer.css("left"), 10),
-					p = thumbLeft / this.sliderWidth;
+			getTimeFromThumb: function(thumbLeft) {
+				if (isNaN(thumbLeft)) {
+					thumbLeft = parseFloat(this.$thumbContainer.css("left"), 10);
+				}
+				var p = thumbLeft / this.sliderWidth;
 				return p * this.duration;
 			},
 			updateTime: function() {
@@ -473,6 +500,7 @@ var GUI = function(require) {
 			},
 			sendSeek: function() {
 				var playhead = this.playhead = this.getTimeFromThumb();
+				this.updateTime();
 				this.trigger(Events.SEEK, playhead);
 			}
 		});
@@ -508,7 +536,7 @@ var GUI = function(require) {
 		AdDisplay: AdDisplay,
 		Controls: Controls,
 		Events: Events,
-		version: "0.2.0",
-		build: "07/22/2013 09:22:08 PM"
+		version: "0.3.0",
+		build: "07/23/2013 11:29:58 AM"
 	};
 }(MTVNPlayer.require);
