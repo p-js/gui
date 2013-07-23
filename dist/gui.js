@@ -393,8 +393,18 @@ var GUI = function(require) {
 				if (enabled !== this.enabled) {
 					if (enabled) {
 						this.$thumbContainer.show();
+						this.$timeDisplay.css({
+							visibility: "visible"
+						});
+						this.$buffered.show();
+						this.$progress.show();
 					} else {
 						this.$thumbContainer.hide();
+						this.$timeDisplay.css({
+							visibility: "hidden"
+						});
+						this.$progress.hide();
+						this.$buffered.hide();
 					}
 				}
 				this.enabled = enabled;
@@ -499,6 +509,6 @@ var GUI = function(require) {
 		Controls: Controls,
 		Events: Events,
 		version: "0.2.0",
-		build: "07/22/2013 09:07:45 PM"
+		build: "07/22/2013 09:22:08 PM"
 	};
 }(MTVNPlayer.require);

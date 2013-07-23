@@ -99,8 +99,18 @@ var Slider = function() {
 			if (enabled !== this.enabled) {
 				if (enabled) {
 					this.$thumbContainer.show();
+					this.$timeDisplay.css({
+						visibility: "visible"
+					});
+					this.$buffered.show();
+					this.$progress.show();
 				} else {
 					this.$thumbContainer.hide();
+					this.$timeDisplay.css({
+						visibility: "hidden"
+					});
+					this.$progress.hide();
+					this.$buffered.hide();
 				}
 			}
 			this.enabled = enabled;
