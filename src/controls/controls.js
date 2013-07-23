@@ -54,8 +54,8 @@ var Controls = function() {
 		setPlayhead: function(playhead) {
 			this.slider.setPlayhead(playhead);
 		},
-		setBuffer: function(buffer) {
-			this.slider.setBuffer(buffer);
+		setBuffered: function(buffered) {
+			this.slider.setBuffered(buffered);
 		},
 		setDuration: function(duration) {
 			this.slider.setDuration(duration);

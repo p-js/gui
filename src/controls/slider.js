@@ -14,8 +14,9 @@ var Slider = function() {
 		mouseMixin = {
 			platformInitialize: function() {
 				_.bindAll(this, "onThumbMove", "onThumbInactive");
-				$(document).mousemove(this.onThumbMove);
-				$(document).mouseup(this.onThumbInactive);
+				var $document = $(document);
+				this.listenTo($document, "mousemove", this.onThumbMove);
+				this.listenTo($document, "mouseup", this.onThumbInactive);
 			},
 			events: {
 				"mousedown .mtvn-controls-slider-thumb-container": "onThumbActive"
@@ -54,14 +55,14 @@ var Slider = function() {
 			/**
 			 * The amount buffered.
 			 */
-			this.$buffer = this.$el.find(".mtvn-controls-slider-buffered");
+			this.$buffered = this.$el.find(".mtvn-controls-slider-buffered");
 			/**
 			 * The time and duration.
 			 */
 			this.$timeDisplay = this.$el.find(".mtvn-controls-slider-time-display");
 			this.setDuration(this.options.duration);
 			this.setPlayhead(this.options.playhead);
-			_.delay(this.setSliderWidth);
+			this.setSliderWidth = _.throttle(this.setSliderWidth, 3000);
 		},
 		setPlayhead: function(playhead) {
 			if (!this.dragging && !this.seeking) {
@@ -69,17 +70,18 @@ var Slider = function() {
 					playhead = parseFloat(playhead, 10);
 				}
 				if (!isNaN(playhead)) {
+					this.setSliderWidth();
 					this.playhead = Math.max(0, Math.min(playhead, this.duration));
 					this.moveThumb(this.getLeftFromPlayhead(playhead));
 					this.updateTime();
 				}
 			}
 		},
-		setBuffer: function(buffer) {
+		setBuffered: function(buffered) {
 			if (!this.dragging && !this.seeking && this.duration > 1) {
-				var left = Math.max(0, this.getLeftFromPlayhead(buffer));
+				var left = Math.max(0, this.getLeftFromPlayhead(buffered));
 				left = Math.min(left, this.sliderWidth);
-				this.$buffer.css({
+				this.$buffered.css({
 					width: left
 				});
 			}
@@ -93,6 +95,16 @@ var Slider = function() {
 				this.updateTime();
 			}
 		},
+		setEnabled: function(enabled) {
+			if (enabled !== this.enabled) {
+				if (enabled) {
+					this.$thumbContainer.show();
+				} else {
+					this.$thumbContainer.hide();
+				}
+			}
+			this.enabled = enabled;
+		},
 		onThumbActive: function(event) {
 			event.preventDefault();
 			var $el = this.$el.find("." + thumb);
@@ -100,7 +112,7 @@ var Slider = function() {
 			$el.addClass(thumbActive);
 			this.dragging = true;
 			this.setSliderWidth();
-			this.$buffer.css({
+			this.$buffered.css({
 				width: 0
 			});
 		},
@@ -153,7 +165,7 @@ var Slider = function() {
 			this.$timeDisplay.html(this.getTimeDisplayText());
 		},
 		getTimeDisplayText: function() {
-			return "<span class=\"mtvn-controls-slider-current-time\">" + Util.formatTime(this.playhead) + "</span>/" + Util.formatTime(this.duration);
+			return "<span class=\"mtvn-controls-slider-current-time\">" + Util.formatTime(this.playhead) + "</span> / " + Util.formatTime(this.duration);
 		},
 		sendSeek: function() {
 			var playhead = this.playhead = this.getTimeFromThumb();

@@ -3,7 +3,7 @@
 <head>
 	<title>Controls Test</title>
 	<meta charset="utf-8"/>
-	<link rel="stylesheet" type="text/css" href="../dist/controls.css">
+	<link rel="stylesheet" type="text/css" href="../dist/gui.css">
 	<script	src="../components/zepto/zepto.js"></script>
 	<script	src="../components/underscore/underscore.js"></script>
 	<script	src="../components/mtvn-package-manager/dist/mtvn-package-manager.js"></script>
@@ -11,7 +11,7 @@
 		MTVNPlayer.provide("_",_);
 		MTVNPlayer.provide("$",$);
 	</script>
-	<script	src="../components/mtvn-util/dist/mtvn-util.js"></script>
+	<script	src="../components/util/dist/mtvn-util.js"></script>
 	<script	src="../dist/gui.js"></script>
 </head>
 <body>
@@ -30,7 +30,7 @@
 			bufferInterval = setInterval(function() {
 				buffer += 1;
 				var newBuff = controls.getPlayhead() + buffer;
-				controls.setBuffer(newBuff);
+				controls.setBuffered(newBuff);
 			}, 250),
 			playheadInterval;
 		controls.$el.appendTo($("#controls"));

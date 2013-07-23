@@ -10,8 +10,8 @@ var GUI = function(require) {
 		$ = require("$"),
 		_ = require("_"),
 		Backbone = require("Backbone");
-	//= template.js
-	//= ad-display.js
+	//= ../compiled-templates
+	//= ad-display
 	//= controls/util
 	//= controls
 	/* global AdDisplay, Controls, Events */

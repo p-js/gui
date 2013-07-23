@@ -3,7 +3,8 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         clean: {
-            folder: ["dist/*"]
+            pre: ["dist", "compiled-templates"],
+            post: ["compiled-templates"]
         },
         jshint: {
             devel: {
@@ -48,16 +49,16 @@ module.exports = function(grunt) {
             },
             all: {
                 files: {
-                    "src/template.js": ["src/template.html", "src/controls/template.html"]
+                    "compiled-templates/template.js": ["src/ad-display/template.html", "src/controls/template.html"]
                 }
             }
         },
         compass: {
             dist: {
                 options: {
-                    sassDir: 'src/controls/sass',
+                    sassDir: 'src/sass',
                     cssDir: 'dist',
-                    imagesDir: 'src/controls/sass',
+                    imagesDir: 'src/sass',
                     httpGeneratedImagesPath: '.',
                     generatedImagesDir: 'dist'
                 }
@@ -66,7 +67,7 @@ module.exports = function(grunt) {
         cssmin: {
             dist: {
                 files: {
-                    'dist/controls.min.css': 'dist/controls.css'
+                    'dist/gui.min.css': 'dist/gui.css'
                 }
             }
         },
@@ -94,6 +95,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-bumpx');
-    grunt.registerTask('default', ['clean', 'jshint:devel', 'handlebars', 'compass', 'rig', 'copy']);
-    grunt.registerTask('release', ['clean', 'jshint:release', 'handlebars', 'compass', 'rig', 'uglify', 'cssmin', 'copy']);
+    grunt.registerTask('default', ['clean:pre', 'jshint:devel', 'handlebars', 'compass', 'rig', 'copy', 'clean:post']);
+    grunt.registerTask('release', ['clean:pre', 'jshint:release', 'handlebars', 'compass', 'rig', 'uglify', 'cssmin', 'copy', 'clean:post']);
 };
