@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		body{
+		 	margin:0;
+		 	padding:0;
+		}
+		.MTVNPlayer {
+		  width:640px;
+		  height:360px;
+		}
+		.player-version {
+		  color:#333;
+		  background:#CCCCCC;
+		  padding:5px;
+		  margin:2px;
+		  border-radius:5px;
+		  display:inline-block;
+		}
+	</style>
+  <!-- api version -->
+  <script src="http://localhost:3001/dist/vmap.js"></script>
+  <!-- creates the logger -->
+  <script src="http://media.mtvnservices-d.mtvi.com/player/api/test/tools/post-message-logger/index.js"></script>
+  <!-- create selector with api methods -->
+  <script src="http://media.mtvnservices-d.mtvi.com/player/api/test/tools/api-method-selector/index.js"></script>
+  <title>Embed API Test</title>
+</head>
+<body>
+  <div class="MTVNPlayer" data-contentUri="mgid:cms:video:colbertnation.com:419436">
+    <img src="http://mtv.mtvnimages.com/uri/mgid:uma:video:mtv.com:661024?height=360&width=640" height="360" width="640"/>
+  </div>
+  <div class="player-version"></div>
+  <script>
+	 MTVNPlayer.createPlayers(".MTVNPlayer",{
+		  test:{
+		    formFactorID:"22:0",
+		    vmapURL: "http://onceux.unicornmedia.com/now/ads/vmap/od/auto/b11dbc9b-9d90-4edb-b4ab-769e0049209b/2455340c-8dcd-412e-a917-c6fadfe268c7/3a41c6e4-93a3-4108-8995-64ffca7b9106/bigbuckbunny?umtp=0&output=2"
+		  }
+		});
+	MTVNPlayer.require("$",function($){
+		 $(".player-version").html("v"+MTVNPlayer.version + ", built: "+MTVNPlayer.build);
+	});
+	var player,
+		_mtvnPlayerReady = _mtvnPlayerReady || [];
+	_mtvnPlayerReady.push(function(p) {
+		player = p;
+	});
+	</script>
+</body>
+</html>
