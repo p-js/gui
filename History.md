@@ -1,4 +1,9 @@
 
+0.4.0 / 2013-07-29 
+==================
+
+  * volume button with mute/unmute functionality only
+
 0.3.0 / 2013-07-23 
 ==================
 
