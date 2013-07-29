@@ -4,7 +4,8 @@ var Controls = function() {
 	var CONTROLS_TEMPLATE = this.Templates["src/controls/template.html"],
 		css = {
 			slider: "mtvn-controls-slider",
-			playPause: "mtvn-controls-play-pause"
+			playPause: "mtvn-controls-play-pause",
+			volume: "mtvn-controls-volume"
 
 		};
 	return Backbone.View.extend({
@@ -40,10 +41,14 @@ var Controls = function() {
 			this.listenTo(this.slider, Events.SEEK, this.onSeek);
 			// VOLUME
 			this.volumeButton = new VolumeButton({
-				el: this.$el
+				volume: options.volume,
+				el: this.$el.find("." + css.volume)
 			});
 			this.listenTo(this.volumeButton, Events.MUTE, this.sendEvent);
 			this.listenTo(this.volumeButton, Events.UNMUTE, this.sendEvent);
+		},
+		setVolume:function(volume) {
+			this.volumeButton.setVolume(volume);
 		},
 		setPaused: function(paused) {
 			this.playPauseButton.setPaused(paused);

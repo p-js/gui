@@ -7,20 +7,23 @@ var VolumeButton = function() {
 	};
 	return Backbone.View.extend({
 		events: {
-			"click .mtvn-controls-unmute": "onUnmute",
-			"click .mtvn-controls-mute": "onMute"
+			"click": "toggle"
 		},
-		onUnmute: function() {
-			var $el = this.$el.find("." + css.unmute);
-			$el.removeClass(css.unmute);
-			$el.addClass(css.mute);
-			this.trigger(Events.UNMUTE, Events.UNMUTE);
+		initialize: function() {
+			this.setVolume(isNaN(this.options.volume) ? 1 : this.options.volume);
 		},
-		onMute: function() {
-			var $el = this.$el.find("." + css.mute);
-			$el.removeClass(css.mute);
-			$el.addClass(css.unmute);
-			this.trigger(Events.MUTE, Events.MUTE);
+		setVolume: function(volume) {
+			var showMute = volume > 0;
+			this.$el.toggleClass(css.mute, showMute);
+			this.$el.toggleClass(css.unmute, !showMute);
+		},
+		toggle: function() {
+			var $el = this.$el,
+				showMute = $el.hasClass(css.unmute),
+				eventName = showMute ? Events.UNMUTE : Events.MUTE;
+			$el.toggleClass(css.mute, showMute);
+			$el.toggleClass(css.unmute, !showMute);
+			this.trigger(eventName, eventName);
 		}
 	});
 }();
