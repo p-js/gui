@@ -63,7 +63,7 @@ var GUI = function(require) {
 	function program5(depth0,data) {
 	  
 	  
-	  return "\n<div class=\"mtvn-controls-mute mtvn-controls-button\"></div>\n";
+	  return "\n<div class=\"mtvn-controls-volume mtvn-controls-button\"></div>\n";
 	  }
 	
 	  buffer += "<!-- controls -->\n";
@@ -192,7 +192,8 @@ var GUI = function(require) {
 		var CONTROLS_TEMPLATE = this.Templates["src/controls/template.html"],
 			css = {
 				slider: "mtvn-controls-slider",
-				playPause: "mtvn-controls-play-pause"
+				playPause: "mtvn-controls-play-pause",
+				volume: "mtvn-controls-volume"
 	
 			};
 		return Backbone.View.extend({
@@ -228,10 +229,14 @@ var GUI = function(require) {
 				this.listenTo(this.slider, Events.SEEK, this.onSeek);
 				// VOLUME
 				this.volumeButton = new VolumeButton({
-					el: this.$el
+					volume: options.volume,
+					el: this.$el.find("." + css.volume)
 				});
 				this.listenTo(this.volumeButton, Events.MUTE, this.sendEvent);
 				this.listenTo(this.volumeButton, Events.UNMUTE, this.sendEvent);
+			},
+			setVolume:function(volume) {
+				this.volumeButton.setVolume(volume);
 			},
 			setPaused: function(paused) {
 				this.playPauseButton.setPaused(paused);
@@ -514,20 +519,23 @@ var GUI = function(require) {
 		};
 		return Backbone.View.extend({
 			events: {
-				"click .mtvn-controls-unmute": "onUnmute",
-				"click .mtvn-controls-mute": "onMute"
+				"click": "toggle"
 			},
-			onUnmute: function() {
-				var $el = this.$el.find("." + css.unmute);
-				$el.removeClass(css.unmute);
-				$el.addClass(css.mute);
-				this.trigger(Events.UNMUTE, Events.UNMUTE);
+			initialize: function() {
+				this.setVolume(isNaN(this.options.volume) ? 1 : this.options.volume);
 			},
-			onMute: function() {
-				var $el = this.$el.find("." + css.mute);
-				$el.removeClass(css.mute);
-				$el.addClass(css.unmute);
-				this.trigger(Events.MUTE, Events.MUTE);
+			setVolume: function(volume) {
+				var showMute = volume > 0;
+				this.$el.toggleClass(css.mute, showMute);
+				this.$el.toggleClass(css.unmute, !showMute);
+			},
+			toggle: function() {
+				var $el = this.$el,
+					showMute = $el.hasClass(css.unmute),
+					eventName = showMute ? Events.UNMUTE : Events.MUTE;
+				$el.toggleClass(css.mute, showMute);
+				$el.toggleClass(css.unmute, !showMute);
+				this.trigger(eventName, eventName);
 			}
 		});
 	}();
@@ -536,7 +544,7 @@ var GUI = function(require) {
 		AdDisplay: AdDisplay,
 		Controls: Controls,
 		Events: Events,
-		version: "0.3.0",
-		build: "07/23/2013 11:29:58 AM"
+		version: "0.4.0",
+		build: "07/29/2013 06:02:16 PM"
 	};
 }(MTVNPlayer.require);
