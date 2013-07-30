@@ -200,7 +200,6 @@ var GUI = function(require) {
 			tagName: "div",
 			className: "mtvn-controls",
 			events: {
-				"click .mtvn-controls-volume": "onVolume",
 				"click .mtvn-controls-fullscreen": "onFullscreen"
 			},
 			initialize: function() {
@@ -262,9 +261,6 @@ var GUI = function(require) {
 			},
 			onSeek: function(event) {
 				this.sendEvent(Events.SEEK, event);
-			},
-			onVolume: function(event) {
-				this.sendEvent(Events.VOLUME, event);
 			},
 			onFullscreen: function() {
 				this.sendEvent(Events.FULLSCREEN);
@@ -545,6 +541,6 @@ var GUI = function(require) {
 		Controls: Controls,
 		Events: Events,
 		version: "0.5.0",
-		build: "07/29/2013 06:05:23 PM"
+		build: "07/29/2013 09:36:01 PM"
 	};
 }(MTVNPlayer.require);

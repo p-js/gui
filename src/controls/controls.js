@@ -12,7 +12,6 @@ var Controls = function() {
 		tagName: "div",
 		className: "mtvn-controls",
 		events: {
-			"click .mtvn-controls-volume": "onVolume",
 			"click .mtvn-controls-fullscreen": "onFullscreen"
 		},
 		initialize: function() {
@@ -74,9 +73,6 @@ var Controls = function() {
 		},
 		onSeek: function(event) {
 			this.sendEvent(Events.SEEK, event);
-		},
-		onVolume: function(event) {
-			this.sendEvent(Events.VOLUME, event);
 		},
 		onFullscreen: function() {
 			this.sendEvent(Events.FULLSCREEN);
