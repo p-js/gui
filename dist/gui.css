@@ -1,6 +1,6 @@
-/* line 170, images/*.png */
-.images-sprite, .mtvn-controls-play, .mtvn-controls-pause, .mtvn-controls-fullscreen, .mtvn-controls-mute, .mtvn-controls-unmute, .mtvn-controls-slider-thumb, .mtvn-controls-slider-tool-tip-background, .mtvn-controls-slider-thumb-active {
-  background: url('images-s1640c24150.png') no-repeat;
+/* line 178, images/*.png */
+.images-sprite, .mtvn-controls-play, .mtvn-controls-pause, .mtvn-controls-fullscreen, .mtvn-controls-mute, .mtvn-controls-unmute, .mtvn-controls-cc, .mtvn-controls-slider-thumb, .mtvn-controls-slider-segment, .mtvn-controls-slider-tool-tip-background, .mtvn-controls-slider-thumb-active {
+  background: url('images-sdb5b8087a2.png') no-repeat;
 }
 
 /* line 7, ../src/sass/gui.scss */
@@ -55,6 +55,13 @@
 }
 
 /* line 41, ../src/sass/gui.scss */
+.mtvn-controls-cc {
+  background-position: 0 -310px;
+  width: 26px;
+  height: 21px;
+}
+
+/* line 45, ../src/sass/gui.scss */
 .mtvn-controls-slider {
   -webkit-box-flex: 1;
   margin-top: 2px;
@@ -68,7 +75,7 @@
   -webkit-user-select: none;
 }
 
-/* line 54, ../src/sass/gui.scss */
+/* line 58, ../src/sass/gui.scss */
 .mtvn-controls-slider-time-display {
   text-align: right;
   height: 12px;
@@ -76,25 +83,25 @@
   padding-bottom: 4px;
 }
 
-/* line 61, ../src/sass/gui.scss */
+/* line 65, ../src/sass/gui.scss */
 .mtvn-controls-slider-current-time {
   color: white;
 }
 
-/* line 65, ../src/sass/gui.scss */
+/* line 69, ../src/sass/gui.scss */
 .mtvn-controls-slider-progress-container {
   position: relative;
   height: 6px;
 }
 
-/* line 70, ../src/sass/gui.scss */
+/* line 74, ../src/sass/gui.scss */
 .mtvn-controls-slider-background {
   height: 1px;
   background: #5a5a5a;
   margin-top: -1px;
 }
 
-/* line 76, ../src/sass/gui.scss */
+/* line 80, ../src/sass/gui.scss */
 .mtvn-controls-slider-progress {
   background: #155b68;
   height: 6px;
@@ -104,7 +111,7 @@
   margin-top: -1px;
 }
 
-/* line 85, ../src/sass/gui.scss */
+/* line 89, ../src/sass/gui.scss */
 .mtvn-controls-slider-buffered {
   background: rgba(255, 255, 255, 0.3);
   height: 6px;
@@ -114,7 +121,7 @@
   margin-top: -1px;
 }
 
-/* line 94, ../src/sass/gui.scss */
+/* line 98, ../src/sass/gui.scss */
 .mtvn-controls-slider-thumb-container {
   -webkit-user-select: none;
   width: 0px;
@@ -123,7 +130,7 @@
   margin-top: -1px;
 }
 
-/* line 101, ../src/sass/gui.scss */
+/* line 105, ../src/sass/gui.scss */
 .mtvn-controls-slider-thumb {
   background-position: 0 -367px;
   width: 39px;
@@ -132,7 +139,19 @@
   margin-top: -9px;
 }
 
-/* line 107, ../src/sass/gui.scss */
+/* line 110, ../src/sass/gui.scss */
+.mtvn-controls-slider-segment-container {
+  display: none;
+}
+
+/* line 113, ../src/sass/gui.scss */
+.mtvn-controls-slider-segment {
+  background-position: 0 -478px;
+  width: 1px;
+  height: 5px;
+}
+
+/* line 117, ../src/sass/gui.scss */
 .mtvn-controls-slider-tool-tip-background {
   background-position: 0 -121px;
   width: 78px;
@@ -140,14 +159,14 @@
   margin-left: -37px;
 }
 
-/* line 111, ../src/sass/gui.scss */
+/* line 121, ../src/sass/gui.scss */
 .mtvn-controls-slider-tool-tip-container {
   margin-top: -62px;
   height: 60px;
   padding-bottom: 1px;
 }
 
-/* line 116, ../src/sass/gui.scss */
+/* line 126, ../src/sass/gui.scss */
 .mtvn-controls-slider-tool-tip-time {
   width: 78px;
   margin-top: -45px;
@@ -156,7 +175,7 @@
   text-align: center;
 }
 
-/* line 123, ../src/sass/gui.scss */
+/* line 133, ../src/sass/gui.scss */
 .mtvn-controls-slider-thumb-active {
   background-position: 0 -90px;
   width: 39px;
@@ -165,7 +184,7 @@
   margin-top: -9px;
 }
 
-/* line 129, ../src/sass/gui.scss */
+/* line 139, ../src/sass/gui.scss */
 .mtvn-ad-gui {
   background: rgba(33, 33, 33, 0.8);
   color: white;
@@ -185,7 +204,7 @@
   line-height: 1em;
 }
 
-/* line 148, ../src/sass/gui.scss */
+/* line 158, ../src/sass/gui.scss */
 .mtvn-ad-gui * {
   margin: 0;
   padding: 0;
@@ -201,19 +220,19 @@
   line-height: 1em;
 }
 
-/* line 163, ../src/sass/gui.scss */
+/* line 173, ../src/sass/gui.scss */
 .mtvn-ad-gui-container {
   padding: 10px 10px;
   vertical-align: middle;
 }
 
-/* line 168, ../src/sass/gui.scss */
+/* line 178, ../src/sass/gui.scss */
 .mtvn-ad-gui-countdown {
   padding: 4px;
   display: inline-block;
 }
 
-/* line 173, ../src/sass/gui.scss */
+/* line 183, ../src/sass/gui.scss */
 .mtvn-ad-gui-learn-more {
   color: white;
   text-decoration: none;

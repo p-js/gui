@@ -23,7 +23,9 @@ var PlayPauseButton = function() {
 				eventName = !showPlay ? Events.PLAY : Events.PAUSE;
 			$el.toggleClass(css.play, showPlay);
 			$el.toggleClass(css.pause, !showPlay);
-			this.trigger(eventName, eventName);
+			this.trigger(eventName, {
+				type: eventName
+			});
 		}
 	});
 }();

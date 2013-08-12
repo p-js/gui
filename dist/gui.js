@@ -63,6 +63,12 @@ var GUI = function(require) {
 	function program5(depth0,data) {
 	  
 	  
+	  return "\n<div class=\"mtvn-controls-cc mtvn-controls-button\"></div>\n";
+	  }
+	
+	function program7(depth0,data) {
+	  
+	  
 	  return "\n<div class=\"mtvn-controls-volume mtvn-controls-button\"></div>\n";
 	  }
 	
@@ -97,6 +103,10 @@ var GUI = function(require) {
 	  if (stack1 = helpers.slider) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
 	  else { stack1 = depth0.slider; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
 	  buffer += escapeExpression(stack1)
+	    + "-segment-container\"></div>\n	<div class=\"";
+	  if (stack1 = helpers.slider) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+	  else { stack1 = depth0.slider; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+	  buffer += escapeExpression(stack1)
 	    + "-thumb-container\" style=\"left:0px;\">\n		<div class=\"";
 	  if (stack1 = helpers.slider) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
 	  else { stack1 = depth0.slider; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
@@ -114,7 +124,10 @@ var GUI = function(require) {
 	  else { stack1 = depth0.slider; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
 	  buffer += escapeExpression(stack1)
 	    + "-thumb\"/>\n	</div>\n</div>\n";
-	  stack1 = helpers['if'].call(depth0, depth0.showVolume, {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
+	  stack1 = helpers['if'].call(depth0, depth0.ccEnabled, {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
+	  if(stack1 || stack1 === 0) { buffer += stack1; }
+	  buffer += "\n";
+	  stack1 = helpers['if'].call(depth0, depth0.showVolume, {hash:{},inverse:self.noop,fn:self.program(7, program7, data),data:data});
 	  if(stack1 || stack1 === 0) { buffer += stack1; }
 	  buffer += "\n<div class=\"mtvn-controls-fullscreen mtvn-controls-button\"></div>";
 	  return buffer;
@@ -186,15 +199,31 @@ var GUI = function(require) {
 			}
 		};
 	}();
+	/* exported ClosedCaptionButton */
+	/* global Backbone, Events*/
+	var ClosedCaptionButton = function() {
+		return Backbone.View.extend({
+			ccEnabled: false,
+			className: "mtvn-controls-cc",
+			events: {
+				"click": "toggle"
+			},
+			toggle: function() {
+				this.trigger(Events.CC, {
+					type: Events.CC
+				});
+			}
+		});
+	}();
 	/* exported Controls */
-	/* global _, Backbone, $, Events, Slider, PlayPauseButton, VolumeButton*/
+	/* global _, Backbone, $, Events, Slider, PlayPauseButton, VolumeButton, ClosedCaptionButton*/
 	var Controls = function() {
 		var CONTROLS_TEMPLATE = this.Templates["src/controls/template.html"],
 			css = {
 				slider: "mtvn-controls-slider",
 				playPause: "mtvn-controls-play-pause",
-				volume: "mtvn-controls-volume"
-	
+				volume: "mtvn-controls-volume",
+				cc: "mtvn-controls-cc"
 			};
 		return Backbone.View.extend({
 			tagName: "div",
@@ -233,8 +262,14 @@ var GUI = function(require) {
 				});
 				this.listenTo(this.volumeButton, Events.MUTE, this.sendEvent);
 				this.listenTo(this.volumeButton, Events.UNMUTE, this.sendEvent);
+				// CC
+				this.closedCaptionButton = new ClosedCaptionButton({
+					ccEnabled: options.ccEnabled,
+					el: this.$el.find("." + css.cc)
+				});
+				this.listenTo(this.closedCaptionButton, Events.CC, this.sendEvent);
 			},
-			setVolume:function(volume) {
+			setVolume: function(volume) {
 				this.volumeButton.setVolume(volume);
 			},
 			setPaused: function(paused) {
@@ -252,18 +287,17 @@ var GUI = function(require) {
 			setDuration: function(duration) {
 				this.slider.setDuration(duration);
 			},
-			sendEvent: function(type, data) {
-				this.trigger(type, {
-					type: type,
-					target: this,
-					data: data
-				});
+			sendEvent: function(event) {
+				event.target = this;
+				this.trigger(event.type, event);
 			},
 			onSeek: function(event) {
 				this.sendEvent(Events.SEEK, event);
 			},
 			onFullscreen: function() {
-				this.sendEvent(Events.FULLSCREEN);
+				this.sendEvent({
+					type: Events.FULLSCREEN
+				});
 			}
 		});
 	}();
@@ -272,7 +306,9 @@ var GUI = function(require) {
 		PLAY: "PLAY",
 		PAUSE: "PAUSE",
 		FULLSCREEN: "FULLSCREEN",
+		CC: "CC",
 		MUTE: "MUTE",
+		VOLUME: "VOLUME", // not implemented
 		UNMUTE: "UNMUTE",
 		SEEK: "SEEK"
 	};
@@ -301,7 +337,9 @@ var GUI = function(require) {
 					eventName = !showPlay ? Events.PLAY : Events.PAUSE;
 				$el.toggleClass(css.play, showPlay);
 				$el.toggleClass(css.pause, !showPlay);
-				this.trigger(eventName, eventName);
+				this.trigger(eventName, {
+					type: eventName
+				});
 			}
 		});
 	}();
@@ -531,7 +569,9 @@ var GUI = function(require) {
 					eventName = showMute ? Events.UNMUTE : Events.MUTE;
 				$el.toggleClass(css.mute, showMute);
 				$el.toggleClass(css.unmute, !showMute);
-				this.trigger(eventName, eventName);
+				this.trigger(eventName, {
+					type: eventName
+				});
 			}
 		});
 	}();
@@ -541,6 +581,6 @@ var GUI = function(require) {
 		Controls: Controls,
 		Events: Events,
 		version: "0.5.0",
-		build: "07/29/2013 09:36:01 PM"
+		build: "08/12/2013 11:58:06 AM"
 	};
 }(MTVNPlayer.require);

@@ -23,7 +23,9 @@ var VolumeButton = function() {
 				eventName = showMute ? Events.UNMUTE : Events.MUTE;
 			$el.toggleClass(css.mute, showMute);
 			$el.toggleClass(css.unmute, !showMute);
-			this.trigger(eventName, eventName);
+			this.trigger(eventName, {
+				type: eventName
+			});
 		}
 	});
 }();

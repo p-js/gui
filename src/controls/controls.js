@@ -1,12 +1,12 @@
 /* exported Controls */
-/* global _, Backbone, $, Events, Slider, PlayPauseButton, VolumeButton*/
+/* global _, Backbone, $, Events, Slider, PlayPauseButton, VolumeButton, ClosedCaptionButton*/
 var Controls = function() {
 	var CONTROLS_TEMPLATE = this.Templates["src/controls/template.html"],
 		css = {
 			slider: "mtvn-controls-slider",
 			playPause: "mtvn-controls-play-pause",
-			volume: "mtvn-controls-volume"
-
+			volume: "mtvn-controls-volume",
+			cc: "mtvn-controls-cc"
 		};
 	return Backbone.View.extend({
 		tagName: "div",
@@ -45,8 +45,14 @@ var Controls = function() {
 			});
 			this.listenTo(this.volumeButton, Events.MUTE, this.sendEvent);
 			this.listenTo(this.volumeButton, Events.UNMUTE, this.sendEvent);
+			// CC
+			this.closedCaptionButton = new ClosedCaptionButton({
+				ccEnabled: options.ccEnabled,
+				el: this.$el.find("." + css.cc)
+			});
+			this.listenTo(this.closedCaptionButton, Events.CC, this.sendEvent);
 		},
-		setVolume:function(volume) {
+		setVolume: function(volume) {
 			this.volumeButton.setVolume(volume);
 		},
 		setPaused: function(paused) {
@@ -64,18 +70,17 @@ var Controls = function() {
 		setDuration: function(duration) {
 			this.slider.setDuration(duration);
 		},
-		sendEvent: function(type, data) {
-			this.trigger(type, {
-				type: type,
-				target: this,
-				data: data
-			});
+		sendEvent: function(event) {
+			event.target = this;
+			this.trigger(event.type, event);
 		},
 		onSeek: function(event) {
 			this.sendEvent(Events.SEEK, event);
 		},
 		onFullscreen: function() {
-			this.sendEvent(Events.FULLSCREEN);
+			this.sendEvent({
+				type: Events.FULLSCREEN
+			});
 		}
 	});
 }();

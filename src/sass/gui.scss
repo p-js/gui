@@ -38,6 +38,10 @@
 	@include image-with-dims(unmute);
 }
 
+.mtvn-controls-cc {
+	@include image-with-dims(cc);
+}
+
 .mtvn-controls-slider {
 	-webkit-box-flex:1;
 	margin-top: 2px;
@@ -102,6 +106,12 @@
 	@include image-with-dims(thumb);
 	margin-left:-19px;
 	margin-top:-9px;
+}
+.mtvn-controls-slider-segment-container {
+	display:none;
+}
+.mtvn-controls-slider-segment {
+	@include image-with-dims(divider);
 }
 
 .mtvn-controls-slider-tool-tip-background{
