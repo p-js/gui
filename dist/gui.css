@@ -141,11 +141,12 @@
 
 /* line 110, ../src/sass/gui.scss */
 .mtvn-controls-slider-segment-container {
-  display: none;
+  position: absolute;
 }
 
 /* line 113, ../src/sass/gui.scss */
 .mtvn-controls-slider-segment {
+  position: absolute;
   background-position: 0 -478px;
   width: 1px;
   height: 5px;

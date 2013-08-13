@@ -184,7 +184,7 @@ var GUI = function(require) {
 					parseFloat(n, 10);
 				}
 				if (!isNaN(n)) {
-					console.log("INVOKE~~~ util.js:21 n",n);
+					console.log("INVOKE~~~ util.js:21 n", n);
 					func(n);
 				}
 			},
@@ -192,9 +192,9 @@ var GUI = function(require) {
 				if (isNaN(sec)) {
 					return "00:00";
 				}
-				var h = Math.round(sec / 3600),
-					m = Math.round((sec % 3600) / 60),
-					s = Math.round((sec % 3600) % 60);
+				var h = Math.floor(sec / 3600),
+					m = Math.floor((sec % 3600) / 60),
+					s = Math.floor((sec % 3600) % 60);
 				return (h === 0 ? "" : (h < 10 ? "0" + h + ":" : h + ":")) + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
 			}
 		};
@@ -232,7 +232,7 @@ var GUI = function(require) {
 				"click .mtvn-controls-fullscreen": "onFullscreen"
 			},
 			initialize: function() {
-				_.bindAll(this, "onSeek", "sendEvent");
+				_.bindAll(this, "sendEvent");
 				_.extend(this.options, {
 					slider: css.slider
 				});
@@ -252,9 +252,9 @@ var GUI = function(require) {
 				this.slider = new Slider({
 					el: this.$el.find("." + css.slider),
 					playhead: options.playhead,
-					duration: options.duration
+					durations: options.durations
 				});
-				this.listenTo(this.slider, Events.SEEK, this.onSeek);
+				this.listenTo(this.slider, Events.SEEK, this.sendEvent);
 				// VOLUME
 				this.volumeButton = new VolumeButton({
 					volume: options.volume,
@@ -284,15 +284,12 @@ var GUI = function(require) {
 			setBuffered: function(buffered) {
 				this.slider.setBuffered(buffered);
 			},
-			setDuration: function(duration) {
-				this.slider.setDuration(duration);
+			setDurations: function(durations) {
+				this.slider.setDurations(durations);
 			},
 			sendEvent: function(event) {
 				event.target = this;
 				this.trigger(event.type, event);
-			},
-			onSeek: function(event) {
-				this.sendEvent(Events.SEEK, event);
 			},
 			onFullscreen: function() {
 				this.sendEvent({
@@ -346,7 +343,8 @@ var GUI = function(require) {
 	/* global _, $, Backbone, Events, Util*/
 	/* exported Slider */
 	var Slider = function() {
-		var thumb = "mtvn-controls-slider-thumb",
+		var RESIZE = "slider:resize",
+			thumb = "mtvn-controls-slider-thumb",
 			thumbActive = "mtvn-controls-slider-thumb-active",
 			touchMixin = {
 				platformInitialize: function() {},
@@ -366,7 +364,27 @@ var GUI = function(require) {
 				events: {
 					"mousedown .mtvn-controls-slider-thumb-container": "onThumbActive"
 				}
-			};
+			},
+			// full ep mixin
+			segementedScrubber = function() {
+				return {
+					isSegmented: true,
+					createDividers: function() {
+						this.$dividerContainer.empty();
+						_.each(this.durations, function() {
+							this.$dividerContainer.append($("<div class=\"mtvn-controls-slider-segment\"/>"));
+						}, this);
+					},
+					moveDividers: function() {
+						var dividers = this.$dividerContainer.children();
+						_.each(this.durations, function(duration, index) {
+							$(dividers[index]).css({
+								left: this.getLeftFromPlayhead(duration)
+							});
+						}, this);
+					}
+				};
+			}();
 		return Backbone.View.extend({
 			/**
 			 * The thumb is being pressed
@@ -385,7 +403,6 @@ var GUI = function(require) {
 			 */
 			sliderWidth: 0,
 			initialize: function() {
-				_.bindAll(this, "setSliderWidth");
 				_.extend(this, Util.isTouchDevice ? touchMixin : mouseMixin);
 				this.platformInitialize();
 				this.render();
@@ -414,9 +431,16 @@ var GUI = function(require) {
 				 * Tool tip time
 				 */
 				this.$toolTipTime = this.$el.find(".mtvn-controls-slider-tool-tip-time");
-				this.setDuration(this.options.duration);
+				/**
+				 * Segment marker container
+				 */
+				this.$dividerContainer = this.$el.find(".mtvn-controls-slider-segment-container");
+				/**
+				 * Don't fire measure too often. Perhaps a forced measure can be called from the player code.
+				 */
+				this.throttledMeasure = _.throttle(this.measure, 1500);
+				this.setDurations(this.options.durations);
 				this.setPlayhead(this.options.playhead);
-				this.setSliderWidth = _.throttle(this.setSliderWidth, 3000);
 			},
 			setPlayhead: function(playhead) {
 				if (!this.dragging && !this.seeking) {
@@ -424,7 +448,7 @@ var GUI = function(require) {
 						playhead = parseFloat(playhead, 10);
 					}
 					if (!isNaN(playhead)) {
-						this.setSliderWidth();
+						this.throttledMeasure();
 						this.playhead = Math.max(0, Math.min(playhead, this.duration));
 						this.moveThumb(this.getLeftFromPlayhead(playhead));
 						this.updateTime();
@@ -434,20 +458,43 @@ var GUI = function(require) {
 			setBuffered: function(buffered) {
 				if (!this.dragging && !this.seeking && this.duration > 1) {
 					var left = Math.max(0, this.getLeftFromPlayhead(buffered));
+					this.throttledMeasure();
 					left = Math.min(left, this.sliderWidth);
 					this.$buffered.css({
 						width: left
 					});
 				}
 			},
-			setDuration: function(duration) {
-				if (isNaN(duration)) {
-					duration = parseFloat(duration, 10);
+			measure: function() {
+				var sliderWidth = this.$el[0].offsetWidth;
+				if (sliderWidth !== this.sliderWidth) {
+					this.sliderWidth = sliderWidth;
+					this.trigger(RESIZE, sliderWidth);
 				}
-				if (!isNaN(duration)) {
-					this.duration = duration;
-					this.updateTime();
+			},
+			setDurations: function(durations) {
+				if(!_.isArray(durations)){
+					return;
 				}
+				if (durations.length > 1 && !this.isSegmented) {
+					_.extend(this, segementedScrubber);
+				}
+				var currentDuration = 0;
+				this.durations = _.map(durations, function(num) {
+					currentDuration += num;
+					return currentDuration;
+				});
+				this.duration = this.durations.pop();
+				this.throttledMeasure();
+				if (this.isSegmented) {
+					this.createDividers();
+					this.moveDividers();
+					this.$dividerContainer.show();
+					this.on(RESIZE, _.bind(this.moveDividers, this));
+				}else{
+					this.$dividerContainer.hide();
+				}
+				this.updateTime();
 			},
 			setEnabled: function(enabled) {
 				if (enabled !== this.enabled) {
@@ -475,7 +522,7 @@ var GUI = function(require) {
 				$el.removeClass(thumb);
 				$el.addClass(thumbActive);
 				this.dragging = true;
-				this.setSliderWidth();
+				this.throttledMeasure();
 				this.$buffered.css({
 					width: 0
 				});
@@ -514,9 +561,6 @@ var GUI = function(require) {
 				});
 				this.$toolTipTime.html(Util.formatTime(this.getTimeFromThumb(left)));
 			},
-			setSliderWidth: function() {
-				this.sliderWidth = this.$el[0].offsetWidth;
-			},
 			getLeftFromPlayhead: function(playhead) {
 				if (!playhead) {
 					return 0;
@@ -540,7 +584,10 @@ var GUI = function(require) {
 			sendSeek: function() {
 				var playhead = this.playhead = this.getTimeFromThumb();
 				this.updateTime();
-				this.trigger(Events.SEEK, playhead);
+				this.trigger(Events.SEEK, {
+					type: Events.SEEK,
+					data: playhead
+				});
 			}
 		});
 	}();
@@ -581,6 +628,6 @@ var GUI = function(require) {
 		Controls: Controls,
 		Events: Events,
 		version: "0.5.0",
-		build: "08/12/2013 11:58:06 AM"
+		build: "08/13/2013 05:38:23 PM"
 	};
 }(MTVNPlayer.require);

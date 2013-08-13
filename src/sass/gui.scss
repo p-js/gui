@@ -108,12 +108,12 @@
 	margin-top:-9px;
 }
 .mtvn-controls-slider-segment-container {
-	display:none;
+	position:absolute;
 }
 .mtvn-controls-slider-segment {
+	position:absolute;
 	@include image-with-dims(divider);
 }
-
 .mtvn-controls-slider-tool-tip-background{
 	@include image-with-dims(toolTip);
 	margin-left:-37px;

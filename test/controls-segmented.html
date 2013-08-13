@@ -22,13 +22,14 @@
 	<button id="killbuffer">killbuffer</button>
 	<br/>
 	<button id="seekTo">seek to</button><input type="text" id="seek-value"/>
-	<button id="setDuration">change duration</button><input type="text" id="duration-value"/>
+	<button id="setDuration">change durations</button><input type="text" id="duration-value"/>
 
 	<script>
 		var controls = new(GUI.Controls)({
 				playing: false,
 				showVolume: true,
-				ccEnabled: true
+				ccEnabled: true,
+				durations: [60,30,60,30,30]
 			}),
 			Events = GUI.Events,
 			buffer = 0,
@@ -67,8 +68,8 @@
 			console.log("toggle CC");
 		});
 		_.delay(function() {
-			controls.setDurations([1000]);
-		},1200);
+			controls.setDurations([60,90,60,30]);
+		},3200);
 		$("#killbuffer").click(function() {
 			clearInterval(bufferInterval);
 		});
@@ -78,7 +79,10 @@
 		});
 		$("#setDuration").click(function() {
 			buffer = 0;
-			controls.setDuration(parseFloat($("#duration-value").val(),10));
+			var durations = _.map($("#duration-value").val().split(","), function(duration) {
+				return parseInt(duration,10);	
+			});
+			controls.setDurations(durations);
 		});
 	</script>
 </body>

@@ -18,7 +18,7 @@ var Util = function() {
 				parseFloat(n, 10);
 			}
 			if (!isNaN(n)) {
-				console.log("INVOKE~~~ util.js:21 n",n);
+				console.log("INVOKE~~~ util.js:21 n", n);
 				func(n);
 			}
 		},
@@ -26,9 +26,9 @@ var Util = function() {
 			if (isNaN(sec)) {
 				return "00:00";
 			}
-			var h = Math.round(sec / 3600),
-				m = Math.round((sec % 3600) / 60),
-				s = Math.round((sec % 3600) % 60);
+			var h = Math.floor(sec / 3600),
+				m = Math.floor((sec % 3600) / 60),
+				s = Math.floor((sec % 3600) % 60);
 			return (h === 0 ? "" : (h < 10 ? "0" + h + ":" : h + ":")) + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
 		}
 	};

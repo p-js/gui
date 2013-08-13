@@ -15,7 +15,7 @@ var Controls = function() {
 			"click .mtvn-controls-fullscreen": "onFullscreen"
 		},
 		initialize: function() {
-			_.bindAll(this, "onSeek", "sendEvent");
+			_.bindAll(this, "sendEvent");
 			_.extend(this.options, {
 				slider: css.slider
 			});
@@ -35,9 +35,9 @@ var Controls = function() {
 			this.slider = new Slider({
 				el: this.$el.find("." + css.slider),
 				playhead: options.playhead,
-				duration: options.duration
+				durations: options.durations
 			});
-			this.listenTo(this.slider, Events.SEEK, this.onSeek);
+			this.listenTo(this.slider, Events.SEEK, this.sendEvent);
 			// VOLUME
 			this.volumeButton = new VolumeButton({
 				volume: options.volume,
@@ -67,15 +67,12 @@ var Controls = function() {
 		setBuffered: function(buffered) {
 			this.slider.setBuffered(buffered);
 		},
-		setDuration: function(duration) {
-			this.slider.setDuration(duration);
+		setDurations: function(durations) {
+			this.slider.setDurations(durations);
 		},
 		sendEvent: function(event) {
 			event.target = this;
 			this.trigger(event.type, event);
-		},
-		onSeek: function(event) {
-			this.sendEvent(Events.SEEK, event);
 		},
 		onFullscreen: function() {
 			this.sendEvent({

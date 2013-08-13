@@ -1,7 +1,8 @@
 /* global _, $, Backbone, Events, Util*/
 /* exported Slider */
 var Slider = function() {
-	var thumb = "mtvn-controls-slider-thumb",
+	var RESIZE = "slider:resize",
+		thumb = "mtvn-controls-slider-thumb",
 		thumbActive = "mtvn-controls-slider-thumb-active",
 		touchMixin = {
 			platformInitialize: function() {},
@@ -21,7 +22,27 @@ var Slider = function() {
 			events: {
 				"mousedown .mtvn-controls-slider-thumb-container": "onThumbActive"
 			}
-		};
+		},
+		// full ep mixin
+		segementedScrubber = function() {
+			return {
+				isSegmented: true,
+				createDividers: function() {
+					this.$dividerContainer.empty();
+					_.each(this.durations, function() {
+						this.$dividerContainer.append($("<div class=\"mtvn-controls-slider-segment\"/>"));
+					}, this);
+				},
+				moveDividers: function() {
+					var dividers = this.$dividerContainer.children();
+					_.each(this.durations, function(duration, index) {
+						$(dividers[index]).css({
+							left: this.getLeftFromPlayhead(duration)
+						});
+					}, this);
+				}
+			};
+		}();
 	return Backbone.View.extend({
 		/**
 		 * The thumb is being pressed
@@ -40,7 +61,6 @@ var Slider = function() {
 		 */
 		sliderWidth: 0,
 		initialize: function() {
-			_.bindAll(this, "setSliderWidth");
 			_.extend(this, Util.isTouchDevice ? touchMixin : mouseMixin);
 			this.platformInitialize();
 			this.render();
@@ -69,9 +89,16 @@ var Slider = function() {
 			 * Tool tip time
 			 */
 			this.$toolTipTime = this.$el.find(".mtvn-controls-slider-tool-tip-time");
-			this.setDuration(this.options.duration);
+			/**
+			 * Segment marker container
+			 */
+			this.$dividerContainer = this.$el.find(".mtvn-controls-slider-segment-container");
+			/**
+			 * Don't fire measure too often. Perhaps a forced measure can be called from the player code.
+			 */
+			this.throttledMeasure = _.throttle(this.measure, 1500);
+			this.setDurations(this.options.durations);
 			this.setPlayhead(this.options.playhead);
-			this.setSliderWidth = _.throttle(this.setSliderWidth, 3000);
 		},
 		setPlayhead: function(playhead) {
 			if (!this.dragging && !this.seeking) {
@@ -79,7 +106,7 @@ var Slider = function() {
 					playhead = parseFloat(playhead, 10);
 				}
 				if (!isNaN(playhead)) {
-					this.setSliderWidth();
+					this.throttledMeasure();
 					this.playhead = Math.max(0, Math.min(playhead, this.duration));
 					this.moveThumb(this.getLeftFromPlayhead(playhead));
 					this.updateTime();
@@ -89,20 +116,43 @@ var Slider = function() {
 		setBuffered: function(buffered) {
 			if (!this.dragging && !this.seeking && this.duration > 1) {
 				var left = Math.max(0, this.getLeftFromPlayhead(buffered));
+				this.throttledMeasure();
 				left = Math.min(left, this.sliderWidth);
 				this.$buffered.css({
 					width: left
 				});
 			}
 		},
-		setDuration: function(duration) {
-			if (isNaN(duration)) {
-				duration = parseFloat(duration, 10);
+		measure: function() {
+			var sliderWidth = this.$el[0].offsetWidth;
+			if (sliderWidth !== this.sliderWidth) {
+				this.sliderWidth = sliderWidth;
+				this.trigger(RESIZE, sliderWidth);
 			}
-			if (!isNaN(duration)) {
-				this.duration = duration;
-				this.updateTime();
+		},
+		setDurations: function(durations) {
+			if(!_.isArray(durations)){
+				return;
 			}
+			if (durations.length > 1 && !this.isSegmented) {
+				_.extend(this, segementedScrubber);
+			}
+			var currentDuration = 0;
+			this.durations = _.map(durations, function(num) {
+				currentDuration += num;
+				return currentDuration;
+			});
+			this.duration = this.durations.pop();
+			this.throttledMeasure();
+			if (this.isSegmented) {
+				this.createDividers();
+				this.moveDividers();
+				this.$dividerContainer.show();
+				this.on(RESIZE, _.bind(this.moveDividers, this));
+			}else{
+				this.$dividerContainer.hide();
+			}
+			this.updateTime();
 		},
 		setEnabled: function(enabled) {
 			if (enabled !== this.enabled) {
@@ -130,7 +180,7 @@ var Slider = function() {
 			$el.removeClass(thumb);
 			$el.addClass(thumbActive);
 			this.dragging = true;
-			this.setSliderWidth();
+			this.throttledMeasure();
 			this.$buffered.css({
 				width: 0
 			});
@@ -169,9 +219,6 @@ var Slider = function() {
 			});
 			this.$toolTipTime.html(Util.formatTime(this.getTimeFromThumb(left)));
 		},
-		setSliderWidth: function() {
-			this.sliderWidth = this.$el[0].offsetWidth;
-		},
 		getLeftFromPlayhead: function(playhead) {
 			if (!playhead) {
 				return 0;
@@ -195,7 +242,10 @@ var Slider = function() {
 		sendSeek: function() {
 			var playhead = this.playhead = this.getTimeFromThumb();
 			this.updateTime();
-			this.trigger(Events.SEEK, playhead);
+			this.trigger(Events.SEEK, {
+				type: Events.SEEK,
+				data: playhead
+			});
 		}
 	});
 }();
