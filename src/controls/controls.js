@@ -1,22 +1,21 @@
 /* exported Controls */
-/* global _, Backbone, $, Events, Slider, PlayPauseButton, VolumeButton*/
+/* global _, Backbone, $, Events, Slider, PlayPauseButton, VolumeButton, ClosedCaptionButton*/
 var Controls = function() {
 	var CONTROLS_TEMPLATE = this.Templates["src/controls/template.html"],
 		css = {
 			slider: "mtvn-controls-slider",
 			playPause: "mtvn-controls-play-pause",
-			volume: "mtvn-controls-volume"
-
+			volume: "mtvn-controls-volume",
+			cc: "mtvn-controls-cc"
 		};
 	return Backbone.View.extend({
 		tagName: "div",
 		className: "mtvn-controls",
 		events: {
-			"click .mtvn-controls-volume": "onVolume",
 			"click .mtvn-controls-fullscreen": "onFullscreen"
 		},
 		initialize: function() {
-			_.bindAll(this, "onSeek", "sendEvent");
+			_.bindAll(this, "sendEvent");
 			_.extend(this.options, {
 				slider: css.slider
 			});
@@ -36,9 +35,9 @@ var Controls = function() {
 			this.slider = new Slider({
 				el: this.$el.find("." + css.slider),
 				playhead: options.playhead,
-				duration: options.duration
+				durations: options.durations
 			});
-			this.listenTo(this.slider, Events.SEEK, this.onSeek);
+			this.listenTo(this.slider, Events.SEEK, this.sendEvent);
 			// VOLUME
 			this.volumeButton = new VolumeButton({
 				volume: options.volume,
@@ -46,8 +45,14 @@ var Controls = function() {
 			});
 			this.listenTo(this.volumeButton, Events.MUTE, this.sendEvent);
 			this.listenTo(this.volumeButton, Events.UNMUTE, this.sendEvent);
+			// CC
+			this.closedCaptionButton = new ClosedCaptionButton({
+				ccEnabled: options.ccEnabled,
+				el: this.$el.find("." + css.cc)
+			});
+			this.listenTo(this.closedCaptionButton, Events.CC, this.sendEvent);
 		},
-		setVolume:function(volume) {
+		setVolume: function(volume) {
 			this.volumeButton.setVolume(volume);
 		},
 		setPaused: function(paused) {
@@ -62,24 +67,17 @@ var Controls = function() {
 		setBuffered: function(buffered) {
 			this.slider.setBuffered(buffered);
 		},
-		setDuration: function(duration) {
-			this.slider.setDuration(duration);
+		setDurations: function(durations) {
+			this.slider.setDurations(durations);
 		},
-		sendEvent: function(type, data) {
-			this.trigger(type, {
-				type: type,
-				target: this,
-				data: data
-			});
-		},
-		onSeek: function(event) {
-			this.sendEvent(Events.SEEK, event);
-		},
-		onVolume: function(event) {
-			this.sendEvent(Events.VOLUME, event);
+		sendEvent: function(event) {
+			event.target = this;
+			this.trigger(event.type, event);
 		},
 		onFullscreen: function() {
-			this.sendEvent(Events.FULLSCREEN);
+			this.sendEvent({
+				type: Events.FULLSCREEN
+			});
 		}
 	});
 }();

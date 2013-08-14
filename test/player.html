@@ -20,7 +20,7 @@
 		}
 	</style>
   <!-- api version -->
-  <script src="http://localhost:3001/dist/vmap.js"></script>
+  <script src="http://localhost:3001/dist/html5.js"></script>
   <!-- creates the logger -->
   <script src="http://media.mtvnservices-d.mtvi.com/player/api/test/tools/post-message-logger/index.js"></script>
   <!-- create selector with api methods -->
@@ -34,9 +34,12 @@
   <div class="player-version"></div>
   <script>
 	 MTVNPlayer.createPlayers(".MTVNPlayer",{
-		  test:{
-		    formFactorID:"22:0",
-		    vmapURL: "http://onceux.unicornmedia.com/now/ads/vmap/od/auto/b11dbc9b-9d90-4edb-b4ab-769e0049209b/2455340c-8dcd-412e-a917-c6fadfe268c7/3a41c6e4-93a3-4108-8995-64ffca7b9106/bigbuckbunny?umtp=0&output=2"
+		  "test":{
+		  	"isFlash":true,
+		  	"testSrc":"rtmpe://viacomdevstrmfs.fplive.net/viacomdevstrm/gsp.comedystor/com/dailyshow/TDS/season_17/episode_088/ds_17088_01_384x216_450.mp4",
+		    "formFactorID":"102:1.8:1",
+		    "playerUrl":"http://media.mtvnservices-d.mtvi.com/player/swf/TinyPlayer.swf",
+		    "vmapURL": "http://onceux.unicornmedia.com/now/ads/vmap/od/auto/b11dbc9b-9d90-4edb-b4ab-769e0049209b/2455340c-8dcd-412e-a917-c6fadfe268c7/3a41c6e4-93a3-4108-8995-64ffca7b9106/bigbuckbunny?umtp=0&output=2"
 		  }
 		});
 	MTVNPlayer.require("$",function($){

@@ -11,6 +11,7 @@
 		<div class="{{slider}}-progress"></div>
 	</div>
 	<div class="{{slider}}-background"></div>
+	<div class="{{slider}}-segment-container"></div>
 	<div class="{{slider}}-thumb-container" style="left:0px;">
 		<div class="{{slider}}-tool-tip-container">
 			<div class="{{slider}}-tool-tip-background"></div>
@@ -19,6 +20,9 @@
 		<div class="{{slider}}-thumb"/>
 	</div>
 </div>
+{{#if ccEnabled}}
+<div class="mtvn-controls-cc mtvn-controls-button"></div>
+{{/if}}
 {{#if showVolume}}
 <div class="mtvn-controls-volume mtvn-controls-button"></div>
 {{/if}}
