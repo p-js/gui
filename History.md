@@ -1,4 +1,10 @@
 
+0.5.0 / 2013-08-14 
+==================
+
+  * segmented scrubber. removed setDuration in favor of setDurations. fixed issue with time formatter.
+  * closed caption button. standardized events. 
+ 
 0.4.0 / 2013-07-29 
 ==================
 
