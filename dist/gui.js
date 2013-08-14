@@ -628,6 +628,6 @@ var GUI = function(require) {
 		Controls: Controls,
 		Events: Events,
 		version: "0.5.0",
-		build: "08/13/2013 05:38:23 PM"
+		build: "08/14/2013 12:31:04 PM"
 	};
 }(MTVNPlayer.require);
