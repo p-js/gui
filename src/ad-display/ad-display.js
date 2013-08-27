@@ -1,5 +1,5 @@
-/* global _, $ */
-var DEFAULT_TEMPLATE = this.Templates["src/ad-display/template.html"],
+/* global _, $, Templates */
+var DEFAULT_TEMPLATE = Templates["src/ad-display/template.html"],
 	DEFAULT_COPY = {
 		countdownText: "Your content will resume in {{time}}.",
 		messageText: "Your content will resume shortly.",

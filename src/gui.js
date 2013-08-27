@@ -10,7 +10,11 @@ var GUI = function(require) {
 		$ = require("$"),
 		_ = require("_"),
 		Backbone = require("Backbone");
-	//= ../compiled-templates
+	// templates are written to "this", here we're scoping it.
+	var Templates = (function() {
+		//= ../compiled-templates
+		return this.Templates;
+	}).apply({});
 	//= ad-display
 	//= controls/util
 	//= controls
