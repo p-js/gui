@@ -1,6 +1,6 @@
 {
     "name": "gui",
-    "version": "0.5.0",
+    "version": "0.5.1",
     "author": "gianni ferullo <giannif@gmail.com>",
     "private": true,
     "description": "Ad GUI",

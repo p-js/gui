@@ -1,7 +1,7 @@
 /* exported Controls */
-/* global _, Backbone, $, Events, Slider, PlayPauseButton, VolumeButton, ClosedCaptionButton*/
+/* global _, Backbone, $, Events, Slider, PlayPauseButton, VolumeButton, ClosedCaptionButton, Templates*/
 var Controls = function() {
-	var CONTROLS_TEMPLATE = this.Templates["src/controls/template.html"],
+	var CONTROLS_TEMPLATE = Templates["src/controls/template.html"],
 		css = {
 			slider: "mtvn-controls-slider",
 			playPause: "mtvn-controls-play-pause",
