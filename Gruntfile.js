@@ -71,6 +71,17 @@ module.exports = function(grunt) {
                 }
             }
         },
+        push_svn: {
+            options: {
+                trymkdir: true,
+                remove: false
+            },
+            release: {
+                src: "./dist",
+                dest: '<%=pkg.deployTo%><%= grunt.config("dirname") %><%= pkg.version %><%= grunt.config("buildNumber") %>/',
+                tmp: './.build'
+            }
+        },
         copy: {
             all: {
                 src: "src/<%=pkg.name%>.css",
@@ -85,6 +96,9 @@ module.exports = function(grunt) {
             tasks: ["default"]
         }
     });
+    grunt.registerTask('buildNumber', 'append a build number to the build', function(buildNumber) {
+        grunt.config("buildNumber", "-" + buildNumber);
+    });
     grunt.loadNpmTasks('grunt-rigger');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-clean');
@@ -95,6 +109,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-bumpx');
+    grunt.loadNpmTasks("grunt-push-svn");
     grunt.registerTask('default', ['clean:pre', 'jshint:devel', 'handlebars', 'compass', 'rig', 'copy', 'clean:post']);
     grunt.registerTask('release', ['clean:pre', 'jshint:release', 'handlebars', 'compass', 'rig', 'uglify', 'cssmin', 'copy', 'clean:post']);
 };
