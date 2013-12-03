@@ -15,9 +15,9 @@
         "components"
     ],
     "dependencies": {
-        "underscore": "underscore#1.4.4",
+        "underscore": "underscore#1.5.1",
         "zepto": "zepto#1.0.0",
         "mtvn-package-manager": "mtvn-player/mtvn-package-manager#0.6.0",
-        "mtvn-util": "p-js/mtvn-util#1.5.0"
+        "mtvn-util": "p-js/util#1.5.0"
     }
 }
