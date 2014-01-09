@@ -3,7 +3,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         clean: {
-            pre: ["dist", "compiled-templates"],
+            pre: ["dist", "compiled-templates", ".build"],
             post: ["compiled-templates"]
         },
         jshint: {
@@ -78,7 +78,7 @@ module.exports = function(grunt) {
             },
             release: {
                 src: "./dist",
-                dest: '<%=pkg.deployTo%><%= grunt.config("dirname") %><%= pkg.version %><%= grunt.config("buildNumber") %>/',
+                dest: '<%= grunt.config("svnDir") %>/<%= pkg.version %><%= grunt.config("buildNumber") %>',
                 tmp: './.build'
             }
         },
@@ -96,8 +96,12 @@ module.exports = function(grunt) {
             tasks: ["default"]
         }
     });
-    grunt.registerTask('buildNumber', 'append a build number to the build', function(buildNumber) {
-        grunt.config("buildNumber", "-" + buildNumber);
+    grunt.registerTask('deploy', 'deploy to svn', function() {
+        grunt.config("svnDir", grunt.option("dir"));
+        if (grunt.option("build")) {
+            grunt.config("buildNumber", "-" + grunt.option("build"));
+        }
+        grunt.task.run("push_svn");
     });
     grunt.loadNpmTasks('grunt-rigger');
     grunt.loadNpmTasks('grunt-contrib-copy');
