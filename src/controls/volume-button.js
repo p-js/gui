@@ -9,7 +9,8 @@ var VolumeButton = function() {
 		events: {
 			"click": "toggle"
 		},
-		initialize: function() {
+		initialize: function(options) {
+			this.options = options;
 			this.setVolume(isNaN(this.options.volume) ? 1 : this.options.volume);
 		},
 		setVolume: function(volume) {

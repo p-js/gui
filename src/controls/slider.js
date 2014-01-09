@@ -60,7 +60,8 @@ var Slider = function() {
 		 * The width of the slider, cached as to not call offsetWidth repeatedly
 		 */
 		sliderWidth: 0,
-		initialize: function() {
+		initialize: function(options) {
+			this.options = options;
 			_.extend(this, Util.isTouchDevice ? touchMixin : mouseMixin);
 			this.platformInitialize();
 			this.render();
