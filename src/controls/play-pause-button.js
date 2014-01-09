@@ -6,7 +6,8 @@ var PlayPauseButton = function() {
 		pause: "mtvn-controls-pause"
 	};
 	return Backbone.View.extend({
-		initialize: function() {
+		initialize: function(options) {
+			this.options = options;
 			this.$el.addClass(this.options.paused ? css.play : css.pause);
 		},
 		events: {

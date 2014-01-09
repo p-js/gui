@@ -14,7 +14,8 @@ var Controls = function() {
 		events: {
 			"click .mtvn-controls-fullscreen": "onFullscreen"
 		},
-		initialize: function() {
+		initialize: function(options) {
+			this.options = options;
 			_.bindAll(this, "sendEvent");
 			_.extend(this.options, {
 				slider: css.slider
