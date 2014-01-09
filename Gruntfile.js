@@ -3,7 +3,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         clean: {
-            pre: ["dist", "compiled-templates"],
+            pre: ["dist", "compiled-templates", ".build"],
             post: ["compiled-templates"]
         },
         jshint: {
@@ -71,6 +71,17 @@ module.exports = function(grunt) {
                 }
             }
         },
+        push_svn: {
+            options: {
+                trymkdir: true,
+                remove: false
+            },
+            release: {
+                src: "./dist",
+                dest: '<%= grunt.config("svnDir") %>/<%= pkg.version %><%= grunt.config("buildNumber") %>',
+                tmp: './.build'
+            }
+        },
         copy: {
             all: {
                 src: "src/<%=pkg.name%>.css",
@@ -85,6 +96,13 @@ module.exports = function(grunt) {
             tasks: ["default"]
         }
     });
+    grunt.registerTask('deploy', 'deploy to svn', function() {
+        grunt.config("svnDir", grunt.option("dir"));
+        if (grunt.option("build")) {
+            grunt.config("buildNumber", "-" + grunt.option("build"));
+        }
+        grunt.task.run("push_svn");
+    });
     grunt.loadNpmTasks('grunt-rigger');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-clean');
@@ -95,6 +113,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-bumpx');
+    grunt.loadNpmTasks("grunt-push-svn");
     grunt.registerTask('default', ['clean:pre', 'jshint:devel', 'handlebars', 'compass', 'rig', 'copy', 'clean:post']);
     grunt.registerTask('release', ['clean:pre', 'jshint:release', 'handlebars', 'compass', 'rig', 'uglify', 'cssmin', 'copy', 'clean:post']);
 };
