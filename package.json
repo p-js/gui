@@ -1,9 +1,9 @@
 {
     "name": "gui",
-    "version": "0.5.2",
+    "version": "0.5.3",
     "author": "gianni ferullo <giannif@gmail.com>",
     "private": true,
-    "description": "Ad GUI",
+    "description": "GUI",
     "repository": {
         "type": "git",
         "url": "https://p-js@github.com/p-js/gui.git"
@@ -21,7 +21,8 @@
         "grunt-bumpx": "~0.1.5",
         "grunt-contrib-handlebars": "~0.5.9",
         "grunt-contrib-compass": "~0.3.0",
-        "grunt-contrib-cssmin": "~0.6.1"
+        "grunt-contrib-cssmin": "~0.6.1",
+        "grunt-push-svn": "~0.1.8"
     },
     "license": "MIT"
 }

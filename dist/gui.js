@@ -635,7 +635,7 @@ var GUI = function(require) {
 		AdDisplay: AdDisplay,
 		Controls: Controls,
 		Events: Events,
-		version: "0.5.2",
-		build: "01/09/2014 12:54:09 PM"
+		version: "0.5.3",
+		build: "01/09/2014 01:05:24 PM"
 	};
 }(MTVNPlayer.require);
