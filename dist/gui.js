@@ -235,7 +235,8 @@ var GUI = function(require) {
 			events: {
 				"click .mtvn-controls-fullscreen": "onFullscreen"
 			},
-			initialize: function() {
+			initialize: function(options) {
+				this.options = options;
 				_.bindAll(this, "sendEvent");
 				_.extend(this.options, {
 					slider: css.slider
@@ -321,7 +322,8 @@ var GUI = function(require) {
 			pause: "mtvn-controls-pause"
 		};
 		return Backbone.View.extend({
-			initialize: function() {
+			initialize: function(options) {
+				this.options = options;
 				this.$el.addClass(this.options.paused ? css.play : css.pause);
 			},
 			events: {
@@ -406,7 +408,8 @@ var GUI = function(require) {
 			 * The width of the slider, cached as to not call offsetWidth repeatedly
 			 */
 			sliderWidth: 0,
-			initialize: function() {
+			initialize: function(options) {
+				this.options = options;
 				_.extend(this, Util.isTouchDevice ? touchMixin : mouseMixin);
 				this.platformInitialize();
 				this.render();
@@ -606,7 +609,8 @@ var GUI = function(require) {
 			events: {
 				"click": "toggle"
 			},
-			initialize: function() {
+			initialize: function(options) {
+				this.options = options;
 				this.setVolume(isNaN(this.options.volume) ? 1 : this.options.volume);
 			},
 			setVolume: function(volume) {
@@ -632,6 +636,6 @@ var GUI = function(require) {
 		Controls: Controls,
 		Events: Events,
 		version: "0.6.0",
-		build: "12/02/2013 05:44:38 PM"
+		build: "01/09/2014 12:57:59 PM"
 	};
 }(MTVNPlayer.require);
