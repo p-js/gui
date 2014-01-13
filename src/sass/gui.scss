@@ -4,9 +4,41 @@
 	width:images-sprite-width($name);
 	height:images-sprite-height($name);
 }
+
+@mixin reset(){
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-family: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+  text-decoration: none;
+  text-align: left;
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1em;
+}
+
+@mixin flexbox() {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+@mixin flex($values) {
+  -webkit-box-flex: $values;
+  -moz-box-flex:  $values;
+  -webkit-flex:  $values;
+  -ms-flex:  $values;
+  flex:  $values;
+}
+
 .mtvn-controls {
 	width:100%;
-	display:-webkit-box;
+	@include flexbox();
 	background-color:rgba(33, 33, 33, 0.8);
 	height:50px;
 	-webkit-user-select:none;
@@ -43,7 +75,7 @@
 }
 
 .mtvn-controls-slider {
-	-webkit-box-flex:1;
+	@include flex(1);
 	margin-top: 2px;
 	margin-right: 10px;
 	margin-left:10px;
@@ -141,33 +173,11 @@
   color:white;
   position:relative;
   width:100%;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  outline: 0;
-  font-family: inherit;
-  font-size: 100%;
-  vertical-align: baseline;
-  text-decoration: none;
-  text-align: left;
-  font-weight: normal;
-  font-style: normal;
-  line-height: 1em;
+  
 }
 
 .mtvn-ad-gui * {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    outline: 0;
-    font-family: inherit;
-    font-size: 100%;
-    vertical-align: baseline;
-    text-decoration: none;
-    text-align: left;
-    font-weight: normal;
-    font-style: normal;
-    line-height: 1em;
+    @include reset()
 }
 
 .mtvn-ad-gui-container {
@@ -190,4 +200,51 @@
   border-radius: 5px;
   cursor: pointer;
   padding:3px;
+}
+
+.mtvn-tp{
+  background: rgba(33, 33, 33, 0.8);
+  color:white;
+  position:relative;
+  width:100%;
+  @include reset()
+}
+.mtvn-tp-container {
+	padding: 8px 10px;
+	@include flexbox();
+}
+.mtvn-tp-share {
+	display:inline-block;
+}
+.mtvn-tp-share-item {
+	display:inline-block;
+}
+.mtvn-tp-metadata{
+	@include flex(1);
+	height:23px;
+	line-height:23px;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #FFFFFF;
+	font-size: 20px;
+	font-weight: bold;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.mtvn-tp-share-divider {
+	display: inline-block;
+	margin-left: 10px;
+	margin-right: 10px;
+	background-color: rgb(50, 50, 50);
+	width: 1px;
+	height: 23px;
+}
+.mtvn-tp-facebook {
+	@include image-with-dims(facebook);
+}
+.mtvn-tp-twitter {
+	@include image-with-dims(twitter);
+}
+.mtvn-tp-email {
+	@include image-with-dims(email);
 }
