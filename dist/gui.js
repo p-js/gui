@@ -154,8 +154,8 @@ var GUI = function(require) {
           buffer += "<div class=\"mtvn-tp-container\">\n	<span class=\"mtvn-tp-metadata\">";
           if (stack1 = helpers.metadata) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
           else { stack1 = depth0.metadata; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-          buffer += escapeExpression(stack1)
-            + "</span>\n	<div class=\"mtvn-tp-share\">\n	";
+          if(stack1 || stack1 === 0) { buffer += stack1; }
+          buffer += "</span>\n	<div class=\"mtvn-tp-share\">\n	";
           options = {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data};
           if (stack1 = helpers.share) { stack1 = stack1.call(depth0, options); }
           else { stack1 = depth0.share; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
@@ -219,8 +219,11 @@ var GUI = function(require) {
             "click .mtvn-tp-share": "onShare"
         },
         initialize: function(options) {
-            this.options = TopPanelModel.validate(options);
+            this.options = TopPanelModel.validate(options || {});
             this.render();
+        },
+        setMetadata: function(html) {
+            this.$(".mtvn-tp-metadata").html(html);
         },
         render: function() {
             this.$el.html($(this.template(this.options)));
@@ -702,6 +705,6 @@ var GUI = function(require) {
         TopPanel: TopPanel,
         Events: Events,
         version: "0.6.0",
-        build: "01/13/2014 01:36:03 PM"
+        build: "01/14/2014 10:06:10 AM"
     };
 }(MTVNPlayer.require);

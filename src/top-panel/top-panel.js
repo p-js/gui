@@ -8,8 +8,11 @@ var TopPanel = Backbone.View.extend({
         "click .mtvn-tp-share": "onShare"
     },
     initialize: function(options) {
-        this.options = TopPanelModel.validate(options);
+        this.options = TopPanelModel.validate(options || {});
         this.render();
+    },
+    setMetadata: function(html) {
+        this.$(".mtvn-tp-metadata").html(html);
     },
     render: function() {
         this.$el.html($(this.template(this.options)));
