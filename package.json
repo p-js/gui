@@ -1,6 +1,6 @@
 {
     "name": "gui",
-    "version": "0.6.0",
+    "version": "0.7.0",
     "author": "gianni ferullo <giannif@gmail.com>",
     "private": true,
     "description": "GUI",
