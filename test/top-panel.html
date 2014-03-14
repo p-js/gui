@@ -6,12 +6,8 @@
 	<link rel="stylesheet" type="text/css" href="../dist/gui.css">
 	<script	src="../components/zepto/zepto.js"></script>
 	<script	src="../components/underscore/underscore.js"></script>
-	<script	src="../components/mtvn-package-manager/dist/mtvn-package-manager.js"></script>
-	<script>
-		MTVNPlayer.provide("_",_);
-		MTVNPlayer.provide("$",$);
-	</script>
-	<script	src="../components/mtvn-util/dist/mtvn-util.js"></script>
+	<script	src="../components/backbone/backbone.js"></script>
+	<script	src="../components/handlebars/handlebars.runtime.js"></script>
 	<script	src="../dist/gui.js"></script>
 </head>
 <body>
@@ -21,24 +17,6 @@
 	<p>
 		<div id="top-panel2" style="width:640px;height:80px;background:black;"></div>
 	</p>
-	<script>
-		var TopPanel = GUI.TopPanel;
-		var tp = new TopPanel({
-			metadata: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.",
-			share: ["facebook", "twitter", "email"]
-		});
-		tp.on(TopPanel.Events.SHARE, function(id) {
-			console.log("top panel 1 share", id);
-		});
-		$("#top-panel").append(tp.$el);
-		var tp = new TopPanel({
-			metadata: "Lorem ipsum dolor sit amet.",
-			share: ["facebook", "twitter", "email", "made up value"]
-		});
-		tp.on(TopPanel.Events.SHARE, function(id) {
-			console.log("top panel 2 share", id);
-		});
-		$("#top-panel2").append(tp.$el);
-	</script>
+	<script src="js/top-panel.js"></script>
 </body>
 </html>

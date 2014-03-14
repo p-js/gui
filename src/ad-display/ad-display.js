@@ -1,4 +1,4 @@
-/* global _, $, Templates */
+/* global _, $, Templates*/
 var DEFAULT_TEMPLATE = Templates["src/ad-display/template.html"],
 	DEFAULT_COPY = {
 		countdownText: "Your content will resume in {{time}}.",

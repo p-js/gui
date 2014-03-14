@@ -1,6 +1,6 @@
 /* exported Controls */
 /* global _, Backbone, $, Events, Slider, PlayPauseButton, VolumeButton, ClosedCaptionButton, Templates*/
-var Controls = function() {
+var Controls = (function() {
 	var CONTROLS_TEMPLATE = Templates["src/controls/template.html"],
 		css = {
 			slider: "mtvn-controls-slider",
@@ -81,4 +81,4 @@ var Controls = function() {
 			});
 		}
 	});
-}();
+})();

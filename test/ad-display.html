@@ -4,14 +4,10 @@
 	<title>GUI Test</title>
 	<meta charset="utf-8"/>
 	<link rel="stylesheet" type="text/css" href="../dist/gui.css">
-	<script	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script	src="../components/zepto/zepto.js"></script>
 	<script	src="../components/underscore/underscore.js"></script>
-	<script	src="../components/mtvn-package-manager/dist/mtvn-package-manager.js"></script>
-	<script>
-		MTVNPlayer.provide("_",_);
-		MTVNPlayer.provide("$",$);
-	</script>
-	<script	src="../components/util/dist/mtvn-util.js"></script>
+	<script	src="../components/backbone/backbone.js"></script>
+	<script	src="../components/handlebars/handlebars.runtime.js"></script>
 	<script	src="../dist/gui.js"></script>
 </head>
 <body>
@@ -20,27 +16,6 @@
 	<div id="ad-gui-3" style="width:640px;height:80px;"></div>
 	<div id="ad-gui-4" style="width:640px;height:80px;"></div>
 	<div id="ad-gui-5" style="width:640px;height:80px;"></div>
-	<script>
-		var AdDisplay = GUI.AdDisplay;
-		$("#ad-gui").append((new AdDisplay()).$el);
-		$("#ad-gui-2").append((new AdDisplay({
-			time: 30
-		})).$el);
-		$("#ad-gui-3").append((new AdDisplay({
-			time: 30,
-			buttonLink:"http://google.com"
-		})).$el);
-		$("#ad-gui-4").append((new AdDisplay({
-			time: 30,
-			isAdClickable: true,
-			countdownText:"Other message about ad resuming in {{time}}",
-			buttonText: "Aprende mas",
-			buttonLink:"http://google.com"
-		})).$el);
-		$("#ad-gui-5").append((new AdDisplay({
-			buttonLink:"http://google.com",
-			messageText:"Other message about ad with no time."
-		})).$el);
-	</script>
+	<script	src="js/ad-display.js"></script>
 </body>
 </html>
