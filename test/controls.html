@@ -10,12 +10,14 @@
 	<script	src="../components/handlebars/handlebars.runtime.js"></script>
 	<script	src="../components/mtvn-package-manager/dist/mtvn-package-manager.js"></script>
 	<script>
+		/* global MTVNPlayer, _, $, Backbone, Handlebars */
 		MTVNPlayer.provide("_",_);
 		MTVNPlayer.provide("$",$);
 		MTVNPlayer.provide("Backbone",Backbone);
 		MTVNPlayer.provide("Handlebars",Handlebars);
-		delete Backbone;
-		delete Handlebars;
+		// Making sure that the GUI package accesses variables when scoped in MTVNPlayer.
+		delete window.Backbone;
+		delete window.Handlebars;
 	</script>
 </head>
 <body>

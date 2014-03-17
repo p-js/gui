@@ -1,4 +1,5 @@
-/* global MTVNPlayer, $*/
+/* global MTVNPlayer, $, _*/
+/* jshint devel:true */
 MTVNPlayer.loadPackages({
 	"GUI": {
 		url: "/dist/pjs-gui.js",
@@ -44,7 +45,7 @@ MTVNPlayer.loadPackages({
 		console.log("on seek", event);
 		buffer = 0;
 	});
-	controls.on(Events.CC, function(event) {
+	controls.on(Events.CC, function() {
 		console.log("toggle CC");
 	});
 	_.delay(function() {
