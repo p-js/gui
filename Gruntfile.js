@@ -97,13 +97,21 @@ module.exports = function(grunt) {
 			all: {
 				src: "src/<%=pkg.name%>.css",
 				dest: "dist/<%=pkg.name%>.css"
+			},
+			test: {
+				src: "test/**/*",
+				dest: "dist/"
+			},
+			components: {
+				src: "components/**/*.{js,css}",
+				dest: "dist/test/"
 			}
 		},
 		bump: {
 			files: ['package.json', 'bower.json']
 		},
 		watch: {
-			files: ['Gruntfile.js', 'src/**/*.js', 'src/**/*.html', 'src/**/*.scss', '!src/template.js'],
+			files: ['Gruntfile.js', 'src/**/*.js', 'src/**/*.html', 'src/**/*.scss', '!src/template.js', 'test/**/*'],
 			tasks: ["default"]
 		}
 	});
