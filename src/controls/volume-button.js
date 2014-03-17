@@ -1,6 +1,6 @@
 /* exported VolumeButton */
 /* global Backbone, Events*/
-var VolumeButton = function() {
+var VolumeButton = (function() {
 	var css = {
 		unmute: "mtvn-controls-unmute",
 		mute: "mtvn-controls-mute"
@@ -29,4 +29,4 @@ var VolumeButton = function() {
 			});
 		}
 	});
-}();
+})();

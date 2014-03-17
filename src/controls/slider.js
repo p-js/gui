@@ -1,30 +1,11 @@
 /* global _, $, Backbone, Events, Util*/
 /* exported Slider */
-var Slider = function() {
+var Slider = (function() {
 	var RESIZE = "slider:resize",
 		thumb = "mtvn-controls-slider-thumb",
 		thumbActive = "mtvn-controls-slider-thumb-active",
-		touchMixin = {
-			platformInitialize: function() {},
-			events: {
-				"touchstart .mtvn-controls-slider-thumb-container": "onThumbActive",
-				"touchmove .mtvn-controls-slider-thumb-container": "onThumbMove",
-				"touchend .mtvn-controls-slider-thumb-container": "onThumbInactive"
-			}
-		},
-		mouseMixin = {
-			platformInitialize: function() {
-				_.bindAll(this, "onThumbMove", "onThumbInactive");
-				var $document = $(document);
-				this.listenTo($document, "mousemove", this.onThumbMove);
-				this.listenTo($document, "mouseup", this.onThumbInactive);
-			},
-			events: {
-				"mousedown .mtvn-controls-slider-thumb-container": "onThumbActive"
-			}
-		},
 		// full ep mixin
-		segementedScrubber = function() {
+		segementedScrubber = (function() {
 			return {
 				isSegmented: true,
 				createDividers: function() {
@@ -42,8 +23,12 @@ var Slider = function() {
 					}, this);
 				}
 			};
-		}();
+		})();
 	return Backbone.View.extend({
+		/**
+		 * The thumb is visible and the slider is clickable when enabled.
+		 */
+		enabled: true,
 		/**
 		 * The thumb is being pressed
 		 */
@@ -60,40 +45,58 @@ var Slider = function() {
 		 * The width of the slider, cached as to not call offsetWidth repeatedly
 		 */
 		sliderWidth: 0,
+		events: function() {
+			return _.extend({
+					"click": "onSliderClick"
+				},
+				Util.isTouchDevice ? {
+					// TOUCH EVENTS
+					"touchstart .mtvn-controls-slider-thumb-container": "onThumbActive",
+					"touchmove .mtvn-controls-slider-thumb-container": "onThumbMove",
+					"touchend .mtvn-controls-slider-thumb-container": "onThumbInactive"
+				} : {
+					// MOUSE EVENTS
+					"mousedown .mtvn-controls-slider-thumb-container": "onThumbActive"
+				});
+		},
 		initialize: function(options) {
 			this.options = options;
-			_.extend(this, Util.isTouchDevice ? touchMixin : mouseMixin);
-			this.platformInitialize();
+			if (!Util.isTouchDevice) {
+				_.bindAll(this, "onThumbMove", "onThumbInactive", "onSliderClick");
+				var $document = $(document);
+				this.listenTo($document, "mousemove", this.onThumbMove);
+				this.listenTo($document, "mouseup", this.onThumbInactive);
+			}
 			this.render();
 			/**
 			 * Contains the thumb and the tooltop.
 			 */
-			this.$thumbContainer = this.$el.find(".mtvn-controls-slider-thumb-container");
+			this.$thumbContainer = this.$(".mtvn-controls-slider-thumb-container");
 			/**
 			 * Meets the thumb visually.
 			 */
-			this.$progress = this.$el.find(".mtvn-controls-slider-progress");
+			this.$progress = this.$(".mtvn-controls-slider-progress");
 			/**
 			 * The amount buffered.
 			 */
-			this.$buffered = this.$el.find(".mtvn-controls-slider-buffered");
+			this.$buffered = this.$(".mtvn-controls-slider-buffered");
 			/**
 			 * The time and duration.
 			 */
-			this.$timeDisplay = this.$el.find(".mtvn-controls-slider-time-display");
+			this.$timeDisplay = this.$(".mtvn-controls-slider-time-display");
 			/**
 			 * Tool tip container
 			 */
-			this.$toolTipContainer = this.$el.find(".mtvn-controls-slider-tool-tip-container");
+			this.$toolTipContainer = this.$(".mtvn-controls-slider-tool-tip-container");
 			this.$toolTipContainer.hide();
 			/**
 			 * Tool tip time
 			 */
-			this.$toolTipTime = this.$el.find(".mtvn-controls-slider-tool-tip-time");
+			this.$toolTipTime = this.$(".mtvn-controls-slider-tool-tip-time");
 			/**
 			 * Segment marker container
 			 */
-			this.$dividerContainer = this.$el.find(".mtvn-controls-slider-segment-container");
+			this.$dividerContainer = this.$(".mtvn-controls-slider-segment-container");
 			/**
 			 * Don't fire measure too often. Perhaps a forced measure can be called from the player code.
 			 */
@@ -132,7 +135,7 @@ var Slider = function() {
 			}
 		},
 		setDurations: function(durations) {
-			if(!_.isArray(durations)){
+			if (!_.isArray(durations)) {
 				return;
 			}
 			if (durations.length > 1 && !this.isSegmented) {
@@ -150,7 +153,7 @@ var Slider = function() {
 				this.moveDividers();
 				this.$dividerContainer.show();
 				this.on(RESIZE, _.bind(this.moveDividers, this));
-			}else{
+			} else {
 				this.$dividerContainer.hide();
 			}
 			this.updateTime();
@@ -175,9 +178,19 @@ var Slider = function() {
 			}
 			this.enabled = enabled;
 		},
+		onSliderClick: function(event) {
+			if (!this.enabled) {
+				return;
+			}
+			var moveTo = event.x;
+			if (!this.containerOffset) {
+				this.containerOffset = this.$el.offset().left;
+			}
+			this.moveThumb(moveTo - this.containerOffset);
+		},
 		onThumbActive: function(event) {
 			event.preventDefault();
-			var $el = this.$el.find("." + thumb);
+			var $el = this.$("." + thumb);
 			$el.removeClass(thumb);
 			$el.addClass(thumbActive);
 			this.dragging = true;
@@ -201,7 +214,7 @@ var Slider = function() {
 		onThumbInactive: function(event) {
 			if (this.dragging) {
 				event.preventDefault();
-				var $el = this.$el.find("." + thumbActive);
+				var $el = this.$("." + thumbActive);
 				$el.removeClass(thumbActive);
 				$el.addClass(thumb);
 				this.dragging = false;
@@ -249,4 +262,4 @@ var Slider = function() {
 			});
 		}
 	});
-}();
+})();

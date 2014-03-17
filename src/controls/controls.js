@@ -27,14 +27,14 @@ var Controls = (function() {
 			this.$el.html($(CONTROLS_TEMPLATE(options)));
 			// PLAY PAUSE
 			this.playPauseButton = new PlayPauseButton({
-				el: this.$el.find("." + css.playPause),
+				el: this.$("." + css.playPause),
 				paused: options.paused
 			});
 			this.listenTo(this.playPauseButton, Events.PLAY, this.sendEvent);
 			this.listenTo(this.playPauseButton, Events.PAUSE, this.sendEvent);
 			// SLIDER
 			this.slider = new Slider({
-				el: this.$el.find("." + css.slider),
+				el: this.$("." + css.slider),
 				playhead: options.playhead,
 				durations: options.durations
 			});
@@ -42,14 +42,14 @@ var Controls = (function() {
 			// VOLUME
 			this.volumeButton = new VolumeButton({
 				volume: options.volume,
-				el: this.$el.find("." + css.volume)
+				el: this.$("." + css.volume)
 			});
 			this.listenTo(this.volumeButton, Events.MUTE, this.sendEvent);
 			this.listenTo(this.volumeButton, Events.UNMUTE, this.sendEvent);
 			// CC
 			this.closedCaptionButton = new ClosedCaptionButton({
 				ccEnabled: options.ccEnabled,
-				el: this.$el.find("." + css.cc)
+				el: this.$("." + css.cc)
 			});
 			this.listenTo(this.closedCaptionButton, Events.CC, this.sendEvent);
 		},

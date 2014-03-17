@@ -5,7 +5,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	/* global _, $, Handlebars, Backbone*/
 	var GUI = {
 		version: "0.7.0",
-		build: "Mon Mar 17 2014 11:08:43"
+		build: "Mon Mar 17 2014 11:58:17"
 	};
 	// Handlebars is provided in the mtvn-util package.
 	// GUI is loaded in to the page separately, so we have to go 
@@ -318,14 +318,14 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				this.$el.html($(CONTROLS_TEMPLATE(options)));
 				// PLAY PAUSE
 				this.playPauseButton = new PlayPauseButton({
-					el: this.$el.find("." + css.playPause),
+					el: this.$("." + css.playPause),
 					paused: options.paused
 				});
 				this.listenTo(this.playPauseButton, Events.PLAY, this.sendEvent);
 				this.listenTo(this.playPauseButton, Events.PAUSE, this.sendEvent);
 				// SLIDER
 				this.slider = new Slider({
-					el: this.$el.find("." + css.slider),
+					el: this.$("." + css.slider),
 					playhead: options.playhead,
 					durations: options.durations
 				});
@@ -333,14 +333,14 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				// VOLUME
 				this.volumeButton = new VolumeButton({
 					volume: options.volume,
-					el: this.$el.find("." + css.volume)
+					el: this.$("." + css.volume)
 				});
 				this.listenTo(this.volumeButton, Events.MUTE, this.sendEvent);
 				this.listenTo(this.volumeButton, Events.UNMUTE, this.sendEvent);
 				// CC
 				this.closedCaptionButton = new ClosedCaptionButton({
 					ccEnabled: options.ccEnabled,
-					el: this.$el.find("." + css.cc)
+					el: this.$("." + css.cc)
 				});
 				this.listenTo(this.closedCaptionButton, Events.CC, this.sendEvent);
 			},
@@ -384,6 +384,38 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 		UNMUTE: "UNMUTE",
 		SEEK: "SEEK"
 	};
+	/* exported VolumeButton */
+	/* global Backbone, Events*/
+	var VolumeButton = (function() {
+		var css = {
+			unmute: "mtvn-controls-unmute",
+			mute: "mtvn-controls-mute"
+		};
+		return Backbone.View.extend({
+			events: {
+				"click": "toggle"
+			},
+			initialize: function(options) {
+				this.options = options;
+				this.setVolume(isNaN(this.options.volume) ? 1 : this.options.volume);
+			},
+			setVolume: function(volume) {
+				var showMute = volume > 0;
+				this.$el.toggleClass(css.mute, showMute);
+				this.$el.toggleClass(css.unmute, !showMute);
+			},
+			toggle: function() {
+				var $el = this.$el,
+					showMute = $el.hasClass(css.unmute),
+					eventName = showMute ? Events.UNMUTE : Events.MUTE;
+				$el.toggleClass(css.mute, showMute);
+				$el.toggleClass(css.unmute, !showMute);
+				this.trigger(eventName, {
+					type: eventName
+				});
+			}
+		});
+	})();
 	/* exported PlayPauseButton */
 	/* global Backbone, Events*/
 	var PlayPauseButton = function() {
@@ -418,31 +450,12 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	}();
 	/* global _, $, Backbone, Events, Util*/
 	/* exported Slider */
-	var Slider = function() {
+	var Slider = (function() {
 		var RESIZE = "slider:resize",
 			thumb = "mtvn-controls-slider-thumb",
 			thumbActive = "mtvn-controls-slider-thumb-active",
-			touchMixin = {
-				platformInitialize: function() {},
-				events: {
-					"touchstart .mtvn-controls-slider-thumb-container": "onThumbActive",
-					"touchmove .mtvn-controls-slider-thumb-container": "onThumbMove",
-					"touchend .mtvn-controls-slider-thumb-container": "onThumbInactive"
-				}
-			},
-			mouseMixin = {
-				platformInitialize: function() {
-					_.bindAll(this, "onThumbMove", "onThumbInactive");
-					var $document = $(document);
-					this.listenTo($document, "mousemove", this.onThumbMove);
-					this.listenTo($document, "mouseup", this.onThumbInactive);
-				},
-				events: {
-					"mousedown .mtvn-controls-slider-thumb-container": "onThumbActive"
-				}
-			},
 			// full ep mixin
-			segementedScrubber = function() {
+			segementedScrubber = (function() {
 				return {
 					isSegmented: true,
 					createDividers: function() {
@@ -460,8 +473,12 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 						}, this);
 					}
 				};
-			}();
+			})();
 		return Backbone.View.extend({
+			/**
+			 * The thumb is visible and the slider is clickable when enabled.
+			 */
+			enabled: true,
 			/**
 			 * The thumb is being pressed
 			 */
@@ -478,40 +495,58 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			 * The width of the slider, cached as to not call offsetWidth repeatedly
 			 */
 			sliderWidth: 0,
+			events: function() {
+				return _.extend({
+						"click": "onSliderClick"
+					},
+					Util.isTouchDevice ? {
+						// TOUCH EVENTS
+						"touchstart .mtvn-controls-slider-thumb-container": "onThumbActive",
+						"touchmove .mtvn-controls-slider-thumb-container": "onThumbMove",
+						"touchend .mtvn-controls-slider-thumb-container": "onThumbInactive"
+					} : {
+						// MOUSE EVENTS
+						"mousedown .mtvn-controls-slider-thumb-container": "onThumbActive"
+					});
+			},
 			initialize: function(options) {
 				this.options = options;
-				_.extend(this, Util.isTouchDevice ? touchMixin : mouseMixin);
-				this.platformInitialize();
+				if (!Util.isTouchDevice) {
+					_.bindAll(this, "onThumbMove", "onThumbInactive", "onSliderClick");
+					var $document = $(document);
+					this.listenTo($document, "mousemove", this.onThumbMove);
+					this.listenTo($document, "mouseup", this.onThumbInactive);
+				}
 				this.render();
 				/**
 				 * Contains the thumb and the tooltop.
 				 */
-				this.$thumbContainer = this.$el.find(".mtvn-controls-slider-thumb-container");
+				this.$thumbContainer = this.$(".mtvn-controls-slider-thumb-container");
 				/**
 				 * Meets the thumb visually.
 				 */
-				this.$progress = this.$el.find(".mtvn-controls-slider-progress");
+				this.$progress = this.$(".mtvn-controls-slider-progress");
 				/**
 				 * The amount buffered.
 				 */
-				this.$buffered = this.$el.find(".mtvn-controls-slider-buffered");
+				this.$buffered = this.$(".mtvn-controls-slider-buffered");
 				/**
 				 * The time and duration.
 				 */
-				this.$timeDisplay = this.$el.find(".mtvn-controls-slider-time-display");
+				this.$timeDisplay = this.$(".mtvn-controls-slider-time-display");
 				/**
 				 * Tool tip container
 				 */
-				this.$toolTipContainer = this.$el.find(".mtvn-controls-slider-tool-tip-container");
+				this.$toolTipContainer = this.$(".mtvn-controls-slider-tool-tip-container");
 				this.$toolTipContainer.hide();
 				/**
 				 * Tool tip time
 				 */
-				this.$toolTipTime = this.$el.find(".mtvn-controls-slider-tool-tip-time");
+				this.$toolTipTime = this.$(".mtvn-controls-slider-tool-tip-time");
 				/**
 				 * Segment marker container
 				 */
-				this.$dividerContainer = this.$el.find(".mtvn-controls-slider-segment-container");
+				this.$dividerContainer = this.$(".mtvn-controls-slider-segment-container");
 				/**
 				 * Don't fire measure too often. Perhaps a forced measure can be called from the player code.
 				 */
@@ -550,7 +585,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				}
 			},
 			setDurations: function(durations) {
-				if(!_.isArray(durations)){
+				if (!_.isArray(durations)) {
 					return;
 				}
 				if (durations.length > 1 && !this.isSegmented) {
@@ -568,7 +603,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 					this.moveDividers();
 					this.$dividerContainer.show();
 					this.on(RESIZE, _.bind(this.moveDividers, this));
-				}else{
+				} else {
 					this.$dividerContainer.hide();
 				}
 				this.updateTime();
@@ -593,9 +628,19 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				}
 				this.enabled = enabled;
 			},
+			onSliderClick: function(event) {
+				if (!this.enabled) {
+					return;
+				}
+				var moveTo = event.x;
+				if (!this.containerOffset) {
+					this.containerOffset = this.$el.offset().left;
+				}
+				this.moveThumb(moveTo - this.containerOffset);
+			},
 			onThumbActive: function(event) {
 				event.preventDefault();
-				var $el = this.$el.find("." + thumb);
+				var $el = this.$("." + thumb);
 				$el.removeClass(thumb);
 				$el.addClass(thumbActive);
 				this.dragging = true;
@@ -619,7 +664,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			onThumbInactive: function(event) {
 				if (this.dragging) {
 					event.preventDefault();
-					var $el = this.$el.find("." + thumbActive);
+					var $el = this.$("." + thumbActive);
 					$el.removeClass(thumbActive);
 					$el.addClass(thumb);
 					this.dragging = false;
@@ -667,10 +712,10 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				});
 			}
 		});
-	}();
+	})();
 	/* exported VolumeButton */
 	/* global Backbone, Events*/
-	var VolumeButton = function() {
+	var VolumeButton = (function() {
 		var css = {
 			unmute: "mtvn-controls-unmute",
 			mute: "mtvn-controls-mute"
@@ -699,7 +744,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				});
 			}
 		});
-	}();
+	})();
 	/* global AdDisplay, Controls, Events, TopPanel */
 	GUI.AdDisplay = AdDisplay;
 	GUI.Controls = Controls;
