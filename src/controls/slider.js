@@ -62,7 +62,8 @@ var Slider = (function() {
 		initialize: function(options) {
 			this.options = options;
 			if (!Util.isTouchDevice) {
-				_.bindAll(this, "onThumbMove", "onThumbInactive", "onSliderClick");
+				// handlers in events don't need to be bound.
+				_.bindAll(this, "onThumbMove", "onThumbInactive");
 				var $document = $(document);
 				this.listenTo($document, "mousemove", this.onThumbMove);
 				this.listenTo($document, "mouseup", this.onThumbInactive);

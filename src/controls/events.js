@@ -5,7 +5,7 @@ var Events = {
 	FULLSCREEN: "FULLSCREEN",
 	CC: "CC",
 	MUTE: "MUTE",
-	VOLUME: "VOLUME", // not implemented
+	VOLUME: "VOLUME",
 	UNMUTE: "UNMUTE",
 	SEEK: "SEEK"
 };

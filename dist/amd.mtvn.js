@@ -17,7 +17,7 @@
 	/* global _, $, Handlebars, Backbone*/
 	var GUI = {
 		version: "0.7.0",
-		build: "Mon Mar 17 2014 11:58:17"
+		build: "Wed Mar 19 2014 11:32:14"
 	};
 	// Handlebars is provided in the mtvn-util package.
 	// GUI is loaded in to the page separately, so we have to go 
@@ -85,7 +85,7 @@
 		function program7(depth0,data) {
 		  
 		  
-		  return "\n<div class=\"mtvn-controls-volume mtvn-controls-button\"></div>\n";
+		  return "\n<div class=\"mtvn-controls-volume mtvn-controls-button\">\n	<div class=\"mtvn-controls-volume-slider-container-outer\">\n		<div class=\"mtvn-controls-volume-slider-container\">\n			<div class=\"mtvn-controls-volume-slider\">\n				<div class=\"mtvn-controls-volume-slider-foreground\"></div>\n			</div>\n		</div>\n	</div>\n</div>\n";
 		  }
 		
 		  buffer += "<!-- controls -->\n";
@@ -347,6 +347,7 @@
 					volume: options.volume,
 					el: this.$("." + css.volume)
 				});
+				this.listenTo(this.volumeButton, Events.VOLUME, this.sendEvent);
 				this.listenTo(this.volumeButton, Events.MUTE, this.sendEvent);
 				this.listenTo(this.volumeButton, Events.UNMUTE, this.sendEvent);
 				// CC
@@ -392,7 +393,7 @@
 		FULLSCREEN: "FULLSCREEN",
 		CC: "CC",
 		MUTE: "MUTE",
-		VOLUME: "VOLUME", // not implemented
+		VOLUME: "VOLUME",
 		UNMUTE: "UNMUTE",
 		SEEK: "SEEK"
 	};
@@ -524,7 +525,8 @@
 			initialize: function(options) {
 				this.options = options;
 				if (!Util.isTouchDevice) {
-					_.bindAll(this, "onThumbMove", "onThumbInactive", "onSliderClick");
+					// handlers in events don't need to be bound.
+					_.bindAll(this, "onThumbMove", "onThumbInactive");
 					var $document = $(document);
 					this.listenTo($document, "mousemove", this.onThumbMove);
 					this.listenTo($document, "mouseup", this.onThumbInactive);
@@ -726,34 +728,144 @@
 		});
 	})();
 	/* exported VolumeButton */
-	/* global Backbone, Events*/
+	/* global Backbone, Events, Util, _, $*/
 	var VolumeButton = (function() {
 		var css = {
 			unmute: "mtvn-controls-unmute",
-			mute: "mtvn-controls-mute"
-		};
+			mute: "mtvn-controls-mute",
+			showSlider: "mtvn-controls-volume-slider-container-over",
+			slider: "mtvn-controls-volume-slider",
+			thumb: "mtvn-controls-volume-slider-foreground"
+		}, isButton = function(event) {
+				var $target = $(event.target);
+				return $target.hasClass(css.mute) || $target.hasClass(css.unmute);
+			};
 		return Backbone.View.extend({
-			events: {
+			defaultEvents: {
 				"click": "toggle"
 			},
-			initialize: function(options) {
-				this.options = options;
-				this.setVolume(isNaN(this.options.volume) ? 1 : this.options.volume);
+			mouseEvents: {
+				"click .mtvn-controls-volume-slider": "onSliderClick",
+				"mouseover": "onMouseOver",
+				"mouseleave": "onMouseOut",
+				"mousedown .mtvn-controls-volume-slider-foreground": "onThumbActive"
 			},
-			setVolume: function(volume) {
+			events: function() {
+				if (!Util.isTouchDevice) {
+					return _.extend(this.defaultEvents, this.mouseEvents);
+				}
+				return this.defaultEvents;
+			},
+			initialize: function(options) {
+				_.bindAll(this, "updateView");
+				if (!Util.isTouchDevice) {
+					_.bindAll(this, "onThumbMove", "onThumbInactive", "toggleSlider");
+					var $document = $(document);
+					this.listenTo($document, "mousemove", this.onThumbMove);
+					this.listenTo($document, "mouseup", this.onThumbInactive);
+					this.$slider = this.$("." + css.slider);
+					this.$container = $(this.$slider.parent());
+					this.$thumb = this.$("." + css.thumb);
+				}
+				this.setVolume(isNaN(options.volume) ? 0.7 : options.volume);
+				_.delay(this.updateView);
+			},
+			onThumbActive: function(event) {
+				event.preventDefault();
+				this.dragging = true;
+			},
+			onMouseOut: function() {
+				this.isMouseOver = false;
+				_.delay(this.toggleSlider, 1000);
+			},
+			onMouseOver: function() {
+				this.isMouseOver = true;
+				this.toggleSlider();
+			},
+			toggleSlider: function() {
+				this.$container.toggleClass(css.showSlider, this.isMouseOver);
+			},
+			onSliderClick: function(event) {
+				this.setVolume(this.calculatePercentageFromTop(event.y - this.getContainerOffset()));
+			},
+			updateView: function(volume) {
+				if (_.isUndefined(volume)) {
+					volume = this.currentVolume;
+				}
+				if (this.$thumb) {
+					this.$thumb.css({
+						top: this.calculateSliderValueFromPercentage(volume)
+					});
+				}
 				var showMute = volume > 0;
 				this.$el.toggleClass(css.mute, showMute);
 				this.$el.toggleClass(css.unmute, !showMute);
 			},
-			toggle: function() {
-				var $el = this.$el,
-					showMute = $el.hasClass(css.unmute),
-					eventName = showMute ? Events.UNMUTE : Events.MUTE;
-				$el.toggleClass(css.mute, showMute);
-				$el.toggleClass(css.unmute, !showMute);
-				this.trigger(eventName, {
-					type: eventName
-				});
+			onThumbMove: function(event) {
+				if (this.dragging) {
+					event.preventDefault();
+					var moveTo = Util.getClientY(event);
+					this.setVolume(this.calculatePercentageFromTop(moveTo - this.getContainerOffset()));
+				}
+			},
+			onThumbInactive: function(event) {
+				if (this.dragging) {
+					event.preventDefault();
+					this.dragging = false;
+				}
+			},
+			calculatePercentageFromTop: function(moveTo) {
+				var top = Math.max(0, moveTo),
+					volumeHeight = this.getVolumeHeight();
+				top = Math.min(top, volumeHeight);
+				return 1 - top / volumeHeight;
+			},
+			calculateSliderValueFromPercentage: function(percentage) {
+				return (1 - percentage) * this.getVolumeHeight();
+			},
+			getContainerOffset: function() {
+				if (!this.containerOffset) {
+					this.containerOffset = this.$slider.offset().top;
+				}
+				return this.containerOffset;
+			},
+			getVolumeHeight: function() {
+				if (!this.volumeHeight) {
+					this.volumeHeight = this.$slider.offset().height - this.$thumb.offset().height;
+				}
+				return this.volumeHeight;
+			},
+			setVolume: function(volume) {
+				if (isNaN(volume)) {
+					return;
+				}
+				volume = Math.round(volume * 100) / 100;
+				if (this.currentVolume !== volume) {
+					this.currentVolume = volume;
+					this.trigger(Events.VOLUME, {
+						type: Events.VOLUME,
+						data: this.currentVolume,
+						target: this
+					});
+					this.updateView();
+				}
+			},
+			toggle: function(event) {
+				if (isButton(event)) {
+					var $el = this.$el,
+						showMute = $el.hasClass(css.unmute),
+						eventName = showMute ? Events.UNMUTE : Events.MUTE,
+						newVol = showMute ? this.currentVolume : 0;
+					this.updateView(newVol);
+					this.trigger(Events.VOLUME, {
+						type: Events.VOLUME,
+						data: newVol,
+						target: this
+					});
+					this.trigger(eventName, {
+						type: eventName
+					});
+				}
 			}
 		});
 	})();

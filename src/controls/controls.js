@@ -44,6 +44,7 @@ var Controls = (function() {
 				volume: options.volume,
 				el: this.$("." + css.volume)
 			});
+			this.listenTo(this.volumeButton, Events.VOLUME, this.sendEvent);
 			this.listenTo(this.volumeButton, Events.MUTE, this.sendEvent);
 			this.listenTo(this.volumeButton, Events.UNMUTE, this.sendEvent);
 			// CC
