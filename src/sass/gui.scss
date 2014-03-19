@@ -56,7 +56,13 @@
 	background-color:rgba(33, 33, 33, 0.8);
 	height:50px;
 	-webkit-user-select:none;
-	-webkit-transform:translate3d(0,0,0);
+	@include transition(all .2s ease-in);
+	@include transform(translateY(0));
+	@include transform(translate3d(0,0,0));
+}
+
+.mtvn-controls-hidden {
+	@include transform(translateY(50px));
 }
 
 .mtvn-controls-button{

@@ -51,6 +51,12 @@ MTVNPlayer.loadPackages({
 	_.delay(function() {
 		controls.setDurations([1000]);
 	}, 1200);
+	$("#hide").click(function() {
+		controls.hide();
+	});
+	$("#show").click(function() {
+		controls.show();
+	});
 	$("#killbuffer").click(function() {
 		clearInterval(bufferInterval);
 	});

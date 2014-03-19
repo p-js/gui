@@ -17,7 +17,7 @@
 	/* global _, $, Handlebars, Backbone*/
 	var GUI = {
 		version: "0.7.0",
-		build: "Wed Mar 19 2014 17:08:44"
+		build: "Wed Mar 19 2014 18:36:33"
 	};
 	// Handlebars is provided in the mtvn-util package.
 	// GUI is loaded in to the page separately, so we have to go 
@@ -297,6 +297,7 @@
 	var Controls = (function() {
 		var CONTROLS_TEMPLATE = Templates["src/controls/template.html"],
 			css = {
+				hide: "mtvn-controls-hidden",
 				slider: "mtvn-controls-slider",
 				playPause: "mtvn-controls-play-pause",
 				volume: "mtvn-controls-volume",
@@ -350,6 +351,12 @@
 					el: this.$("." + css.cc)
 				});
 				this.listenTo(this.closedCaptionButton, Events.CC, this.sendEvent);
+			},
+			hide: function() {
+				this.$el.addClass(css.hide);
+			},
+			show: function() {
+				this.$el.removeClass(css.hide);
 			},
 			setVolume: function(volume) {
 				if (!this.volumeButton) {

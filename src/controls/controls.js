@@ -3,6 +3,7 @@
 var Controls = (function() {
 	var CONTROLS_TEMPLATE = Templates["src/controls/template.html"],
 		css = {
+			hide: "mtvn-controls-hidden",
 			slider: "mtvn-controls-slider",
 			playPause: "mtvn-controls-play-pause",
 			volume: "mtvn-controls-volume",
@@ -56,6 +57,12 @@ var Controls = (function() {
 				el: this.$("." + css.cc)
 			});
 			this.listenTo(this.closedCaptionButton, Events.CC, this.sendEvent);
+		},
+		hide: function() {
+			this.$el.addClass(css.hide);
+		},
+		show: function() {
+			this.$el.removeClass(css.hide);
 		},
 		setVolume: function(volume) {
 			if (!this.volumeButton) {

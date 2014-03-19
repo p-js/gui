@@ -45,6 +45,12 @@ controls.on(Events.CC, function() {
 _.delay(function() {
 	controls.setDurations([60, 90, 60, 30]);
 }, 3200);
+$("#hide").click(function() {
+	controls.hide();
+});
+$("#show").click(function() {
+	controls.show();
+});
 $("#killbuffer").click(function() {
 	clearInterval(bufferInterval);
 });
