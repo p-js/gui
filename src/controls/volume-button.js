@@ -39,7 +39,7 @@ var VolumeButton = (function() {
 				this.$thumb = this.$("." + css.thumb);
 			}
 			this.setVolume(isNaN(options.volume) ? 0.7 : options.volume);
-			_.delay(this.updateView);
+			_.delay(this.updateView, 100);
 		},
 		onThumbActive: function(event) {
 			event.preventDefault();
@@ -67,6 +67,9 @@ var VolumeButton = (function() {
 				this.$thumb.css({
 					top: this.calculateSliderValueFromPercentage(volume)
 				});
+				if (this.getVolumeHeight() === 0) {
+					_.delay(this.updateView, 100);
+				}
 			}
 			var showMute = volume > 0;
 			this.$el.toggleClass(css.mute, showMute);
@@ -128,11 +131,6 @@ var VolumeButton = (function() {
 					eventName = showMute ? Events.UNMUTE : Events.MUTE,
 					newVol = showMute ? this.currentVolume : 0;
 				this.updateView(newVol);
-				this.trigger(Events.VOLUME, {
-					type: Events.VOLUME,
-					data: newVol,
-					target: this
-				});
 				this.trigger(eventName, {
 					type: eventName
 				});

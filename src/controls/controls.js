@@ -40,13 +40,16 @@ var Controls = (function() {
 			});
 			this.listenTo(this.slider, Events.SEEK, this.sendEvent);
 			// VOLUME
-			this.volumeButton = new VolumeButton({
-				volume: options.volume,
-				el: this.$("." + css.volume)
-			});
-			this.listenTo(this.volumeButton, Events.VOLUME, this.sendEvent);
-			this.listenTo(this.volumeButton, Events.MUTE, this.sendEvent);
-			this.listenTo(this.volumeButton, Events.UNMUTE, this.sendEvent);
+			if (options.showVolume) {
+				this.volumeButton = new VolumeButton({
+					volume: options.volume,
+					el: this.$("." + css.volume)
+				});
+				this.listenTo(this.volumeButton, Events.VOLUME, this.sendEvent);
+				this.listenTo(this.volumeButton, Events.MUTE, this.sendEvent);
+				this.listenTo(this.volumeButton, Events.UNMUTE, this.sendEvent);
+			}
+
 			// CC
 			this.closedCaptionButton = new ClosedCaptionButton({
 				ccEnabled: options.ccEnabled,
@@ -55,6 +58,9 @@ var Controls = (function() {
 			this.listenTo(this.closedCaptionButton, Events.CC, this.sendEvent);
 		},
 		setVolume: function(volume) {
+			if (!this.volumeButton) {
+				return;
+			}
 			this.volumeButton.setVolume(volume);
 		},
 		setPaused: function(paused) {

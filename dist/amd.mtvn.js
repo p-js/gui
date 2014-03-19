@@ -17,7 +17,7 @@
 	/* global _, $, Handlebars, Backbone*/
 	var GUI = {
 		version: "0.7.0",
-		build: "Wed Mar 19 2014 15:01:32"
+		build: "Wed Mar 19 2014 17:08:44"
 	};
 	// Handlebars is provided in the mtvn-util package.
 	// GUI is loaded in to the page separately, so we have to go 
@@ -334,13 +334,16 @@
 				});
 				this.listenTo(this.slider, Events.SEEK, this.sendEvent);
 				// VOLUME
-				this.volumeButton = new VolumeButton({
-					volume: options.volume,
-					el: this.$("." + css.volume)
-				});
-				this.listenTo(this.volumeButton, Events.VOLUME, this.sendEvent);
-				this.listenTo(this.volumeButton, Events.MUTE, this.sendEvent);
-				this.listenTo(this.volumeButton, Events.UNMUTE, this.sendEvent);
+				if (options.showVolume) {
+					this.volumeButton = new VolumeButton({
+						volume: options.volume,
+						el: this.$("." + css.volume)
+					});
+					this.listenTo(this.volumeButton, Events.VOLUME, this.sendEvent);
+					this.listenTo(this.volumeButton, Events.MUTE, this.sendEvent);
+					this.listenTo(this.volumeButton, Events.UNMUTE, this.sendEvent);
+				}
+	
 				// CC
 				this.closedCaptionButton = new ClosedCaptionButton({
 					ccEnabled: options.ccEnabled,
@@ -349,6 +352,9 @@
 				this.listenTo(this.closedCaptionButton, Events.CC, this.sendEvent);
 			},
 			setVolume: function(volume) {
+				if (!this.volumeButton) {
+					return;
+				}
 				this.volumeButton.setVolume(volume);
 			},
 			setPaused: function(paused) {
@@ -727,7 +733,7 @@
 					this.$thumb = this.$("." + css.thumb);
 				}
 				this.setVolume(isNaN(options.volume) ? 0.7 : options.volume);
-				_.delay(this.updateView);
+				_.delay(this.updateView, 100);
 			},
 			onThumbActive: function(event) {
 				event.preventDefault();
@@ -755,6 +761,9 @@
 					this.$thumb.css({
 						top: this.calculateSliderValueFromPercentage(volume)
 					});
+					if (this.getVolumeHeight() === 0) {
+						_.delay(this.updateView, 100);
+					}
 				}
 				var showMute = volume > 0;
 				this.$el.toggleClass(css.mute, showMute);
@@ -816,11 +825,6 @@
 						eventName = showMute ? Events.UNMUTE : Events.MUTE,
 						newVol = showMute ? this.currentVolume : 0;
 					this.updateView(newVol);
-					this.trigger(Events.VOLUME, {
-						type: Events.VOLUME,
-						data: newVol,
-						target: this
-					});
 					this.trigger(eventName, {
 						type: eventName
 					});
