@@ -5,7 +5,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	/* global _, $, Handlebars, Backbone*/
 	var GUI = {
 		version: "0.7.0",
-		build: "Wed Mar 19 2014 11:32:14"
+		build: "Wed Mar 19 2014 15:01:32"
 	};
 	// Handlebars is provided in the mtvn-util package.
 	// GUI is loaded in to the page separately, so we have to go 
@@ -239,7 +239,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	    }
 	});
 	/* exported Util */
-	var Util = function() {
+	var Util = (function() {
 		var isTouchDevice = 'ontouchstart' in window || 'onmsgesturechange' in window;
 		return {
 			isTouchDevice: isTouchDevice,
@@ -253,15 +253,6 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			} : function(event) {
 				return event.clientY;
 			},
-			invokeIfNumber: function(func, n) {
-				if (isNaN(n)) {
-					parseFloat(n, 10);
-				}
-				if (!isNaN(n)) {
-					console.log("INVOKE~~~ util.js:21 n", n);
-					func(n);
-				}
-			},
 			formatTime: function(sec) {
 				if (isNaN(sec)) {
 					return "00:00";
@@ -272,10 +263,10 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				return (h === 0 ? "" : (h < 10 ? "0" + h + ":" : h + ":")) + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
 			}
 		};
-	}();
+	})();
 	/* exported ClosedCaptionButton */
 	/* global Backbone, Events*/
-	var ClosedCaptionButton = function() {
+	var ClosedCaptionButton = (function() {
 		return Backbone.View.extend({
 			ccEnabled: false,
 			className: "mtvn-controls-cc",
@@ -288,7 +279,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				});
 			}
 		});
-	}();
+	})();
 	/* exported Controls */
 	/* global _, Backbone, $, Events, Slider, PlayPauseButton, VolumeButton, ClosedCaptionButton, Templates*/
 	var Controls = (function() {
@@ -385,41 +376,9 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 		UNMUTE: "UNMUTE",
 		SEEK: "SEEK"
 	};
-	/* exported VolumeButton */
-	/* global Backbone, Events*/
-	var VolumeButton = (function() {
-		var css = {
-			unmute: "mtvn-controls-unmute",
-			mute: "mtvn-controls-mute"
-		};
-		return Backbone.View.extend({
-			events: {
-				"click": "toggle"
-			},
-			initialize: function(options) {
-				this.options = options;
-				this.setVolume(isNaN(this.options.volume) ? 1 : this.options.volume);
-			},
-			setVolume: function(volume) {
-				var showMute = volume > 0;
-				this.$el.toggleClass(css.mute, showMute);
-				this.$el.toggleClass(css.unmute, !showMute);
-			},
-			toggle: function() {
-				var $el = this.$el,
-					showMute = $el.hasClass(css.unmute),
-					eventName = showMute ? Events.UNMUTE : Events.MUTE;
-				$el.toggleClass(css.mute, showMute);
-				$el.toggleClass(css.unmute, !showMute);
-				this.trigger(eventName, {
-					type: eventName
-				});
-			}
-		});
-	})();
 	/* exported PlayPauseButton */
 	/* global Backbone, Events*/
-	var PlayPauseButton = function() {
+	var PlayPauseButton = (function() {
 		var css = {
 			play: "mtvn-controls-play",
 			pause: "mtvn-controls-pause"
@@ -448,7 +407,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				});
 			}
 		});
-	}();
+	})();
 	/* global _, $, Backbone, Events, Util*/
 	/* exported Slider */
 	var Slider = (function() {
@@ -748,9 +707,9 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				_.bindAll(this, "updateView");
 				if (!Util.isTouchDevice) {
 					_.bindAll(this, "onThumbMove", "onThumbInactive", "toggleSlider");
-					var $document = $(document);
-					this.listenTo($document, "mousemove", this.onThumbMove);
-					this.listenTo($document, "mouseup", this.onThumbInactive);
+					var $doc = $(document);
+					this.listenTo($doc, "mousemove", this.onThumbMove);
+					this.listenTo($doc, "mouseup", this.onThumbInactive);
 					this.$slider = this.$("." + css.slider);
 					this.$container = $(this.$slider.parent());
 					this.$thumb = this.$("." + css.thumb);

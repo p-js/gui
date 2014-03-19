@@ -1,6 +1,6 @@
 /* exported ClosedCaptionButton */
 /* global Backbone, Events*/
-var ClosedCaptionButton = function() {
+var ClosedCaptionButton = (function() {
 	return Backbone.View.extend({
 		ccEnabled: false,
 		className: "mtvn-controls-cc",
@@ -13,4 +13,4 @@ var ClosedCaptionButton = function() {
 			});
 		}
 	});
-}();
+})();

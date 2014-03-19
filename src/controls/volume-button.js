@@ -31,9 +31,9 @@ var VolumeButton = (function() {
 			_.bindAll(this, "updateView");
 			if (!Util.isTouchDevice) {
 				_.bindAll(this, "onThumbMove", "onThumbInactive", "toggleSlider");
-				var $document = $(document);
-				this.listenTo($document, "mousemove", this.onThumbMove);
-				this.listenTo($document, "mouseup", this.onThumbInactive);
+				var $doc = $(document);
+				this.listenTo($doc, "mousemove", this.onThumbMove);
+				this.listenTo($doc, "mouseup", this.onThumbInactive);
 				this.$slider = this.$("." + css.slider);
 				this.$container = $(this.$slider.parent());
 				this.$thumb = this.$("." + css.thumb);

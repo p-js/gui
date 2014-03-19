@@ -252,6 +252,7 @@
 	display: block;
 	width: 22px;
 	height: 60px;
+	left: 5px;
 	cursor: pointer;
 	overflow: hidden;
 }
@@ -259,6 +260,8 @@
 .mtvn-controls-volume-slider-container-outer {
 	position:relative;
 	top: -78px;
+	width: 33px;
+	left: -5px;
 	overflow: hidden;
 }
 
