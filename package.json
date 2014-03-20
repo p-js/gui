@@ -1,28 +1,29 @@
 {
-    "name": "gui",
-    "version": "0.6.0",
-    "author": "gianni ferullo <giannif@gmail.com>",
-    "private": true,
-    "description": "GUI",
-    "repository": {
-        "type": "git",
-        "url": "https://p-js@github.com/p-js/gui.git"
-    },
-    "devDependencies": {
-        "grunt": "0.4.x",
-        "grunt-contrib": "0.4.x",
-        "grunt-contrib-uglify": "*",
-        "grunt-rigger": "git://github.com/giannif/grunt-rigger.git",
-        "grunt-remove-logging": "0.1.x",
-        "grunt-contrib-watch": "~0.3.1",
-        "grunt-contrib-jshint": "~0.4.3",
-        "grunt-contrib-clean": "~0.4.1",
-        "grunt-contrib-copy": "~0.4.1",
-        "grunt-bumpx": "~0.1.5",
-        "grunt-contrib-handlebars": "~0.5.9",
-        "grunt-contrib-compass": "~0.3.0",
-        "grunt-contrib-cssmin": "~0.6.1",
-        "grunt-push-svn": "~0.1.8"
-    },
-    "license": "MIT"
+	"name": "gui",
+	"version": "0.7.0",
+	"author": "gianni ferullo <giannif@gmail.com>",
+	"private": true,
+	"description": "GUI",
+	"repository": {
+		"type": "git",
+		"url": "https://p-js@github.com/p-js/gui.git"
+	},
+	"devDependencies": {
+		"grunt": "0.4.x",
+		"grunt-contrib": "0.4.x",
+		"grunt-contrib-uglify": "*",
+		"grunt-rigger": "*",
+		"grunt-remove-logging": "0.1.x",
+		"grunt-contrib-watch": "~0.3.1",
+		"grunt-contrib-jshint": "~0.8.0",
+		"grunt-contrib-clean": "~0.4.1",
+		"grunt-contrib-copy": "~0.4.1",
+		"grunt-bumpx": "~0.1.5",
+		"grunt-contrib-handlebars": "~0.5.9",
+		"grunt-contrib-compass": "~0.3.0",
+		"grunt-contrib-cssmin": "~0.6.1",
+		"grunt-push-svn": "~0.1.8",
+		"grunt-replace": "^0.7.2"
+	},
+	"license": "MIT"
 }

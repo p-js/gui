@@ -36,13 +36,33 @@
   flex:  $values;
 }
 
+@mixin transition($values) {
+	-webkit-transition: $values;
+	-moz-transition: $values;
+	-o-transition: $values;
+	transition: $values;
+}
+
+@mixin transform($values) {
+	-webkit-transform: $values;
+	-moz-transform: $values;
+	-o-transform: $values;
+	transform: $values;
+}
+
 .mtvn-controls {
 	width:100%;
 	@include flexbox();
 	background-color:rgba(33, 33, 33, 0.8);
 	height:50px;
 	-webkit-user-select:none;
-	-webkit-transform:translate3d(0,0,0);
+	@include transition(all .2s ease-in);
+	@include transform(translateY(0));
+	@include transform(translate3d(0,0,0));
+}
+
+.mtvn-controls-hidden {
+	@include transform(translateY(50px));
 }
 
 .mtvn-controls-button{
@@ -200,6 +220,67 @@
   border-radius: 5px;
   cursor: pointer;
   padding:3px;
+}
+
+.mtvn-controls-volume-slider-foreground:before {
+    position: absolute;
+    left: 5px;
+    top: -55px;
+    display: block;
+    height: 55px;
+    width: 4px;
+    background: #757575;
+    content: ''
+}
+
+.mtvn-controls-volume-slider-foreground:after {
+    position: absolute;
+    left: 5px;
+    display: block;
+    height: 55px;
+    width: 4px;
+    content: '';
+    background: #005469;
+    top: 5px
+}
+
+.mtvn-controls-volume-slider-foreground {
+	background: #ddd;
+	content: '';
+	height: 5px;
+	left: 4px;
+	position: absolute;
+	width: 14px;
+}
+
+.mtvn-controls-volume-slider {
+	position: relative;
+	display: block;
+	width: 22px;
+	height: 60px;
+	left: 5px;
+	cursor: pointer;
+	overflow: hidden;
+}
+
+.mtvn-controls-volume-slider-container-outer {
+	position:relative;
+	top: -78px;
+	width: 33px;
+	left: -5px;
+	overflow: hidden;
+}
+
+.mtvn-controls-volume-slider-container {
+	background: rgba(33, 33, 33, 0.8);
+	padding-top: 5px;
+	position:relative;
+  	@include transition(all .2s ease-in);
+  	@include transform(translateY(65px));
+}
+
+.mtvn-controls-volume-slider-container-over {
+	@include transform(translateY(0));
 }
 
 .mtvn-tp{

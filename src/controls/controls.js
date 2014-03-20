@@ -1,8 +1,9 @@
 /* exported Controls */
 /* global _, Backbone, $, Events, Slider, PlayPauseButton, VolumeButton, ClosedCaptionButton, Templates*/
-var Controls = function() {
+var Controls = (function() {
 	var CONTROLS_TEMPLATE = Templates["src/controls/template.html"],
 		css = {
+			hide: "mtvn-controls-hidden",
 			slider: "mtvn-controls-slider",
 			playPause: "mtvn-controls-play-pause",
 			volume: "mtvn-controls-volume",
@@ -27,33 +28,52 @@ var Controls = function() {
 			this.$el.html($(CONTROLS_TEMPLATE(options)));
 			// PLAY PAUSE
 			this.playPauseButton = new PlayPauseButton({
-				el: this.$el.find("." + css.playPause),
+				el: this.$("." + css.playPause),
 				paused: options.paused
 			});
 			this.listenTo(this.playPauseButton, Events.PLAY, this.sendEvent);
 			this.listenTo(this.playPauseButton, Events.PAUSE, this.sendEvent);
 			// SLIDER
 			this.slider = new Slider({
-				el: this.$el.find("." + css.slider),
+				el: this.$("." + css.slider),
 				playhead: options.playhead,
 				durations: options.durations
 			});
 			this.listenTo(this.slider, Events.SEEK, this.sendEvent);
 			// VOLUME
-			this.volumeButton = new VolumeButton({
-				volume: options.volume,
-				el: this.$el.find("." + css.volume)
-			});
-			this.listenTo(this.volumeButton, Events.MUTE, this.sendEvent);
-			this.listenTo(this.volumeButton, Events.UNMUTE, this.sendEvent);
+			if (options.showVolume) {
+				this.volumeButton = new VolumeButton({
+					volume: options.volume,
+					el: this.$("." + css.volume)
+				});
+				this.listenTo(this.volumeButton, Events.VOLUME, this.sendEvent);
+				this.listenTo(this.volumeButton, Events.MUTE, this.sendEvent);
+				this.listenTo(this.volumeButton, Events.UNMUTE, this.sendEvent);
+			}
+
 			// CC
 			this.closedCaptionButton = new ClosedCaptionButton({
 				ccEnabled: options.ccEnabled,
-				el: this.$el.find("." + css.cc)
+				el: this.$("." + css.cc)
 			});
 			this.listenTo(this.closedCaptionButton, Events.CC, this.sendEvent);
 		},
+		hide: function() {
+			this.$el.addClass(css.hide);
+			if (this.volumeButton) {
+				this.volumeButton.setEnabled(false);
+			}
+		},
+		show: function() {
+			this.$el.removeClass(css.hide);
+			if (this.volumeButton) {
+				this.volumeButton.setEnabled(true);
+			}
+		},
 		setVolume: function(volume) {
+			if (!this.volumeButton) {
+				return;
+			}
 			this.volumeButton.setVolume(volume);
 		},
 		setPaused: function(paused) {
@@ -81,4 +101,4 @@ var Controls = function() {
 			});
 		}
 	});
-}();
+})();
