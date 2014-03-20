@@ -60,9 +60,15 @@ var Controls = (function() {
 		},
 		hide: function() {
 			this.$el.addClass(css.hide);
+			if (this.volumeButton) {
+				this.volumeButton.setEnabled(false);
+			}
 		},
 		show: function() {
 			this.$el.removeClass(css.hide);
+			if (this.volumeButton) {
+				this.volumeButton.setEnabled(true);
+			}
 		},
 		setVolume: function(volume) {
 			if (!this.volumeButton) {

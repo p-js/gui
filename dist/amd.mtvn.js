@@ -17,7 +17,7 @@
 	/* global _, $, Handlebars, Backbone*/
 	var GUI = {
 		version: "0.7.0",
-		build: "Wed Mar 19 2014 18:36:33"
+		build: "Thu Mar 20 2014 11:42:50"
 	};
 	// Handlebars is provided in the mtvn-util package.
 	// GUI is loaded in to the page separately, so we have to go 
@@ -354,9 +354,15 @@
 			},
 			hide: function() {
 				this.$el.addClass(css.hide);
+				if (this.volumeButton) {
+					this.volumeButton.setEnabled(false);
+				}
 			},
 			show: function() {
 				this.$el.removeClass(css.hide);
+				if (this.volumeButton) {
+					this.volumeButton.setEnabled(true);
+				}
 			},
 			setVolume: function(volume) {
 				if (!this.volumeButton) {
@@ -713,6 +719,7 @@
 				return $target.hasClass(css.mute) || $target.hasClass(css.unmute);
 			};
 		return Backbone.View.extend({
+			enabled: true,
 			defaultEvents: {
 				"click": "toggle"
 			},
@@ -742,16 +749,24 @@
 				this.setVolume(isNaN(options.volume) ? 0.7 : options.volume);
 				_.delay(this.updateView, 100);
 			},
+			setEnabled: function(enabled) {
+				if (this.enabled !== enabled) {
+					this.enabled = enabled;
+					if (!enabled) {
+						this.$container.removeClass(css.showSlider);
+					}
+				}
+			},
 			onThumbActive: function(event) {
 				event.preventDefault();
 				this.dragging = true;
 			},
 			onMouseOut: function() {
 				this.isMouseOver = false;
-				_.delay(this.toggleSlider, 1000);
+				_.delay(this.toggleSlider, 1500);
 			},
 			onMouseOver: function() {
-				this.isMouseOver = true;
+				this.isMouseOver = this.enabled;
 				this.toggleSlider();
 			},
 			toggleSlider: function() {
