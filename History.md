@@ -1,4 +1,12 @@
 
+0.7.0 / 2014-03-20 
+==================
+
+ * Implement volume slider. Fixes BRBPL-4017.
+ * Slider is clickable. Fixes BRBPL-4017.
+ * Hide/show managed by gui.
+ * GUI can be used inline with gui.js or loaded with amd.mtvn.js. 
+
 0.6.0 / 2014-01-14 
 ==================
 
