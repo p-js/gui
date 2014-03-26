@@ -183,7 +183,7 @@ var Slider = (function() {
 			if (!this.enabled) {
 				return;
 			}
-			var moveTo = event.x;
+			var moveTo = Util.getClientX(event);
 			if (!this.containerOffset) {
 				this.containerOffset = this.$el.offset().left;
 			}
@@ -226,6 +226,9 @@ var Slider = (function() {
 		moveThumb: function(moveTo) {
 			var left = Math.max(0, moveTo);
 			left = Math.min(left, this.sliderWidth);
+			if (isNaN(left)) {
+				return;
+			}
 			this.$thumbContainer.css({
 				left: left
 			});

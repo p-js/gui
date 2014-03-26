@@ -3,6 +3,13 @@
 	@include images-sprite($name);
 	width:images-sprite-width($name);
 	height:images-sprite-height($name);
+	content:"";
+	display:inline-block;
+}
+@mixin image-with-dims-psuedo($name)	{
+	@include image-with-dims($name);
+	content:"";
+	display:inline-block;
 }
 
 @mixin reset(){
@@ -66,44 +73,46 @@
 
 .mtvn-controls-button{
 	margin:10px;
+	height:5px;
 	margin-top:13px;
 }
 
-.mtvn-controls-play {
-	@include image-with-dims(play);
+.mtvn-controls-play:before {
+	@include image-with-dims-psuedo(play);
 }
 
-.mtvn-controls-is-live {
-	@include image-with-dims(live);
+.mtvn-controls-is-live:before {
+	@include image-with-dims-psuedo(live);
 }
 
-.mtvn-controls-rewind{
-	@include image-with-dims(rewind30);
+.mtvn-controls-rewind:before{
+	@include image-with-dims-psuedo(rewind30);
 }
 
-.mtvn-controls-go-live {
-	@include image-with-dims(golive);
+.mtvn-controls-go-live:before {
+	
+	@include image-with-dims-psuedo(golive);
 	cursor:pointer;
 }
 
-.mtvn-controls-pause {
-	@include image-with-dims(pause);
+.mtvn-controls-pause:before {
+	@include image-with-dims-psuedo(pause);
 }
 
-.mtvn-controls-fullscreen {
-	@include image-with-dims(fullscreen);
+.mtvn-controls-fullscreen:before {
+	@include image-with-dims-psuedo(fullscreen);
 }
 
-.mtvn-controls-mute {
-	@include image-with-dims(mute);
+.mtvn-controls-mute:before {
+	@include image-with-dims-psuedo(mute);
 }
 
-.mtvn-controls-unmute {
-	@include image-with-dims(unmute);
+.mtvn-controls-unmute:before {
+	@include image-with-dims-psuedo(unmute);
 }
 
-.mtvn-controls-cc {
-	@include image-with-dims(cc);
+.mtvn-controls-cc:before {
+	@include image-with-dims-psuedo(cc);
 }
 
 .mtvn-controls-slider {
@@ -234,6 +243,10 @@
   padding:3px;
 }
 
+.mtvn-controls-volume{
+	position: relative;
+}
+
 .mtvn-controls-volume-slider-foreground:before {
     position: absolute;
     left: 5px;
@@ -276,7 +289,7 @@
 }
 
 .mtvn-controls-volume-slider-container-outer {
-	position:relative;
+	position:absolute;
 	top: -78px;
 	width: 33px;
 	left: -5px;

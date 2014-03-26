@@ -17,7 +17,7 @@
 	/* global _, $, Handlebars, Backbone*/
 	var GUI = {
 		version: "0.8.0",
-		build: "Wed Mar 26 2014 13:54:16"
+		build: "Wed Mar 26 2014 18:28:55"
 	};
 	// Handlebars is provided in the mtvn-util package.
 	// GUI is loaded in to the page separately, so we have to go 
@@ -679,7 +679,7 @@
 				if (!this.enabled) {
 					return;
 				}
-				var moveTo = event.x;
+				var moveTo = Util.getClientX(event);
 				if (!this.containerOffset) {
 					this.containerOffset = this.$el.offset().left;
 				}
@@ -722,6 +722,9 @@
 			moveThumb: function(moveTo) {
 				var left = Math.max(0, moveTo);
 				left = Math.min(left, this.sliderWidth);
+				if (isNaN(left)) {
+					return;
+				}
 				this.$thumbContainer.css({
 					left: left
 				});
