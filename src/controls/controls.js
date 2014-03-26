@@ -1,19 +1,27 @@
 /* exported Controls */
-/* global _, Backbone, $, Events, Slider, PlayPauseButton, VolumeButton, ClosedCaptionButton, Templates*/
+/* global _, Backbone, $, Events, Slider, PlayPauseButton, 
+  LiveButton, VolumeButton, ClosedCaptionButton, Templates*/
 var Controls = (function() {
 	var CONTROLS_TEMPLATE = Templates["src/controls/template.html"],
 		css = {
 			hide: "mtvn-controls-hidden",
 			slider: "mtvn-controls-slider",
 			playPause: "mtvn-controls-play-pause",
+			live: "mtvn-controls-live",
 			volume: "mtvn-controls-volume",
 			cc: "mtvn-controls-cc"
+		},
+		addEvents = function(listener, dispatcher, events, cb) {
+			_.each(events, function(eventName) {
+				listener.listenTo(dispatcher, eventName, cb);
+			});
 		};
 	return Backbone.View.extend({
 		tagName: "div",
 		className: "mtvn-controls",
 		events: {
-			"click .mtvn-controls-fullscreen": "onFullscreen"
+			"click .mtvn-controls-fullscreen": "onFullscreen",
+			"click .mtvn-controls-rewind": "onRewind"
 		},
 		initialize: function(options) {
 			this.options = options;
@@ -31,8 +39,14 @@ var Controls = (function() {
 				el: this.$("." + css.playPause),
 				paused: options.paused
 			});
-			this.listenTo(this.playPauseButton, Events.PLAY, this.sendEvent);
-			this.listenTo(this.playPauseButton, Events.PAUSE, this.sendEvent);
+			addEvents(this, this.playPauseButton, [Events.PLAY, Events.PAUSE], this.sendEvent);
+			if (options.live) {
+				this.liveButton = new LiveButton({
+					el: this.$("." + css.live),
+					isLive: !options.live
+				});
+				this.listenTo(this.liveButton, Events.GO_LIVE, this.sendEvent);
+			}
 			// SLIDER
 			this.slider = new Slider({
 				el: this.$("." + css.slider),
@@ -46,11 +60,8 @@ var Controls = (function() {
 					volume: options.volume,
 					el: this.$("." + css.volume)
 				});
-				this.listenTo(this.volumeButton, Events.VOLUME, this.sendEvent);
-				this.listenTo(this.volumeButton, Events.MUTE, this.sendEvent);
-				this.listenTo(this.volumeButton, Events.UNMUTE, this.sendEvent);
+				addEvents(this, this.volumeButton, [Events.VOLUME, Events.MUTE, Events.UNMUTE], this.sendEvent);
 			}
-
 			// CC
 			this.closedCaptionButton = new ClosedCaptionButton({
 				ccEnabled: options.ccEnabled,
@@ -79,6 +90,11 @@ var Controls = (function() {
 		setPaused: function(paused) {
 			this.playPauseButton.setPaused(paused);
 		},
+		setLive: function(live) {
+			if (this.liveButton) {
+				this.liveButton.setLive(live);
+			}
+		},
 		getPlayhead: function() {
 			return this.slider.playhead;
 		},
@@ -94,6 +110,11 @@ var Controls = (function() {
 		sendEvent: function(event) {
 			event.target = this;
 			this.trigger(event.type, event);
+		},
+		onRewind: function() {
+			this.sendEvent({
+				type: Events.REWIND
+			});
 		},
 		onFullscreen: function() {
 			this.sendEvent({

@@ -1,17 +1,7 @@
 /* global MTVNPlayer, $, _*/
 /* jshint devel:true */
-MTVNPlayer.loadPackages({
-	"GUI": {
-		url: "/dist/amd.mtvn.js",
-		shim: true,
-		exports: "GUI"
-	}
-}, function(GUI) {
-	var controls = new(GUI.Controls)({
-		playing: false,
-		showVolume: true,
-		ccEnabled: true
-	}),
+function createGUI(options, target, GUI) {
+	var controls = new(GUI.Controls)(options),
 		Events = GUI.Events,
 		buffer = 0,
 		bufferInterval = setInterval(function() {
@@ -20,7 +10,7 @@ MTVNPlayer.loadPackages({
 			controls.setBuffered(newBuff);
 		}, 250),
 		playheadInterval;
-	controls.$el.appendTo($("#controls"));
+	controls.$el.appendTo($(target));
 	controls.on(Events.PLAY, function() {
 		console.log("on play");
 		playheadInterval = setInterval(function() {
@@ -35,8 +25,17 @@ MTVNPlayer.loadPackages({
 	controls.on(Events.FULLSCREEN, function() {
 		console.log("on fullscreen");
 	});
+	controls.on(Events.REWIND, function() {
+		console.log("on rewind");
+	});
+	controls.on(Events.VOLUME, function(event) {
+		console.log("on volume", event.data);
+	});
 	controls.on(Events.MUTE, function() {
 		console.log("on mute");
+	});
+	controls.on(Events.GO_LIVE, function() {
+		console.log("go live");
 	});
 	controls.on(Events.UNMUTE, function() {
 		console.log("on unmute");
@@ -68,4 +67,28 @@ MTVNPlayer.loadPackages({
 		buffer = 0;
 		controls.setDuration(parseFloat($("#duration-value").val(), 10));
 	});
-});
+}
+MTVNPlayer.loadPackages({
+	"GUI": {
+		url: "../amd.mtvn.js",
+		shim: true,
+		exports: "GUI"
+	}
+}, _.partial(createGUI, {
+	playing: false,
+	showVolume: true,
+	ccEnabled: true
+}, "#controls"));
+
+MTVNPlayer.loadPackages({
+	"GUI": {
+		url: "../amd.mtvn.js",
+		shim: true,
+		exports: "GUI"
+	}
+}, _.partial(createGUI, {
+	playing: false,
+	live: true,
+	showVolume: true,
+	ccEnabled: true
+}, "#controls2"));

@@ -5,7 +5,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	/* global _, $, Handlebars, Backbone*/
 	var GUI = {
 		version: "0.8.0",
-		build: "Thu Mar 20 2014 12:00:10"
+		build: "Wed Mar 26 2014 10:47:31"
 	};
 	// Handlebars is provided in the mtvn-util package.
 	// GUI is loaded in to the page separately, so we have to go 
@@ -55,13 +55,13 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 		function program1(depth0,data) {
 		  
 		  
-		  return "\n<div class=\"mtvn-controls-live mtvn-controls-button\"></div>\n";
+		  return "\n<div class=\"mtvn-controls-rewind mtvn-controls-button\"></div>\n";
 		  }
 		
 		function program3(depth0,data) {
 		  
 		  
-		  return "\n<div class=\"mtvn-controls-play-pause mtvn-controls-button\"></div>\n";
+		  return "\n<div class=\"mtvn-controls-live mtvn-controls-button\"></div>\n";
 		  }
 		
 		function program5(depth0,data) {
@@ -77,7 +77,10 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 		  }
 		
 		  buffer += "<!-- controls -->\n";
-		  stack1 = helpers['if'].call(depth0, depth0.live, {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
+		  stack1 = helpers['if'].call(depth0, depth0.live, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+		  if(stack1 || stack1 === 0) { buffer += stack1; }
+		  buffer += "\n<div class=\"mtvn-controls-play-pause mtvn-controls-button\"></div>\n";
+		  stack1 = helpers['if'].call(depth0, depth0.live, {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
 		  if(stack1 || stack1 === 0) { buffer += stack1; }
 		  buffer += "\n<div class=\"";
 		  if (stack1 = helpers.slider) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
@@ -111,7 +114,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 		  if (stack1 = helpers.slider) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
 		  else { stack1 = depth0.slider; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
 		  buffer += escapeExpression(stack1)
-		    + "-thumb-container\" style=\"left:0px;\">\n		<div class=\"";
+		    + "-thumb-container\">\n		<div class=\"";
 		  if (stack1 = helpers.slider) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
 		  else { stack1 = depth0.slider; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
 		  buffer += escapeExpression(stack1)
@@ -281,21 +284,29 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 		});
 	})();
 	/* exported Controls */
-	/* global _, Backbone, $, Events, Slider, PlayPauseButton, VolumeButton, ClosedCaptionButton, Templates*/
+	/* global _, Backbone, $, Events, Slider, PlayPauseButton, 
+	  LiveButton, VolumeButton, ClosedCaptionButton, Templates*/
 	var Controls = (function() {
 		var CONTROLS_TEMPLATE = Templates["src/controls/template.html"],
 			css = {
 				hide: "mtvn-controls-hidden",
 				slider: "mtvn-controls-slider",
 				playPause: "mtvn-controls-play-pause",
+				live: "mtvn-controls-live",
 				volume: "mtvn-controls-volume",
 				cc: "mtvn-controls-cc"
+			},
+			addEvents = function(listener, dispatcher, events, cb) {
+				_.each(events, function(eventName) {
+					listener.listenTo(dispatcher, eventName, cb);
+				});
 			};
 		return Backbone.View.extend({
 			tagName: "div",
 			className: "mtvn-controls",
 			events: {
-				"click .mtvn-controls-fullscreen": "onFullscreen"
+				"click .mtvn-controls-fullscreen": "onFullscreen",
+				"click .mtvn-controls-rewind": "onRewind"
 			},
 			initialize: function(options) {
 				this.options = options;
@@ -313,8 +324,14 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 					el: this.$("." + css.playPause),
 					paused: options.paused
 				});
-				this.listenTo(this.playPauseButton, Events.PLAY, this.sendEvent);
-				this.listenTo(this.playPauseButton, Events.PAUSE, this.sendEvent);
+				addEvents(this, this.playPauseButton, [Events.PLAY, Events.PAUSE], this.sendEvent);
+				if (options.live) {
+					this.liveButton = new LiveButton({
+						el: this.$("." + css.live),
+						isLive: !options.live
+					});
+					this.listenTo(this.liveButton, Events.GO_LIVE, this.sendEvent);
+				}
 				// SLIDER
 				this.slider = new Slider({
 					el: this.$("." + css.slider),
@@ -328,11 +345,8 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 						volume: options.volume,
 						el: this.$("." + css.volume)
 					});
-					this.listenTo(this.volumeButton, Events.VOLUME, this.sendEvent);
-					this.listenTo(this.volumeButton, Events.MUTE, this.sendEvent);
-					this.listenTo(this.volumeButton, Events.UNMUTE, this.sendEvent);
+					addEvents(this, this.volumeButton, [Events.VOLUME, Events.MUTE, Events.UNMUTE], this.sendEvent);
 				}
-	
 				// CC
 				this.closedCaptionButton = new ClosedCaptionButton({
 					ccEnabled: options.ccEnabled,
@@ -361,6 +375,11 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			setPaused: function(paused) {
 				this.playPauseButton.setPaused(paused);
 			},
+			setLive: function(live) {
+				if (this.liveButton) {
+					this.liveButton.setLive(live);
+				}
+			},
 			getPlayhead: function() {
 				return this.slider.playhead;
 			},
@@ -377,6 +396,11 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				event.target = this;
 				this.trigger(event.type, event);
 			},
+			onRewind: function() {
+				this.sendEvent({
+					type: Events.REWIND
+				});
+			},
 			onFullscreen: function() {
 				this.sendEvent({
 					type: Events.FULLSCREEN
@@ -390,11 +414,42 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 		PAUSE: "PAUSE",
 		FULLSCREEN: "FULLSCREEN",
 		CC: "CC",
+		GO_LIVE: "GO_LIVE",
 		MUTE: "MUTE",
 		VOLUME: "VOLUME",
 		UNMUTE: "UNMUTE",
+		REWIND: "REWIND",
 		SEEK: "SEEK"
 	};
+	/* exported LiveButton */
+	/* global Backbone, Events*/
+	var LiveButton = (function() {
+		var css = {
+			live: "mtvn-controls-is-live",
+			golive: "mtvn-controls-go-live"
+		};
+		return Backbone.View.extend({
+			initialize: function(options) {
+				this.options = options;
+				this.setLive(options.isLive);
+			},
+			events: {
+				"click": "toggle"
+			},
+			setLive: function(isLive) {
+				var $el = this.$el;
+				$el.toggleClass(css.live, isLive);
+				$el.toggleClass(css.golive, !isLive);
+			},
+			toggle: function() {
+				if (this.$el.hasClass(css.golive)) {
+					this.trigger(Events.GO_LIVE, {
+						type: Events.GO_LIVE
+					});
+				}
+			}
+		});
+	})();
 	/* exported PlayPauseButton */
 	/* global Backbone, Events*/
 	var PlayPauseButton = (function() {

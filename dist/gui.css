@@ -1,5 +1,5 @@
 /* line 202, images/*.png */
-.images-sprite, .mtvn-controls-play, .mtvn-controls-pause, .mtvn-controls-fullscreen, .mtvn-controls-mute, .mtvn-controls-unmute, .mtvn-controls-cc, .mtvn-controls-slider-thumb, .mtvn-controls-slider-segment, .mtvn-controls-slider-tool-tip-background, .mtvn-controls-slider-thumb-active, .mtvn-tp-facebook, .mtvn-tp-twitter, .mtvn-tp-email {
+.images-sprite, .mtvn-controls-play, .mtvn-controls-is-live, .mtvn-controls-rewind, .mtvn-controls-go-live, .mtvn-controls-pause, .mtvn-controls-fullscreen, .mtvn-controls-mute, .mtvn-controls-unmute, .mtvn-controls-cc, .mtvn-controls-slider-thumb, .mtvn-controls-slider-segment, .mtvn-controls-slider-tool-tip-background, .mtvn-controls-slider-thumb-active, .mtvn-tp-facebook, .mtvn-tp-twitter, .mtvn-tp-email {
   background: url('images-s3b026f2c6a.png') no-repeat;
 }
 
@@ -50,41 +50,63 @@
 }
 
 /* line 77, ../src/sass/gui.scss */
+.mtvn-controls-is-live {
+  background-position: 0 -526px;
+  width: 29px;
+  height: 21px;
+}
+
+/* line 81, ../src/sass/gui.scss */
+.mtvn-controls-rewind {
+  background-position: 0 -419px;
+  width: 20px;
+  height: 17px;
+}
+
+/* line 85, ../src/sass/gui.scss */
+.mtvn-controls-go-live {
+  background-position: 0 -467px;
+  width: 29px;
+  height: 21px;
+  cursor: pointer;
+}
+
+/* line 90, ../src/sass/gui.scss */
 .mtvn-controls-pause {
   background-position: 0 -339px;
   width: 17px;
   height: 21px;
 }
 
-/* line 81, ../src/sass/gui.scss */
+/* line 94, ../src/sass/gui.scss */
 .mtvn-controls-fullscreen {
   background-position: 0 -295px;
   width: 25px;
   height: 21px;
 }
 
-/* line 85, ../src/sass/gui.scss */
+/* line 98, ../src/sass/gui.scss */
 .mtvn-controls-mute {
   background-position: 0 -360px;
   width: 23px;
   height: 19px;
 }
 
-/* line 89, ../src/sass/gui.scss */
+/* line 102, ../src/sass/gui.scss */
 .mtvn-controls-unmute {
   background-position: 0 -488px;
   width: 23px;
   height: 19px;
 }
 
-/* line 93, ../src/sass/gui.scss */
+/* line 106, ../src/sass/gui.scss */
 .mtvn-controls-cc {
   background-position: 0 -379px;
   width: 26px;
   height: 21px;
 }
 
-/* line 97, ../src/sass/gui.scss */
+/* line 110, ../src/sass/gui.scss */
 .mtvn-controls-slider {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -102,7 +124,7 @@
   -webkit-user-select: none;
 }
 
-/* line 110, ../src/sass/gui.scss */
+/* line 123, ../src/sass/gui.scss */
 .mtvn-controls-slider-time-display {
   text-align: right;
   height: 12px;
@@ -110,25 +132,25 @@
   padding-bottom: 4px;
 }
 
-/* line 117, ../src/sass/gui.scss */
+/* line 130, ../src/sass/gui.scss */
 .mtvn-controls-slider-current-time {
   color: white;
 }
 
-/* line 121, ../src/sass/gui.scss */
+/* line 134, ../src/sass/gui.scss */
 .mtvn-controls-slider-progress-container {
   position: relative;
   height: 6px;
 }
 
-/* line 126, ../src/sass/gui.scss */
+/* line 139, ../src/sass/gui.scss */
 .mtvn-controls-slider-background {
   height: 1px;
   background: #5a5a5a;
   margin-top: -1px;
 }
 
-/* line 132, ../src/sass/gui.scss */
+/* line 145, ../src/sass/gui.scss */
 .mtvn-controls-slider-progress {
   background: #155b68;
   height: 6px;
@@ -138,7 +160,7 @@
   margin-top: -1px;
 }
 
-/* line 141, ../src/sass/gui.scss */
+/* line 154, ../src/sass/gui.scss */
 .mtvn-controls-slider-buffered {
   background: rgba(255, 255, 255, 0.3);
   height: 6px;
@@ -148,7 +170,7 @@
   margin-top: -1px;
 }
 
-/* line 150, ../src/sass/gui.scss */
+/* line 163, ../src/sass/gui.scss */
 .mtvn-controls-slider-thumb-container {
   -webkit-user-select: none;
   width: 0px;
@@ -157,7 +179,7 @@
   margin-top: -1px;
 }
 
-/* line 157, ../src/sass/gui.scss */
+/* line 170, ../src/sass/gui.scss */
 .mtvn-controls-slider-thumb {
   background-position: 0 -436px;
   width: 39px;
@@ -166,12 +188,12 @@
   margin-top: -9px;
 }
 
-/* line 162, ../src/sass/gui.scss */
+/* line 175, ../src/sass/gui.scss */
 .mtvn-controls-slider-segment-container {
   position: absolute;
 }
 
-/* line 165, ../src/sass/gui.scss */
+/* line 178, ../src/sass/gui.scss */
 .mtvn-controls-slider-segment {
   position: absolute;
   background-position: 0 -547px;
@@ -179,7 +201,7 @@
   height: 5px;
 }
 
-/* line 169, ../src/sass/gui.scss */
+/* line 182, ../src/sass/gui.scss */
 .mtvn-controls-slider-tool-tip-background {
   background-position: 0 -121px;
   width: 78px;
@@ -187,14 +209,14 @@
   margin-left: -37px;
 }
 
-/* line 173, ../src/sass/gui.scss */
+/* line 186, ../src/sass/gui.scss */
 .mtvn-controls-slider-tool-tip-container {
   margin-top: -62px;
   height: 60px;
   padding-bottom: 1px;
 }
 
-/* line 178, ../src/sass/gui.scss */
+/* line 191, ../src/sass/gui.scss */
 .mtvn-controls-slider-tool-tip-time {
   width: 78px;
   margin-top: -45px;
@@ -203,7 +225,7 @@
   text-align: center;
 }
 
-/* line 185, ../src/sass/gui.scss */
+/* line 198, ../src/sass/gui.scss */
 .mtvn-controls-slider-thumb-active {
   background-position: 0 -90px;
   width: 39px;
@@ -212,7 +234,7 @@
   margin-top: -9px;
 }
 
-/* line 191, ../src/sass/gui.scss */
+/* line 204, ../src/sass/gui.scss */
 .mtvn-ad-gui {
   background: rgba(33, 33, 33, 0.8);
   color: white;
@@ -220,7 +242,7 @@
   width: 100%;
 }
 
-/* line 199, ../src/sass/gui.scss */
+/* line 212, ../src/sass/gui.scss */
 .mtvn-ad-gui * {
   margin: 0;
   padding: 0;
@@ -236,19 +258,19 @@
   line-height: 1em;
 }
 
-/* line 203, ../src/sass/gui.scss */
+/* line 216, ../src/sass/gui.scss */
 .mtvn-ad-gui-container {
   padding: 10px 10px;
   vertical-align: middle;
 }
 
-/* line 208, ../src/sass/gui.scss */
+/* line 221, ../src/sass/gui.scss */
 .mtvn-ad-gui-countdown {
   padding: 4px;
   display: inline-block;
 }
 
-/* line 213, ../src/sass/gui.scss */
+/* line 226, ../src/sass/gui.scss */
 .mtvn-ad-gui-learn-more {
   color: white;
   text-decoration: none;
@@ -261,7 +283,7 @@
   padding: 3px;
 }
 
-/* line 225, ../src/sass/gui.scss */
+/* line 238, ../src/sass/gui.scss */
 .mtvn-controls-volume-slider-foreground:before {
   position: absolute;
   left: 5px;
@@ -273,7 +295,7 @@
   content: "";
 }
 
-/* line 236, ../src/sass/gui.scss */
+/* line 249, ../src/sass/gui.scss */
 .mtvn-controls-volume-slider-foreground:after {
   position: absolute;
   left: 5px;
@@ -285,7 +307,7 @@
   top: 5px;
 }
 
-/* line 247, ../src/sass/gui.scss */
+/* line 260, ../src/sass/gui.scss */
 .mtvn-controls-volume-slider-foreground {
   background: #ddd;
   content: '';
@@ -295,7 +317,7 @@
   width: 14px;
 }
 
-/* line 256, ../src/sass/gui.scss */
+/* line 269, ../src/sass/gui.scss */
 .mtvn-controls-volume-slider {
   position: relative;
   display: block;
@@ -306,7 +328,7 @@
   overflow: hidden;
 }
 
-/* line 266, ../src/sass/gui.scss */
+/* line 279, ../src/sass/gui.scss */
 .mtvn-controls-volume-slider-container-outer {
   position: relative;
   top: -78px;
@@ -315,7 +337,7 @@
   overflow: hidden;
 }
 
-/* line 274, ../src/sass/gui.scss */
+/* line 287, ../src/sass/gui.scss */
 .mtvn-controls-volume-slider-container {
   background: rgba(33, 33, 33, 0.8);
   padding-top: 5px;
@@ -330,7 +352,7 @@
   transform: translateY(65px);
 }
 
-/* line 282, ../src/sass/gui.scss */
+/* line 295, ../src/sass/gui.scss */
 .mtvn-controls-volume-slider-container-over {
   -webkit-transform: translateY(0);
   -moz-transform: translateY(0);
@@ -338,7 +360,7 @@
   transform: translateY(0);
 }
 
-/* line 286, ../src/sass/gui.scss */
+/* line 299, ../src/sass/gui.scss */
 .mtvn-tp {
   background: rgba(33, 33, 33, 0.8);
   color: white;
@@ -358,7 +380,7 @@
   line-height: 1em;
 }
 
-/* line 293, ../src/sass/gui.scss */
+/* line 306, ../src/sass/gui.scss */
 .mtvn-tp-container {
   padding: 8px 10px;
   display: -webkit-box;
@@ -368,17 +390,17 @@
   display: flex;
 }
 
-/* line 297, ../src/sass/gui.scss */
+/* line 310, ../src/sass/gui.scss */
 .mtvn-tp-share {
   display: inline-block;
 }
 
-/* line 300, ../src/sass/gui.scss */
+/* line 313, ../src/sass/gui.scss */
 .mtvn-tp-share-item {
   display: inline-block;
 }
 
-/* line 303, ../src/sass/gui.scss */
+/* line 316, ../src/sass/gui.scss */
 .mtvn-tp-metadata {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -396,7 +418,7 @@
   text-overflow: ellipsis;
 }
 
-/* line 315, ../src/sass/gui.scss */
+/* line 328, ../src/sass/gui.scss */
 .mtvn-tp-share-divider {
   display: inline-block;
   margin-left: 10px;
@@ -406,21 +428,21 @@
   height: 23px;
 }
 
-/* line 323, ../src/sass/gui.scss */
+/* line 336, ../src/sass/gui.scss */
 .mtvn-tp-facebook {
   background-position: 0 -196px;
   width: 23px;
   height: 23px;
 }
 
-/* line 326, ../src/sass/gui.scss */
+/* line 339, ../src/sass/gui.scss */
 .mtvn-tp-twitter {
   background-position: 0 -240px;
   width: 23px;
   height: 23px;
 }
 
-/* line 329, ../src/sass/gui.scss */
+/* line 342, ../src/sass/gui.scss */
 .mtvn-tp-email {
   background-position: 0 -173px;
   width: 24px;

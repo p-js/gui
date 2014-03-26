@@ -74,6 +74,19 @@
 	@include image-with-dims(play);
 }
 
+.mtvn-controls-is-live {
+	@include image-with-dims(live);
+}
+
+.mtvn-controls-rewind{
+	@include image-with-dims(rewind30);
+}
+
+.mtvn-controls-go-live {
+	@include image-with-dims(golive);
+	cursor:pointer;
+}
+
 .mtvn-controls-pause {
 	@include image-with-dims(pause);
 }
