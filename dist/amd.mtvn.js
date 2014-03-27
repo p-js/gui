@@ -17,7 +17,7 @@
 	/* global _, $, Handlebars, Backbone*/
 	var GUI = {
 		version: "0.8.0",
-		build: "Wed Mar 26 2014 18:28:55"
+		build: "Thu Mar 27 2014 14:34:20"
 	};
 	// Handlebars is provided in the mtvn-util package.
 	// GUI is loaded in to the page separately, so we have to go 
@@ -253,32 +253,6 @@
 	        SHARE: "share"
 	    }
 	});
-	/* exported Util */
-	var Util = (function() {
-		var isTouchDevice = 'ontouchstart' in window || 'onmsgesturechange' in window;
-		return {
-			isTouchDevice: isTouchDevice,
-			getClientX: isTouchDevice ? function(event) {
-				return event.originalEvent.touches[0].clientX;
-			} : function(event) {
-				return event.clientX;
-			},
-			getClientY: isTouchDevice ? function(event) {
-				return event.originalEvent.touches[0].clientY;
-			} : function(event) {
-				return event.clientY;
-			},
-			formatTime: function(sec) {
-				if (isNaN(sec)) {
-					return "00:00";
-				}
-				var h = Math.floor(sec / 3600),
-					m = Math.floor((sec % 3600) / 60),
-					s = Math.floor((sec % 3600) % 60);
-				return (h === 0 ? "" : (h < 10 ? "0" + h + ":" : h + ":")) + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
-			}
-		};
-	})();
 	/* exported ClosedCaptionButton */
 	/* global Backbone, Events*/
 	var ClosedCaptionButton = (function() {
@@ -355,6 +329,7 @@
 				if (options.showVolume) {
 					this.volumeButton = new VolumeButton({
 						volume: options.volume,
+						showVolumeSlider: options.showVolumeSlider,
 						el: this.$("." + css.volume)
 					});
 					addEvents(this, this.volumeButton, [Events.VOLUME, Events.MUTE, Events.UNMUTE], this.sendEvent);
@@ -494,12 +469,21 @@
 			}
 		});
 	})();
-	/* global _, $, Backbone, Events, Util*/
+	/* global _, $, Backbone, Events*/
 	/* exported Slider */
 	var Slider = (function() {
 		var RESIZE = "slider:resize",
 			thumb = "mtvn-controls-slider-thumb",
 			thumbActive = "mtvn-controls-slider-thumb-active",
+			formatTime = function(sec) {
+				if (isNaN(sec)) {
+					return "00:00";
+				}
+				var h = Math.floor(sec / 3600),
+					m = Math.floor((sec % 3600) / 60),
+					s = Math.floor((sec % 3600) % 60);
+				return (h === 0 ? "" : (h < 10 ? "0" + h + ":" : h + ":")) + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+			},
 			// full ep mixin
 			segementedScrubber = (function() {
 				return {
@@ -543,27 +527,21 @@
 			sliderWidth: 0,
 			events: function() {
 				return _.extend({
-						"click": "onSliderClick"
-					},
-					Util.isTouchDevice ? {
-						// TOUCH EVENTS
-						"touchstart .mtvn-controls-slider-thumb-container": "onThumbActive",
-						"touchmove .mtvn-controls-slider-thumb-container": "onThumbMove",
-						"touchend .mtvn-controls-slider-thumb-container": "onThumbInactive"
-					} : {
-						// MOUSE EVENTS
-						"mousedown .mtvn-controls-slider-thumb-container": "onThumbActive"
-					});
+					"click": "onSliderClick",
+					"touchstart": "onSliderClick",
+					"touchstart .mtvn-controls-slider-thumb-container": "onThumbActive",
+					"touchmove .mtvn-controls-slider-thumb-container": "onThumbMove",
+					"touchend .mtvn-controls-slider-thumb-container": "onThumbInactive",
+					"mousedown .mtvn-controls-slider-thumb-container": "onThumbActive"
+				});
 			},
 			initialize: function(options) {
 				this.options = options;
-				if (!Util.isTouchDevice) {
-					// handlers in events don't need to be bound.
-					_.bindAll(this, "onThumbMove", "onThumbInactive");
-					var $document = $(document);
-					this.listenTo($document, "mousemove", this.onThumbMove);
-					this.listenTo($document, "mouseup", this.onThumbInactive);
-				}
+				// handlers in events don't need to be bound.
+				_.bindAll(this, "onThumbMove", "onThumbInactive");
+				var $document = $(document);
+				this.listenTo($document, "mousemove", this.onThumbMove);
+				this.listenTo($document, "mouseup", this.onThumbInactive);
 				this.render();
 				/**
 				 * Contains the thumb and the tooltop.
@@ -676,14 +654,17 @@
 				this.enabled = enabled;
 			},
 			onSliderClick: function(event) {
-				if (!this.enabled) {
+				event.preventDefault();
+				if (!this.enabled || $(event.target).hasClass(thumb)) {
+					// we don't want this to fire as a click event when you click on the thumb.
 					return;
 				}
-				var moveTo = Util.getClientX(event);
+				var moveTo = event.pageX;
 				if (!this.containerOffset) {
 					this.containerOffset = this.$el.offset().left;
 				}
 				this.moveThumb(moveTo - this.containerOffset);
+				this.sendSeek();
 			},
 			onThumbActive: function(event) {
 				event.preventDefault();
@@ -695,13 +676,13 @@
 				this.$buffered.css({
 					width: 0
 				});
-				this.$toolTipTime.html(Util.formatTime(this.playhead));
+				this.$toolTipTime.html(formatTime(this.playhead));
 				this.$toolTipContainer.show();
 			},
 			onThumbMove: function(event) {
 				if (this.dragging) {
 					event.preventDefault();
-					var moveTo = Util.getClientX(event);
+					var moveTo = event.pageX;
 					if (!this.containerOffset) {
 						this.containerOffset = this.$el.offset().left;
 					}
@@ -731,7 +712,7 @@
 				this.$progress.css({
 					width: left
 				});
-				this.$toolTipTime.html(Util.formatTime(this.getTimeFromThumb(left)));
+				this.$toolTipTime.html(formatTime(this.getTimeFromThumb(left)));
 			},
 			getLeftFromPlayhead: function(playhead) {
 				if (!playhead) {
@@ -751,7 +732,7 @@
 				this.$timeDisplay.html(this.getTimeDisplayText());
 			},
 			getTimeDisplayText: function() {
-				return "<span class=\"mtvn-controls-slider-current-time\">" + Util.formatTime(this.playhead) + "</span> / " + Util.formatTime(this.duration);
+				return "<span class=\"mtvn-controls-slider-current-time\">" + formatTime(this.playhead) + "</span> / " + formatTime(this.duration);
 			},
 			sendSeek: function() {
 				var playhead = this.playhead = this.getTimeFromThumb();
@@ -764,7 +745,7 @@
 		});
 	})();
 	/* exported VolumeButton */
-	/* global Backbone, Events, Util, _, $*/
+	/* global Backbone, Events, _, $*/
 	var VolumeButton = (function() {
 		var css = {
 			unmute: "mtvn-controls-unmute",
@@ -779,23 +760,27 @@
 		return Backbone.View.extend({
 			enabled: true,
 			defaultEvents: {
-				"click": "toggle"
+				"click": "toggle",
+				"touchstart": "toggle"
 			},
 			mouseEvents: {
 				"click .mtvn-controls-volume-slider": "onSliderClick",
+				"touchstart .mtvn-controls-volume-slider": "onSliderClick",
 				"mouseover": "onMouseOver",
 				"mouseleave": "onMouseOut",
-				"mousedown .mtvn-controls-volume-slider-foreground": "onThumbActive"
+				"mousedown .mtvn-controls-volume-slider-foreground": "onThumbActive",
+				"touchstart .mtvn-controls-volume-slider-foreground": "onThumbActive"
 			},
 			events: function() {
-				if (!Util.isTouchDevice) {
+				if (this.options.showVolumeSlider) {
 					return _.extend(this.defaultEvents, this.mouseEvents);
 				}
 				return this.defaultEvents;
 			},
 			initialize: function(options) {
 				_.bindAll(this, "updateView");
-				if (!Util.isTouchDevice) {
+				this.options = options;
+				if (options.showVolumeSlider) {
 					_.bindAll(this, "onThumbMove", "onThumbInactive", "toggleSlider");
 					var $doc = $(document);
 					this.listenTo($doc, "mousemove", this.onThumbMove);
@@ -831,7 +816,8 @@
 				this.$container.toggleClass(css.showSlider, this.isMouseOver);
 			},
 			onSliderClick: function(event) {
-				this.setVolume(this.calculatePercentageFromTop(event.y - this.getContainerOffset()));
+				event.preventDefault();
+				this.setVolume(this.calculatePercentageFromTop(event.pageY - this.getContainerOffset()));
 			},
 			updateView: function(volume) {
 				if (_.isUndefined(volume)) {
@@ -852,7 +838,7 @@
 			onThumbMove: function(event) {
 				if (this.dragging) {
 					event.preventDefault();
-					var moveTo = Util.getClientY(event);
+					var moveTo = event.pageY;
 					this.setVolume(this.calculatePercentageFromTop(moveTo - this.getContainerOffset()));
 				}
 			},
@@ -899,6 +885,7 @@
 				}
 			},
 			toggle: function(event) {
+				event.preventDefault();
 				if (isButton(event)) {
 					var $el = this.$el,
 						showMute = $el.hasClass(css.unmute),

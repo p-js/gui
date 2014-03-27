@@ -58,6 +58,7 @@ var Controls = (function() {
 			if (options.showVolume) {
 				this.volumeButton = new VolumeButton({
 					volume: options.volume,
+					showVolumeSlider: options.showVolumeSlider,
 					el: this.$("." + css.volume)
 				});
 				addEvents(this, this.volumeButton, [Events.VOLUME, Events.MUTE, Events.UNMUTE], this.sendEvent);

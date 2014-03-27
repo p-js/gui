@@ -90,5 +90,6 @@ MTVNPlayer.loadPackages({
 	playing: false,
 	live: true,
 	showVolume: true,
+	showVolumeSlider: true,
 	ccEnabled: true
 }, "#controls2"));

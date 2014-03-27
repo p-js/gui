@@ -16,7 +16,6 @@ var Templates = (function() {
 }).apply({});
 //= ad-display
 //= top-panel
-//= controls/util
 //= controls
 /* global AdDisplay, Controls, Events, TopPanel */
 GUI.AdDisplay = AdDisplay;
