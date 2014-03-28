@@ -2,6 +2,7 @@
 /* global Backbone, Events, _, $*/
 var VolumeButton = (function() {
 	var css = {
+		controls: "mtvn-controls",
 		unmute: "mtvn-controls-unmute",
 		mute: "mtvn-controls-mute",
 		showSlider: "mtvn-controls-volume-slider-container-over",
@@ -58,9 +59,29 @@ var VolumeButton = (function() {
 			event.preventDefault();
 			this.dragging = true;
 		},
-		onMouseOut: function() {
+		getElementOffset: function() {
+			if (!this.elOffset) {
+				var offset = this.$el.offset();
+				if (offset.width > 0) {
+					this.elOffset = offset;
+				}
+			}
+			return this.elOffset;
+		},
+		onMouseOut: function(event) {
 			this.isMouseOver = false;
-			_.delay(this.toggleSlider, 1500);
+			var offsetX = event.offsetX,
+				elOffset = this.getElementOffset();
+			if (_.isUndefined(offsetX)) {
+				// Firefox doesn't have offsetX.
+				offsetX = event.pageX - elOffset.left;
+			}
+			var isLeftOrRight = offsetX < 0 || offsetX >= elOffset.width,
+				// Firefox doesn't have toElement
+				$toEl = event.toElement ? $(event.toElement) : $(event.relatedTarget),
+				// Toggle immediately if we roll off the button to the left or right.
+				toggleTime = isLeftOrRight && $toEl.hasClass(css.controls) ? 0 : 1500;
+			_.delay(this.toggleSlider, toggleTime);
 		},
 		onMouseOver: function() {
 			this.isMouseOver = this.enabled;
