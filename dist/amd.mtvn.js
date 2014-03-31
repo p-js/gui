@@ -17,7 +17,7 @@
 	/* global _, $, Handlebars, Backbone*/
 	var GUI = {
 		version: "0.8.0",
-		build: "Fri Mar 28 2014 10:11:45"
+		build: "Mon Mar 31 2014 16:53:54"
 	};
 	// Handlebars is provided in the mtvn-util package.
 	// GUI is loaded in to the page separately, so we have to go 
@@ -796,7 +796,7 @@
 			setEnabled: function(enabled) {
 				if (this.enabled !== enabled) {
 					this.enabled = enabled;
-					if (!enabled) {
+					if (!enabled && this.$container) {
 						this.$container.removeClass(css.showSlider);
 					}
 				}

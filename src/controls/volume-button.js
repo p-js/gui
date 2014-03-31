@@ -50,7 +50,7 @@ var VolumeButton = (function() {
 		setEnabled: function(enabled) {
 			if (this.enabled !== enabled) {
 				this.enabled = enabled;
-				if (!enabled) {
+				if (!enabled && this.$container) {
 					this.$container.removeClass(css.showSlider);
 				}
 			}
