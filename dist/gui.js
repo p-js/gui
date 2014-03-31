@@ -5,7 +5,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	/* global _, $, Handlebars, Backbone*/
 	var GUI = {
 		version: "0.8.0",
-		build: "Mon Mar 31 2014 16:53:54"
+		build: "Mon Mar 31 2014 17:05:28"
 	};
 	// Handlebars is provided in the mtvn-util package.
 	// GUI is loaded in to the page separately, so we have to go 
@@ -262,6 +262,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	  LiveButton, VolumeButton, ClosedCaptionButton, Templates*/
 	var Controls = (function() {
 		var CONTROLS_TEMPLATE = Templates["src/controls/template.html"],
+			IS_LIVE_THRESHOLD = 3,
 			css = {
 				hide: "mtvn-controls-hidden",
 				slider: "mtvn-controls-slider",
@@ -360,6 +361,13 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			},
 			setPlayhead: function(playhead) {
 				this.slider.setPlayhead(playhead);
+				if (this.liveButton) {
+					// we'll only have one duration if live.
+					var durations = this.slider.durations;
+					if (durations.length > 0 && durations[0] - playhead < IS_LIVE_THRESHOLD) {
+						this.setLive(true);
+					}
+				}
 			},
 			setBuffered: function(buffered) {
 				this.slider.setBuffered(buffered);

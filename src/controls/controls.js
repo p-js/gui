@@ -3,6 +3,7 @@
   LiveButton, VolumeButton, ClosedCaptionButton, Templates*/
 var Controls = (function() {
 	var CONTROLS_TEMPLATE = Templates["src/controls/template.html"],
+		IS_LIVE_THRESHOLD = 3,
 		css = {
 			hide: "mtvn-controls-hidden",
 			slider: "mtvn-controls-slider",
@@ -101,6 +102,13 @@ var Controls = (function() {
 		},
 		setPlayhead: function(playhead) {
 			this.slider.setPlayhead(playhead);
+			if (this.liveButton) {
+				// we'll only have one duration if live.
+				var durations = this.slider.durations;
+				if (durations.length > 0 && durations[0] - playhead < IS_LIVE_THRESHOLD) {
+					this.setLive(true);
+				}
+			}
 		},
 		setBuffered: function(buffered) {
 			this.slider.setBuffered(buffered);
