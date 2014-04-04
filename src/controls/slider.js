@@ -66,6 +66,7 @@ var Slider = (function() {
 		},
 		initialize: function(options) {
 			this.options = options;
+			this.setLive(options.isLive);
 			// handlers in events don't need to be bound.
 			_.bindAll(this, "onThumbMove", "onThumbInactive");
 			var $document = $(document);
@@ -160,7 +161,12 @@ var Slider = (function() {
 			} else {
 				this.$dividerContainer.hide();
 			}
+			this.setPlayhead(this.playhead);
 			this.updateTime();
+
+		},
+		setLive: function(isLive) {
+			this.isLive = isLive;
 		},
 		setEnabled: function(enabled) {
 			if (enabled !== this.enabled) {
@@ -235,6 +241,9 @@ var Slider = (function() {
 			if (isNaN(left)) {
 				return;
 			}
+			if (Math.abs(this.lastLeft - left) < 0.25) {
+				return;
+			}
 			this.$thumbContainer.css({
 				left: left
 			});
@@ -242,6 +251,7 @@ var Slider = (function() {
 				width: left
 			});
 			this.$toolTipTime.html(formatTime(this.getTimeFromThumb(left)));
+			this.lastLeft = left;
 		},
 		getLeftFromPlayhead: function(playhead) {
 			if (!playhead) {
@@ -261,7 +271,14 @@ var Slider = (function() {
 			this.$timeDisplay.html(this.getTimeDisplayText());
 		},
 		getTimeDisplayText: function() {
-			return "<span class=\"mtvn-controls-slider-current-time\">" + formatTime(this.playhead) + "</span> / " + formatTime(this.duration);
+			if (!this.duration) {
+				return "";
+			}
+			if (this.isLive) {
+				return formatTime(this.duration);
+			} else {
+				return "<span class=\"mtvn-controls-slider-current-time\">" + formatTime(this.playhead) + "</span> / " + formatTime(this.duration);
+			}
 		},
 		sendSeek: function() {
 			var playhead = this.playhead = this.getTimeFromThumb();

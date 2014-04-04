@@ -44,7 +44,7 @@ var Controls = (function() {
 			if (options.live) {
 				this.liveButton = new LiveButton({
 					el: this.$("." + css.live),
-					isLive: !options.live
+					isLive: options.live
 				});
 				this.listenTo(this.liveButton, Events.GO_LIVE, this.sendEvent);
 			}
@@ -52,6 +52,7 @@ var Controls = (function() {
 			this.slider = new Slider({
 				el: this.$("." + css.slider),
 				playhead: options.playhead,
+				isLive: options.live,
 				durations: options.durations
 			});
 			this.listenTo(this.slider, Events.SEEK, this.sendEvent);
@@ -96,18 +97,18 @@ var Controls = (function() {
 			if (this.liveButton) {
 				this.liveButton.setLive(live);
 			}
+			if (this.slider) {
+				this.slider.setLive(live);
+			}
 		},
 		getPlayhead: function() {
+			// used for testing.
 			return this.slider.playhead;
 		},
 		setPlayhead: function(playhead) {
 			this.slider.setPlayhead(playhead);
-			if (this.liveButton) {
-				// we'll only have one duration if live.
-				var durations = this.slider.durations;
-				if (durations.length > 0 && durations[0] - playhead < IS_LIVE_THRESHOLD) {
-					this.setLive(true);
-				}
+			if (this.options.live) {
+				this.setLive(this.slider.duration - playhead < IS_LIVE_THRESHOLD);
 			}
 		},
 		setBuffered: function(buffered) {

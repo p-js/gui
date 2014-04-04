@@ -5,7 +5,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	/* global _, $, Handlebars, Backbone*/
 	var GUI = {
 		version: "0.8.0",
-		build: "Mon Mar 31 2014 17:05:28"
+		build: "Fri Apr 04 2014 14:46:35"
 	};
 	// Handlebars is provided in the mtvn-util package.
 	// GUI is loaded in to the page separately, so we have to go 
@@ -303,7 +303,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				if (options.live) {
 					this.liveButton = new LiveButton({
 						el: this.$("." + css.live),
-						isLive: !options.live
+						isLive: options.live
 					});
 					this.listenTo(this.liveButton, Events.GO_LIVE, this.sendEvent);
 				}
@@ -311,6 +311,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				this.slider = new Slider({
 					el: this.$("." + css.slider),
 					playhead: options.playhead,
+					isLive: options.live,
 					durations: options.durations
 				});
 				this.listenTo(this.slider, Events.SEEK, this.sendEvent);
@@ -355,18 +356,18 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				if (this.liveButton) {
 					this.liveButton.setLive(live);
 				}
+				if (this.slider) {
+					this.slider.setLive(live);
+				}
 			},
 			getPlayhead: function() {
+				// used for testing.
 				return this.slider.playhead;
 			},
 			setPlayhead: function(playhead) {
 				this.slider.setPlayhead(playhead);
-				if (this.liveButton) {
-					// we'll only have one duration if live.
-					var durations = this.slider.durations;
-					if (durations.length > 0 && durations[0] - playhead < IS_LIVE_THRESHOLD) {
-						this.setLive(true);
-					}
+				if (this.options.live) {
+					this.setLive(this.slider.duration - playhead < IS_LIVE_THRESHOLD);
 				}
 			},
 			setBuffered: function(buffered) {
@@ -533,6 +534,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			},
 			initialize: function(options) {
 				this.options = options;
+				this.setLive(options.isLive);
 				// handlers in events don't need to be bound.
 				_.bindAll(this, "onThumbMove", "onThumbInactive");
 				var $document = $(document);
@@ -627,7 +629,12 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				} else {
 					this.$dividerContainer.hide();
 				}
+				this.setPlayhead(this.playhead);
 				this.updateTime();
+	
+			},
+			setLive: function(isLive) {
+				this.isLive = isLive;
 			},
 			setEnabled: function(enabled) {
 				if (enabled !== this.enabled) {
@@ -702,6 +709,9 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				if (isNaN(left)) {
 					return;
 				}
+				if (Math.abs(this.lastLeft - left) < 0.25) {
+					return;
+				}
 				this.$thumbContainer.css({
 					left: left
 				});
@@ -709,6 +719,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 					width: left
 				});
 				this.$toolTipTime.html(formatTime(this.getTimeFromThumb(left)));
+				this.lastLeft = left;
 			},
 			getLeftFromPlayhead: function(playhead) {
 				if (!playhead) {
@@ -728,7 +739,14 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				this.$timeDisplay.html(this.getTimeDisplayText());
 			},
 			getTimeDisplayText: function() {
-				return "<span class=\"mtvn-controls-slider-current-time\">" + formatTime(this.playhead) + "</span> / " + formatTime(this.duration);
+				if (!this.duration) {
+					return "";
+				}
+				if (this.isLive) {
+					return formatTime(this.duration);
+				} else {
+					return "<span class=\"mtvn-controls-slider-current-time\">" + formatTime(this.playhead) + "</span> / " + formatTime(this.duration);
+				}
 			},
 			sendSeek: function() {
 				var playhead = this.playhead = this.getTimeFromThumb();
