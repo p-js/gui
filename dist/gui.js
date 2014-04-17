@@ -5,7 +5,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	/* global _, $, Handlebars, Backbone*/
 	var GUI = {
 		version: "0.8.0",
-		build: "Fri Apr 04 2014 14:46:35"
+		build: "Thu Apr 17 2014 15:27:19"
 	};
 	// Handlebars is provided in the mtvn-util package.
 	// GUI is loaded in to the page separately, so we have to go 
@@ -262,7 +262,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	  LiveButton, VolumeButton, ClosedCaptionButton, Templates*/
 	var Controls = (function() {
 		var CONTROLS_TEMPLATE = Templates["src/controls/template.html"],
-			IS_LIVE_THRESHOLD = 3,
+			IS_LIVE_THRESHOLD = 1,
 			css = {
 				hide: "mtvn-controls-hidden",
 				slider: "mtvn-controls-slider",
@@ -375,6 +375,9 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			},
 			setDurations: function(durations) {
 				this.slider.setDurations(durations);
+				if (this.options.live) {
+					this.setLive(this.slider.duration - this.slider.playhead < IS_LIVE_THRESHOLD);
+				}
 			},
 			sendEvent: function(event) {
 				event.target = this;
@@ -540,7 +543,6 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				var $document = $(document);
 				this.listenTo($document, "mousemove", this.onThumbMove);
 				this.listenTo($document, "mouseup", this.onThumbInactive);
-				this.render();
 				/**
 				 * Contains the thumb and the tooltop.
 				 */
@@ -574,6 +576,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				 * Don't fire measure too often. Perhaps a forced measure can be called from the player code.
 				 */
 				this.throttledMeasure = _.throttle(this.measure, 1500);
+				this.throttledRender = _.throttle(this.render, 250);
 				this.setDurations(this.options.durations);
 				this.setPlayhead(this.options.playhead);
 			},
@@ -583,12 +586,19 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 						playhead = parseFloat(playhead, 10);
 					}
 					if (!isNaN(playhead)) {
-						this.throttledMeasure();
+						playhead = Math.round(playhead * 100) / 100;
 						this.playhead = Math.max(0, Math.min(playhead, this.duration));
-						this.moveThumb(this.getLeftFromPlayhead(playhead));
-						this.updateTime();
+						this.throttledRender();
 					}
 				}
+			},
+			render: function() {
+				if (this.dragging || this.seeking) {
+					return;
+				}
+				this.throttledMeasure();
+				this.moveThumb(this.getLeftFromPlayhead(this.isLive ? this.duration : this.playhead));
+				this.updateTime();
 			},
 			setBuffered: function(buffered) {
 				if (!this.dragging && !this.seeking && this.duration > 1) {
@@ -629,9 +639,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				} else {
 					this.$dividerContainer.hide();
 				}
-				this.setPlayhead(this.playhead);
-				this.updateTime();
-	
+				this.throttledRender();
 			},
 			setLive: function(isLive) {
 				this.isLive = isLive;

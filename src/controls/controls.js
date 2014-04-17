@@ -116,6 +116,9 @@ var Controls = (function() {
 		},
 		setDurations: function(durations) {
 			this.slider.setDurations(durations);
+			if (this.options.live) {
+				this.setLive(this.slider.duration - this.slider.playhead < IS_LIVE_THRESHOLD);
+			}
 		},
 		sendEvent: function(event) {
 			event.target = this;

@@ -117,7 +117,6 @@
 
 .mtvn-controls-slider {
 	@include flex(1);
-	margin-top: 2px;
 	margin-right: 10px;
 	margin-left:10px;
 	color: #C8C8C8;
@@ -132,7 +131,7 @@
 	text-align: right;
 	height: 12px;
 	padding-top: 4px;
-	padding-bottom: 4px;
+	padding-bottom: 18px;
 }
 
 .mtvn-controls-slider-current-time{
