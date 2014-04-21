@@ -8,19 +8,12 @@ module.exports = function(grunt) {
 		},
 		jshint: {
 			devel: {
-				options: {
-					asi: false,
-					browser: true,
-					devel: true,
-					debug: true
-				},
-				src: ['src/*.js', '!src/template.js']
+				options: grunt.file.readJSON("./components/project-settings/jshint-dev.json"),
+				src: ['src/**/*.js']
 			},
 			release: {
-				options: {
-					browser: true
-				},
-				src: ['src/*.js', '!src/template.js']
+				options: grunt.file.readJSON("./components/project-settings/jshint.json"),
+				src: ['src/**/*.js']
 			}
 		},
 		uglify: {

@@ -1,5 +1,5 @@
 /* exported LiveButton */
-/* global Backbone, Events*/
+/* global Backbone, Events, _*/
 var LiveButton = (function() {
 	var css = {
 		live: "mtvn-controls-is-live",
@@ -9,9 +9,13 @@ var LiveButton = (function() {
 		initialize: function(options) {
 			this.options = options;
 			this.setLive(options.isLive);
+			_.bindAll(this, "onLiveChange");
 		},
 		events: {
 			"click": "toggle"
+		},
+		onLiveChange: function(event) {
+			this.setLive(event.data);
 		},
 		setLive: function(isLive) {
 			var $el = this.$el;

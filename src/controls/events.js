@@ -5,6 +5,7 @@ var Events = {
 	FULLSCREEN: "FULLSCREEN",
 	CC: "CC",
 	GO_LIVE: "GO_LIVE",
+	IS_LIVE: "IS_LIVE",
 	MUTE: "MUTE",
 	VOLUME: "VOLUME",
 	UNMUTE: "UNMUTE",
