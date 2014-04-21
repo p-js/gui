@@ -16,24 +16,21 @@ module.exports = function(grunt) {
 				src: ['src/**/*.js']
 			}
 		},
-		uglify: {
-			all: {
-				src: "dist/<%=pkg.name%>.js",
-				dest: "dist/<%=pkg.name%>.min.js"
-			},
-			amd: {
-				src: ['dist/amd.mtvn.js'],
-				dest: 'dist/amd.mtvn.min.js'
-			}
-		},
 		rig: {
 			devel: {
-				src: ['src/build/<%= pkg.name %>.js'],
-				dest: 'dist/<%= pkg.name %>.js'
-			},
-			amd: {
-				src: ['src/build/amd.mtvn.js'],
-				dest: 'dist/amd.mtvn.js'
+				expand: true,
+				cwd: "src/build/",
+				src: '*.js',
+				dest: 'dist/'
+			}
+		},
+		uglify: {
+			devel: {
+				expand: true,
+				cwd: "dist/",
+				src: '*.js',
+				ext: ".min.js",
+				dest: 'dist/'
 			}
 		},
 		handlebars: {
