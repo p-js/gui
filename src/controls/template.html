@@ -1,8 +1,10 @@
 <!-- controls -->
 {{#if live}}
-<div class="mtvn-controls-live mtvn-controls-button"></div>
-{{else}}
+<div class="mtvn-controls-rewind mtvn-controls-button"></div>
+{{/if}}
 <div class="mtvn-controls-play-pause mtvn-controls-button"></div>
+{{#if live}}
+<div class="mtvn-controls-live mtvn-controls-button"></div>
 {{/if}}
 <div class="{{slider}}">
 	<div class="{{slider}}-time-display"></div>
@@ -12,7 +14,7 @@
 	</div>
 	<div class="{{slider}}-background"></div>
 	<div class="{{slider}}-segment-container"></div>
-	<div class="{{slider}}-thumb-container" style="left:0px;">
+	<div class="{{slider}}-thumb-container">
 		<div class="{{slider}}-tool-tip-container">
 			<div class="{{slider}}-tool-tip-background"></div>
 			<div class="{{slider}}-tool-tip-time"></div>

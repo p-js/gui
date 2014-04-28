@@ -1,4 +1,16 @@
 
+0.8.0 / 2014-04-28 
+==================
+
+ * Updates for live playback and the slider.
+ * Adjust Go Live button's state based on playhead and duration.
+ * Hide the volume slider immediately when rolling off the button to the left and right.
+ * Handle touch and mouse events simultaneously. 
+ * Remove touch detection code.
+ * Fix sprite issue on Firefox by using psuedo elements.
+ * Fix animation issue on Safari for volume slider.
+ * Add Live and DVR controls.
+
 0.7.1 / 2014-03-20 
 ==================
 

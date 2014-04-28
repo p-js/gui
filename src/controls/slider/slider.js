@@ -1,29 +1,22 @@
-/* global _, $, Backbone, Events, Util*/
+/* global _, $, Backbone, Events*/
 /* exported Slider */
 var Slider = (function() {
 	var RESIZE = "slider:resize",
 		thumb = "mtvn-controls-slider-thumb",
 		thumbActive = "mtvn-controls-slider-thumb-active",
-		// full ep mixin
-		segementedScrubber = (function() {
-			return {
-				isSegmented: true,
-				createDividers: function() {
-					this.$dividerContainer.empty();
-					_.each(this.durations, function() {
-						this.$dividerContainer.append($("<div class=\"mtvn-controls-slider-segment\"/>"));
-					}, this);
-				},
-				moveDividers: function() {
-					var dividers = this.$dividerContainer.children();
-					_.each(this.durations, function(duration, index) {
-						$(dividers[index]).css({
-							left: this.getLeftFromPlayhead(duration)
-						});
-					}, this);
-				}
-			};
-		})();
+		formatTime = function(sec) {
+			if (isNaN(sec)) {
+				return "00:00";
+			}
+			var h = Math.floor(sec / 3600),
+				m = Math.floor((sec % 3600) / 60),
+				s = Math.floor((sec % 3600) % 60);
+			return (h === 0 ? "" : (h < 10 ? "0" + h + ":" : h + ":")) + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+		};
+	/* global SliderLiveMixin */
+	//= live-mixin.js
+	/* global SegmentedSlider */
+	//= segmented-mixin.js
 	return Backbone.View.extend({
 		/**
 		 * The thumb is visible and the slider is clickable when enabled.
@@ -47,28 +40,21 @@ var Slider = (function() {
 		sliderWidth: 0,
 		events: function() {
 			return _.extend({
-					"click": "onSliderClick"
-				},
-				Util.isTouchDevice ? {
-					// TOUCH EVENTS
-					"touchstart .mtvn-controls-slider-thumb-container": "onThumbActive",
-					"touchmove .mtvn-controls-slider-thumb-container": "onThumbMove",
-					"touchend .mtvn-controls-slider-thumb-container": "onThumbInactive"
-				} : {
-					// MOUSE EVENTS
-					"mousedown .mtvn-controls-slider-thumb-container": "onThumbActive"
-				});
+				"click": "onSliderClick",
+				"touchstart": "onSliderClick",
+				"touchstart .mtvn-controls-slider-thumb-container": "onThumbActive",
+				"touchmove .mtvn-controls-slider-thumb-container": "onThumbMove",
+				"touchend .mtvn-controls-slider-thumb-container": "onThumbInactive",
+				"mousedown .mtvn-controls-slider-thumb-container": "onThumbActive"
+			});
 		},
 		initialize: function(options) {
 			this.options = options;
-			if (!Util.isTouchDevice) {
-				// handlers in events don't need to be bound.
-				_.bindAll(this, "onThumbMove", "onThumbInactive");
-				var $document = $(document);
-				this.listenTo($document, "mousemove", this.onThumbMove);
-				this.listenTo($document, "mouseup", this.onThumbInactive);
-			}
-			this.render();
+			// handlers in events don't need to be bound.
+			_.bindAll(this, "onThumbMove", "onThumbInactive");
+			var $document = $(document);
+			this.listenTo($document, "mousemove", this.onThumbMove);
+			this.listenTo($document, "mouseup", this.onThumbInactive);
 			/**
 			 * Contains the thumb and the tooltop.
 			 */
@@ -102,8 +88,12 @@ var Slider = (function() {
 			 * Don't fire measure too often. Perhaps a forced measure can be called from the player code.
 			 */
 			this.throttledMeasure = _.throttle(this.measure, 1500);
+			this.throttledRender = _.throttle(this.render, 250);
 			this.setDurations(this.options.durations);
 			this.setPlayhead(this.options.playhead);
+			if (options.isLive) {
+				_.extend(this, SliderLiveMixin);
+			}
 		},
 		setPlayhead: function(playhead) {
 			if (!this.dragging && !this.seeking) {
@@ -111,12 +101,44 @@ var Slider = (function() {
 					playhead = parseFloat(playhead, 10);
 				}
 				if (!isNaN(playhead)) {
-					this.throttledMeasure();
+					playhead = Math.round(playhead * 100) / 100;
 					this.playhead = Math.max(0, Math.min(playhead, this.duration));
-					this.moveThumb(this.getLeftFromPlayhead(playhead));
-					this.updateTime();
+					this.throttledRender();
 				}
 			}
+		},
+		setDurations: function(durations) {
+			if (!_.isArray(durations)) {
+				return;
+			}
+			if (durations.length > 1 && !this.isSegmented) {
+				_.extend(this, SegmentedSlider);
+			}
+			var currentDuration = 0;
+			this.durations = _.map(durations, function(num) {
+				currentDuration += num;
+				return currentDuration;
+			});
+			this.duration = this.durations.pop();
+			this.throttledMeasure();
+			if (this.isSegmented) {
+				this.createDividers();
+				this.moveDividers();
+				this.$dividerContainer.show();
+				this.on(RESIZE, _.bind(this.moveDividers, this));
+			} else {
+				this.$dividerContainer.hide();
+			}
+			this.throttledRender();
+		},
+		render: function() {
+			if (this.dragging || this.seeking) {
+				return;
+			}
+			this.checkLive();
+			this.throttledMeasure();
+			this.moveThumb(this.getLeftFromPlayhead(this.isLive() ? this.duration : this.playhead));
+			this.updateTime();
 		},
 		setBuffered: function(buffered) {
 			if (!this.dragging && !this.seeking && this.duration > 1) {
@@ -135,30 +157,10 @@ var Slider = (function() {
 				this.trigger(RESIZE, sliderWidth);
 			}
 		},
-		setDurations: function(durations) {
-			if (!_.isArray(durations)) {
-				return;
-			}
-			if (durations.length > 1 && !this.isSegmented) {
-				_.extend(this, segementedScrubber);
-			}
-			var currentDuration = 0;
-			this.durations = _.map(durations, function(num) {
-				currentDuration += num;
-				return currentDuration;
-			});
-			this.duration = this.durations.pop();
-			this.throttledMeasure();
-			if (this.isSegmented) {
-				this.createDividers();
-				this.moveDividers();
-				this.$dividerContainer.show();
-				this.on(RESIZE, _.bind(this.moveDividers, this));
-			} else {
-				this.$dividerContainer.hide();
-			}
-			this.updateTime();
+		isLive: function() {
+			return false;
 		},
+		checkLive: function() {},
 		setEnabled: function(enabled) {
 			if (enabled !== this.enabled) {
 				if (enabled) {
@@ -180,14 +182,17 @@ var Slider = (function() {
 			this.enabled = enabled;
 		},
 		onSliderClick: function(event) {
-			if (!this.enabled) {
+			event.preventDefault();
+			if (!this.enabled || $(event.target).hasClass(thumb)) {
+				// we don't want this to fire as a click event when you click on the thumb.
 				return;
 			}
-			var moveTo = event.x;
+			var moveTo = event.pageX;
 			if (!this.containerOffset) {
 				this.containerOffset = this.$el.offset().left;
 			}
 			this.moveThumb(moveTo - this.containerOffset);
+			this.sendSeek();
 		},
 		onThumbActive: function(event) {
 			event.preventDefault();
@@ -199,13 +204,13 @@ var Slider = (function() {
 			this.$buffered.css({
 				width: 0
 			});
-			this.$toolTipTime.html(Util.formatTime(this.playhead));
+			this.$toolTipTime.html(formatTime(this.playhead));
 			this.$toolTipContainer.show();
 		},
 		onThumbMove: function(event) {
 			if (this.dragging) {
 				event.preventDefault();
-				var moveTo = Util.getClientX(event);
+				var moveTo = event.pageX;
 				if (!this.containerOffset) {
 					this.containerOffset = this.$el.offset().left;
 				}
@@ -226,13 +231,20 @@ var Slider = (function() {
 		moveThumb: function(moveTo) {
 			var left = Math.max(0, moveTo);
 			left = Math.min(left, this.sliderWidth);
+			if (isNaN(left)) {
+				return;
+			}
+			if (Math.abs(this.lastLeft - left) < 0.25) {
+				return;
+			}
 			this.$thumbContainer.css({
 				left: left
 			});
 			this.$progress.css({
 				width: left
 			});
-			this.$toolTipTime.html(Util.formatTime(this.getTimeFromThumb(left)));
+			this.$toolTipTime.html(formatTime(this.getTimeFromThumb(left)));
+			this.lastLeft = left;
 		},
 		getLeftFromPlayhead: function(playhead) {
 			if (!playhead) {
@@ -252,14 +264,20 @@ var Slider = (function() {
 			this.$timeDisplay.html(this.getTimeDisplayText());
 		},
 		getTimeDisplayText: function() {
-			return "<span class=\"mtvn-controls-slider-current-time\">" + Util.formatTime(this.playhead) + "</span> / " + Util.formatTime(this.duration);
+			if (!this.duration) {
+				return "";
+			}
+			if (this.isLive()) {
+				return formatTime(this.duration);
+			} else {
+				return "<span class=\"mtvn-controls-slider-current-time\">" + formatTime(this.playhead) + "</span> / " + formatTime(this.duration);
+			}
 		},
 		sendSeek: function() {
-			var playhead = this.playhead = this.getTimeFromThumb();
-			this.updateTime();
+			this.setPlayhead(this.getTimeFromThumb());
 			this.trigger(Events.SEEK, {
 				type: Events.SEEK,
-				data: playhead
+				data: this.playhead
 			});
 		}
 	});

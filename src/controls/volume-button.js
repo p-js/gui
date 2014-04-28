@@ -1,7 +1,8 @@
 /* exported VolumeButton */
-/* global Backbone, Events, Util, _, $*/
+/* global Backbone, Events, _, $*/
 var VolumeButton = (function() {
 	var css = {
+		controls: "mtvn-controls",
 		unmute: "mtvn-controls-unmute",
 		mute: "mtvn-controls-mute",
 		showSlider: "mtvn-controls-volume-slider-container-over",
@@ -14,23 +15,27 @@ var VolumeButton = (function() {
 	return Backbone.View.extend({
 		enabled: true,
 		defaultEvents: {
-			"click": "toggle"
+			"click": "toggle",
+			"touchstart": "toggle"
 		},
 		mouseEvents: {
 			"click .mtvn-controls-volume-slider": "onSliderClick",
+			"touchstart .mtvn-controls-volume-slider": "onSliderClick",
 			"mouseover": "onMouseOver",
 			"mouseleave": "onMouseOut",
-			"mousedown .mtvn-controls-volume-slider-foreground": "onThumbActive"
+			"mousedown .mtvn-controls-volume-slider-foreground": "onThumbActive",
+			"touchstart .mtvn-controls-volume-slider-foreground": "onThumbActive"
 		},
 		events: function() {
-			if (!Util.isTouchDevice) {
+			if (this.options.showVolumeSlider) {
 				return _.extend(this.defaultEvents, this.mouseEvents);
 			}
 			return this.defaultEvents;
 		},
 		initialize: function(options) {
 			_.bindAll(this, "updateView");
-			if (!Util.isTouchDevice) {
+			this.options = options;
+			if (options.showVolumeSlider) {
 				_.bindAll(this, "onThumbMove", "onThumbInactive", "toggleSlider");
 				var $doc = $(document);
 				this.listenTo($doc, "mousemove", this.onThumbMove);
@@ -45,7 +50,7 @@ var VolumeButton = (function() {
 		setEnabled: function(enabled) {
 			if (this.enabled !== enabled) {
 				this.enabled = enabled;
-				if (!enabled) {
+				if (!enabled && this.$container) {
 					this.$container.removeClass(css.showSlider);
 				}
 			}
@@ -54,9 +59,29 @@ var VolumeButton = (function() {
 			event.preventDefault();
 			this.dragging = true;
 		},
-		onMouseOut: function() {
+		getElementOffset: function() {
+			if (!this.elOffset) {
+				var offset = this.$el.offset();
+				if (offset.width > 0) {
+					this.elOffset = offset;
+				}
+			}
+			return this.elOffset;
+		},
+		onMouseOut: function(event) {
 			this.isMouseOver = false;
-			_.delay(this.toggleSlider, 1500);
+			var offsetX = event.offsetX,
+				elOffset = this.getElementOffset();
+			if (_.isUndefined(offsetX)) {
+				// Firefox doesn't have offsetX.
+				offsetX = event.pageX - elOffset.left;
+			}
+			var isLeftOrRight = offsetX < 0 || offsetX >= elOffset.width,
+				// Firefox doesn't have toElement
+				$toEl = event.toElement ? $(event.toElement) : $(event.relatedTarget),
+				// Toggle immediately if we roll off the button to the left or right.
+				toggleTime = isLeftOrRight && $toEl.hasClass(css.controls) ? 0 : 1500;
+			_.delay(this.toggleSlider, toggleTime);
 		},
 		onMouseOver: function() {
 			this.isMouseOver = this.enabled;
@@ -66,7 +91,8 @@ var VolumeButton = (function() {
 			this.$container.toggleClass(css.showSlider, this.isMouseOver);
 		},
 		onSliderClick: function(event) {
-			this.setVolume(this.calculatePercentageFromTop(event.y - this.getContainerOffset()));
+			event.preventDefault();
+			this.setVolume(this.calculatePercentageFromTop(event.pageY - this.getContainerOffset()));
 		},
 		updateView: function(volume) {
 			if (_.isUndefined(volume)) {
@@ -87,7 +113,7 @@ var VolumeButton = (function() {
 		onThumbMove: function(event) {
 			if (this.dragging) {
 				event.preventDefault();
-				var moveTo = Util.getClientY(event);
+				var moveTo = event.pageY;
 				this.setVolume(this.calculatePercentageFromTop(moveTo - this.getContainerOffset()));
 			}
 		},
@@ -134,6 +160,7 @@ var VolumeButton = (function() {
 			}
 		},
 		toggle: function(event) {
+			event.preventDefault();
 			if (isButton(event)) {
 				var $el = this.$el,
 					showMute = $el.hasClass(css.unmute),
