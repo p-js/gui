@@ -1,10 +1,9 @@
 (function(root, factory) {
 	/* global MTVNPlayer*/
 	if (typeof MTVNPlayer === "object") {
-		// GUI is loaded in to the page separately, so we have to go
-		// through a package manager.
-		var r = MTVNPlayer.require;
-		root.GUI = factory(r("_"), r("$"), r("Handlebars"), r("Backbone"));
+		MTVNPlayer.require(["_", "$", "handlebars", "backbone"], function() {
+			MTVNPlayer.provide("pjs-gui", factory.apply(null, arguments));
+		});
 	}
 }(this, function(_, $, Handlebars, Backbone) {
 	/* jshint unused:false */
@@ -13,7 +12,7 @@
 	/* global _, $, Handlebars, Backbone*/
 	var GUI = {
 		version: "0.8.0",
-		build: "Mon Apr 21 2014 18:16:36"
+		build: "Mon Apr 28 2014 15:09:18"
 	};
 	// Handlebars is provided in the mtvn-util package.
 	// GUI is loaded in to the page separately, so we have to go 

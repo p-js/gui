@@ -70,6 +70,9 @@ module.exports = function(grunt) {
 					}, {
 						match: 'version',
 						replacement: '<%= pkg.version %><%= grunt.config("buildNumber") %>'
+					}, {
+						match: 'package-name',
+						replacement: '<%= pkg.name %>'
 					}]
 				},
 				src: "dist/*.js",

@@ -1,10 +1,9 @@
 (function(root, factory) {
 	/* global MTVNPlayer*/
 	if (typeof MTVNPlayer === "object") {
-		// GUI is loaded in to the page separately, so we have to go
-		// through a package manager.
-		var r = MTVNPlayer.require;
-		root.GUI = factory(r("_"), r("$"), r("Handlebars"), r("Backbone"));
+		MTVNPlayer.require(["_", "$", "handlebars", "backbone"], function() {
+			MTVNPlayer.provide("@@package-name", factory.apply(null, arguments));
+		});
 	}
 }(this, function(_, $, Handlebars, Backbone) {
 	/* jshint unused:false */

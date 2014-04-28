@@ -70,7 +70,7 @@ function createGUI(options, target, GUI) {
 }
 MTVNPlayer.loadPackages({
 	"GUI": {
-		url: "../amd.mtvn.js",
+		url: "../mtvn.js",
 		shim: true,
 		exports: "GUI"
 	}
@@ -82,7 +82,7 @@ MTVNPlayer.loadPackages({
 
 MTVNPlayer.loadPackages({
 	"GUI": {
-		url: "../amd.mtvn.js",
+		url: "../mtvn.js",
 		shim: true,
 		exports: "GUI"
 	}
@@ -93,3 +93,14 @@ MTVNPlayer.loadPackages({
 	showVolumeSlider: true,
 	ccEnabled: true
 }, "#controls2"));
+
+MTVNPlayer.loadPackages({
+	"GUI": {
+		url: "../mtvn.js",
+		shim: true,
+		exports: "GUI"
+	}
+}, _.partial(createGUI, {
+	playing: false,
+	showVolumeSlider: true,
+}, "#controls3"));
