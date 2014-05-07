@@ -1,6 +1,6 @@
-/* exported SliderLiveMixin */
+/* exported SliderDVRMixin */
 /* global Events*/
-var SliderLiveMixin = {
+var SliderDVRMixin = {
 	_isLive: false,
 	IS_LIVE_THRESHOLD: 3,
 	checkLive: function() {

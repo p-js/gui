@@ -616,7 +616,11 @@
 		var yepnope = window.yepnope,
 			isLoadingPackages = false,
 			packages = {
-				"yepnope": yepnope
+				"yepnope": yepnope,
+				"pacakge-manager-info": {
+					version: "0.9.0",
+					build: "Thu Apr 24 2014 13:40:55"
+				}
 			},
 			/**
 			 * existingGlobals are to reset exisitng global vars after the shim.
@@ -629,6 +633,9 @@
 			slice = [].slice,
 			isFunction = function(obj) {
 				return typeof obj === 'function';
+			},
+			isString = function(obj) {
+				return Object.prototype.toString.call(obj) === '[object String]';
 			},
 			isArray = function(obj) {
 				return Object.prototype.toString.call(obj) === '[object Array]';
@@ -646,10 +653,14 @@
 			extend = function(obj) {
 				var sources = slice.call(arguments, 1);
 				for (var i in sources) {
-					var source = sources[i];
-					if (source) {
-						for (var prop in source) {
-							obj[prop] = source[prop];
+					if (sources.hasOwnProperty(i)) {
+						var source = sources[i];
+						if (source) {
+							for (var prop in source) {
+								if (source.hasOwnProperty(prop)) {
+									obj[prop] = source[prop];
+								}
+							}
 						}
 					}
 				}
@@ -660,6 +671,27 @@
 				return function() {
 					return func.apply(this, args.concat(slice.call(arguments)));
 				};
+			},
+			convertPackageNames = function(obj) {
+				if (isArray(obj)) {
+					// this means it's keys.
+					for (var i = obj.length - 1; i >= 0; i--) {
+						var name = obj[i];
+						if (isString(name)) {
+							obj[i] = name.toLowerCase();
+						}
+					}
+					return obj;
+				}
+				for (var key in obj) {
+					// an object
+					if (obj.hasOwnProperty(key)) {
+						var val = obj[key];
+						delete obj[key];
+						obj[key.toLowerCase()] = val;
+					}
+				}
+				return obj;
 			},
 			hasLoadedCSS = function(url) {
 				if (url.indexOf(".css") !== -1) {
@@ -691,18 +723,22 @@
 				var done = function() {
 					var result = [];
 					for (var p in packageNames) {
-						var name = packageNames[p];
-						result.push(packages[name]);
+						if (packageNames.hasOwnProperty(p)) {
+							var name = packageNames[p];
+							result.push(packages[name]);
+						}
 					}
 					callback.apply(null, result);
 				},
 					onPackageLoad = after(packageNames.length, done);
 				for (var p in packageNames) {
-					var name = packageNames[p];
-					if (has(name)) {
-						onPackageLoad();
-					} else {
-						require(packageNames[p], onPackageLoad);
+					if (packageNames.hasOwnProperty(p)) {
+						var name = packageNames[p];
+						if (has(name)) {
+							onPackageLoad();
+						} else {
+							require(packageNames[p], onPackageLoad);
+						}
 					}
 				}
 			},
@@ -753,6 +789,7 @@
 					});
 					return;
 				}
+				packages = convertPackageNames(packages);
 				isLoadingPackages = true;
 				var targetLoad = {
 					load: {},
@@ -766,7 +803,9 @@
 							queue.shift()();
 						}
 						for (var key in packages) {
-							firePackageCallbacks(key);
+							if (packages.hasOwnProperty(key)) {
+								firePackageCallbacks(key);
+							}
 						}
 					}
 				},
@@ -778,18 +817,20 @@
 					hasLoad = true;
 				}
 				for (var key in packages) {
-					var dep = packages[key],
-						url = dep.url || dep.src || dep;
-					if (!has(key) && !hasLoadedCSS(url)) {
-						if (dep.shim) {
-							var globalVarName = dep.exports || key;
-							existingGlobals[globalVarName] = context[globalVarName];
-							targetLoad.callback[key] = partial(shim, dep.exports, dep.global);
+					if (packages.hasOwnProperty(key)) {
+						var dep = packages[key],
+							url = dep.url || dep.src || dep;
+						if (!has(key) && !hasLoadedCSS(url)) {
+							if (dep.shim) {
+								var globalVarName = dep.exports || key;
+								existingGlobals[globalVarName] = context[globalVarName];
+								targetLoad.callback[key] = partial(shim, dep.exports, dep.global);
+							}
+							addLoad(url, key);
 						}
-						addLoad(url, key);
-					}
-					if (dep.css && !hasLoadedCSS(dep.css)) {
-						addLoad(dep.css, key + "-css");
+						if (dep.css && !hasLoadedCSS(dep.css)) {
+							addLoad(dep.css, key + "-css");
+						}
 					}
 				}
 				if (hasLoad) {
@@ -802,8 +843,11 @@
 			},
 			require = function(name, callback) {
 				if (isArray(name) && callback) {
-					onMany(name, callback);
+					onMany(convertPackageNames(name), callback);
 				} else {
+					if (isString(name)) {
+						name = name.toLowerCase();
+					}
 					if (!packages[name]) {
 						if (!isFunction(callback)) {
 							throw new Error("MTNVPlayer: package " + name + " not found.");
@@ -817,9 +861,12 @@
 				}
 			},
 			configurePackages = function(obj) {
-				extend(packageManifest, obj);
+				extend(packageManifest, convertPackageNames(obj));
 			},
 			provide = function(name, module) {
+				if (isString(name)) {
+					name = name.toLowerCase();
+				}
 				if (module) {
 					packages[name] = module;
 					firePackageCallbacks(name);
@@ -833,16 +880,18 @@
 			listPackages = function(keysOnly) {
 				var r = [];
 				for (var p in packages) {
-					var details = p;
-					if (!keysOnly) {
-						if (packages[p].version) {
-							details += " " + packages[p].version;
+					if (packages.hasOwnProperty(p)) {
+						var details = p;
+						if (!keysOnly) {
+							if (packages[p].version) {
+								details += " " + packages[p].version;
+							}
+							if (packages[p].build) {
+								details += " built:" + packages[p].build;
+							}
 						}
-						if (packages[p].build) {
-							details += " built:" + packages[p].build;
-						}
+						r.push(details);
 					}
-					r.push(details);
 				}
 				return r;
 			};

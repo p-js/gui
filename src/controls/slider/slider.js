@@ -13,8 +13,8 @@ var Slider = (function() {
 				s = Math.floor((sec % 3600) % 60);
 			return (h === 0 ? "" : (h < 10 ? "0" + h + ":" : h + ":")) + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
 		};
-	/* global SliderLiveMixin */
-	//= live-mixin.js
+	/* global SliderDVRMixin */
+	//= dvr-mixin.js
 	/* global SegmentedSlider */
 	//= segmented-mixin.js
 	return Backbone.View.extend({
@@ -91,8 +91,10 @@ var Slider = (function() {
 			this.throttledRender = _.throttle(this.render, 250);
 			this.setDurations(this.options.durations);
 			this.setPlayhead(this.options.playhead);
-			if (options.isLive) {
-				_.extend(this, SliderLiveMixin);
+			if (options.isDVR) {
+				_.extend(this, SliderDVRMixin);
+			} else if (options.isLive) {
+				this.setEnabled(false);
 			}
 		},
 		setPlayhead: function(playhead) {
