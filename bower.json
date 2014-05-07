@@ -1,6 +1,6 @@
 {
 	"name": "pjs-gui",
-	"version": "0.8.0",
+	"version": "0.8.1",
 	"main": [
 		"./dist/gui.js",
 		"./dist/gui.css"
@@ -22,6 +22,6 @@
 	},
 	"devDependencies": {
 		"project-settings": "p-js/project-settings",
-		"mtvn-package-manager": "p-js/package-manager#0.x.x"
+		"mtvn-package-manager": "p-js/package-manager#0.9.x"
 	}
 }

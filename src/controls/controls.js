@@ -23,7 +23,9 @@ var Controls = (function() {
 		className: "mtvn-controls",
 		events: {
 			"click .mtvn-controls-fullscreen": "onFullscreen",
-			"click .mtvn-controls-rewind": "onRewind"
+			"touchstart .mtvn-controls-fullscreen": "onFullscreen",
+			"click .mtvn-controls-rewind": "onRewind",
+			"touchstart .mtvn-controls-rewind": "onRewind"
 		},
 		initialize: function(options) {
 			this.options = options;
@@ -119,11 +121,13 @@ var Controls = (function() {
 			this.trigger(event.type, event);
 		},
 		onRewind: function() {
+			event.preventDefault();
 			this.sendEvent({
 				type: Events.REWIND
 			});
 		},
-		onFullscreen: function() {
+		onFullscreen: function(event) {
+			event.preventDefault();
 			this.sendEvent({
 				type: Events.FULLSCREEN
 			});

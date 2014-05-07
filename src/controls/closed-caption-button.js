@@ -5,9 +5,11 @@ var ClosedCaptionButton = (function() {
 		ccEnabled: false,
 		className: "mtvn-controls-cc",
 		events: {
-			"click": "toggle"
+			click: "toggle",
+			touchstart: "toggle"
 		},
-		toggle: function() {
+		toggle: function(event) {
+			event.preventDefault();
 			this.trigger(Events.CC, {
 				type: Events.CC
 			});
