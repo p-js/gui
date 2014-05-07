@@ -69,10 +69,8 @@ function createGUI(options, target, GUI) {
 	});
 }
 MTVNPlayer.loadPackages({
-	"GUI": {
-		url: "../mtvn.js",
-		shim: true,
-		exports: "GUI"
+	"pjs-gui": {
+		url: "../mtvn.js"
 	}
 }, _.partial(createGUI, {
 	playing: false,
@@ -81,10 +79,8 @@ MTVNPlayer.loadPackages({
 }, "#controls"));
 
 MTVNPlayer.loadPackages({
-	"GUI": {
-		url: "../mtvn.js",
-		shim: true,
-		exports: "GUI"
+	"pjs-gui": {
+		url: "../mtvn.js"
 	}
 }, _.partial(createGUI, {
 	playing: false,
@@ -95,10 +91,8 @@ MTVNPlayer.loadPackages({
 }, "#controls2"));
 
 MTVNPlayer.loadPackages({
-	"GUI": {
-		url: "../mtvn.js",
-		shim: true,
-		exports: "GUI"
+	"pjs-gui": {
+		url: "../mtvn.js"
 	}
 }, _.partial(createGUI, {
 	playing: false,
