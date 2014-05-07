@@ -84,7 +84,7 @@ MTVNPlayer.loadPackages({
 	}
 }, _.partial(createGUI, {
 	playing: false,
-	live: true,
+	isDVR: true,
 	showVolume: true,
 	showVolumeSlider: true,
 	ccEnabled: true
@@ -96,5 +96,17 @@ MTVNPlayer.loadPackages({
 	}
 }, _.partial(createGUI, {
 	playing: false,
+	showVolume: true,
 	showVolumeSlider: true,
+	ccEnabled: true,
+	isLive: true
 }, "#controls3"));
+
+MTVNPlayer.loadPackages({
+	"pjs-gui": {
+		url: "../mtvn.js"
+	}
+}, _.partial(createGUI, {
+	playing: false,
+	showVolumeSlider: true,
+}, "#controls4"));

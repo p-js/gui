@@ -4,8 +4,8 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	/* exported GUI */
 	/* global _, $, Handlebars, Backbone*/
 	var GUI = {
-		version: "0.8.0",
-		build: "Mon Apr 28 2014 15:09:18"
+		version: "0.8.3",
+		build: "Wed May 07 2014 12:14:36"
 	};
 	// Handlebars is provided in the mtvn-util package.
 	// GUI is loaded in to the page separately, so we have to go 
@@ -77,10 +77,10 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 		  }
 		
 		  buffer += "<!-- controls -->\n";
-		  stack1 = helpers['if'].call(depth0, depth0.live, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+		  stack1 = helpers['if'].call(depth0, depth0.isDVR, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
 		  if(stack1 || stack1 === 0) { buffer += stack1; }
 		  buffer += "\n<div class=\"mtvn-controls-play-pause mtvn-controls-button\"></div>\n";
-		  stack1 = helpers['if'].call(depth0, depth0.live, {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
+		  stack1 = helpers['if'].call(depth0, depth0.isLive, {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
 		  if(stack1 || stack1 === 0) { buffer += stack1; }
 		  buffer += "\n<div class=\"";
 		  if (stack1 = helpers.slider) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
@@ -217,29 +217,31 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	/* global Backbone, Templates, $, TopPanelModel*/
 	/* exported TopPanel */
 	var TopPanel = Backbone.View.extend({
-	    template: Templates["src/top-panel/top-panel.html"],
-	    tagName: "div",
-	    className: "mtvn-tp",
-	    events: {
-	        "click .mtvn-tp-share": "onShare"
-	    },
-	    initialize: function(options) {
-	        this.options = TopPanelModel.validate(options || {});
-	        this.render();
-	    },
-	    setMetadata: function(html) {
-	        this.$(".mtvn-tp-metadata").html(html);
-	    },
-	    render: function() {
-	        this.$el.html($(this.template(this.options)));
-	    },
-	    onShare: function(event) {
-	        this.trigger(TopPanel.Events.SHARE, $(event.target).data("share-id"));
-	    }
+		template: Templates["src/top-panel/top-panel.html"],
+		tagName: "div",
+		className: "mtvn-tp",
+		events: {
+			"click .mtvn-tp-share": "onShare",
+			"touchstart .mtvn-tp-share": "onShare"
+		},
+		initialize: function(options) {
+			this.options = TopPanelModel.validate(options || {});
+			this.render();
+		},
+		setMetadata: function(html) {
+			this.$(".mtvn-tp-metadata").html(html);
+		},
+		render: function() {
+			this.$el.html($(this.template(this.options)));
+		},
+		onShare: function(event) {
+			event.preventDefault();
+			this.trigger(TopPanel.Events.SHARE, $(event.target).data("share-id"));
+		}
 	}, {
-	    Events: {
-	        SHARE: "share"
-	    }
+		Events: {
+			SHARE: "share"
+		}
 	});
 	/* exported ClosedCaptionButton */
 	/* global Backbone, Events*/
@@ -248,9 +250,11 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			ccEnabled: false,
 			className: "mtvn-controls-cc",
 			events: {
-				"click": "toggle"
+				click: "toggle",
+				touchstart: "toggle"
 			},
-			toggle: function() {
+			toggle: function(event) {
+				event.preventDefault();
 				this.trigger(Events.CC, {
 					type: Events.CC
 				});
@@ -276,10 +280,10 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 						s = Math.floor((sec % 3600) % 60);
 					return (h === 0 ? "" : (h < 10 ? "0" + h + ":" : h + ":")) + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
 				};
-			/* global SliderLiveMixin */
-			/* exported SliderLiveMixin */
+			/* global SliderDVRMixin */
+			/* exported SliderDVRMixin */
 			/* global Events*/
-			var SliderLiveMixin = {
+			var SliderDVRMixin = {
 				_isLive: false,
 				IS_LIVE_THRESHOLD: 3,
 				checkLive: function() {
@@ -391,8 +395,10 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 					this.throttledRender = _.throttle(this.render, 250);
 					this.setDurations(this.options.durations);
 					this.setPlayhead(this.options.playhead);
-					if (options.isLive) {
-						_.extend(this, SliderLiveMixin);
+					if (options.isDVR) {
+						_.extend(this, SliderDVRMixin);
+					} else if (options.isLive) {
+						this.setEnabled(false);
 					}
 				},
 				setPlayhead: function(playhead) {
@@ -602,7 +608,9 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			className: "mtvn-controls",
 			events: {
 				"click .mtvn-controls-fullscreen": "onFullscreen",
-				"click .mtvn-controls-rewind": "onRewind"
+				"touchstart .mtvn-controls-fullscreen": "onFullscreen",
+				"click .mtvn-controls-rewind": "onRewind",
+				"touchstart .mtvn-controls-rewind": "onRewind"
 			},
 			initialize: function(options) {
 				this.options = options;
@@ -625,21 +633,24 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				this.slider = new Slider({
 					el: this.$("." + css.slider),
 					playhead: options.playhead,
-					isLive: options.live,
+					isLive: options.isLive,
+					isDVR: options.isDVR,
 					durations: options.durations
 				});
 				// Seek Event
 				this.listenTo(this.slider, Events.SEEK, this.sendEvent);
 				// LIVE
-				if (options.live || options.isLive) {
+				if (options.isLive) {
 					this.liveButton = new LiveButton({
 						el: this.$("." + css.live),
-						isLive: options.live
+						isLive: options.isLive
 					});
-					// Live Event
-					this.listenTo(this.liveButton, Events.GO_LIVE, this.sendEvent);
-					// Handle IS_LIVE Event
-					this.liveButton.listenTo(this.slider, Events.IS_LIVE, this.liveButton.onLiveChange);
+					if (options.isDVR) {
+						// Live Event
+						this.listenTo(this.liveButton, Events.GO_LIVE, this.sendEvent);
+						// Handle IS_LIVE Event
+						this.liveButton.listenTo(this.slider, Events.IS_LIVE, this.liveButton.onLiveChange);
+					}
 				}
 				// VOLUME
 				if (options.showVolume) {
@@ -698,11 +709,13 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				this.trigger(event.type, event);
 			},
 			onRewind: function() {
+				event.preventDefault();
 				this.sendEvent({
 					type: Events.REWIND
 				});
 			},
-			onFullscreen: function() {
+			onFullscreen: function(event) {
+				event.preventDefault();
 				this.sendEvent({
 					type: Events.FULLSCREEN
 				});
@@ -737,7 +750,8 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				_.bindAll(this, "onLiveChange");
 			},
 			events: {
-				"click": "toggle"
+				click: "toggle",
+				touchstart: "toggle"
 			},
 			onLiveChange: function(event) {
 				this.setLive(event.data);
@@ -747,7 +761,8 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				$el.toggleClass(css.live, isLive);
 				$el.toggleClass(css.golive, !isLive);
 			},
-			toggle: function() {
+			toggle: function(event) {
+				event.preventDefault();
 				if (this.$el.hasClass(css.golive)) {
 					this.trigger(Events.GO_LIVE, {
 						type: Events.GO_LIVE
@@ -769,14 +784,16 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				this.$el.addClass(this.options.paused ? css.play : css.pause);
 			},
 			events: {
-				"click": "toggle"
+				click: "toggle",
+				touchstart: "toggle"
 			},
 			setPaused: function(isPaused) {
 				var $el = this.$el;
 				$el.toggleClass(css.play, isPaused);
 				$el.toggleClass(css.pause, !isPaused);
 			},
-			toggle: function() {
+			toggle: function(event) {
+				event.preventDefault();
 				var $el = this.$el,
 					showPlay = $el.hasClass(css.pause),
 					eventName = !showPlay ? Events.PLAY : Events.PAUSE;

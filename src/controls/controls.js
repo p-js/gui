@@ -48,21 +48,24 @@ var Controls = (function() {
 			this.slider = new Slider({
 				el: this.$("." + css.slider),
 				playhead: options.playhead,
-				isLive: options.live,
+				isLive: options.isLive,
+				isDVR: options.isDVR,
 				durations: options.durations
 			});
 			// Seek Event
 			this.listenTo(this.slider, Events.SEEK, this.sendEvent);
 			// LIVE
-			if (options.live || options.isLive) {
+			if (options.isLive) {
 				this.liveButton = new LiveButton({
 					el: this.$("." + css.live),
-					isLive: options.live
+					isLive: options.isLive
 				});
-				// Live Event
-				this.listenTo(this.liveButton, Events.GO_LIVE, this.sendEvent);
-				// Handle IS_LIVE Event
-				this.liveButton.listenTo(this.slider, Events.IS_LIVE, this.liveButton.onLiveChange);
+				if (options.isDVR) {
+					// Live Event
+					this.listenTo(this.liveButton, Events.GO_LIVE, this.sendEvent);
+					// Handle IS_LIVE Event
+					this.liveButton.listenTo(this.slider, Events.IS_LIVE, this.liveButton.onLiveChange);
+				}
 			}
 			// VOLUME
 			if (options.showVolume) {
