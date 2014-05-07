@@ -1,4 +1,9 @@
 
+0.8.3 / 2014-05-07 
+==================
+
+ * Split isLive and isDVR into different control sets.
+
 0.8.1 / 2014-05-06 
 ==================
 
