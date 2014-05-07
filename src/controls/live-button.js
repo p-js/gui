@@ -12,7 +12,8 @@ var LiveButton = (function() {
 			_.bindAll(this, "onLiveChange");
 		},
 		events: {
-			"click": "toggle"
+			click: "toggle",
+			touchstart: "toggle"
 		},
 		onLiveChange: function(event) {
 			this.setLive(event.data);
@@ -22,7 +23,8 @@ var LiveButton = (function() {
 			$el.toggleClass(css.live, isLive);
 			$el.toggleClass(css.golive, !isLive);
 		},
-		toggle: function() {
+		toggle: function(event) {
+			event.preventDefault();
 			if (this.$el.hasClass(css.golive)) {
 				this.trigger(Events.GO_LIVE, {
 					type: Events.GO_LIVE

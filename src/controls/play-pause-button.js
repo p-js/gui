@@ -11,14 +11,16 @@ var PlayPauseButton = (function() {
 			this.$el.addClass(this.options.paused ? css.play : css.pause);
 		},
 		events: {
-			"click": "toggle"
+			click: "toggle",
+			touchstart: "toggle"
 		},
 		setPaused: function(isPaused) {
 			var $el = this.$el;
 			$el.toggleClass(css.play, isPaused);
 			$el.toggleClass(css.pause, !isPaused);
 		},
-		toggle: function() {
+		toggle: function(event) {
+			event.preventDefault();
 			var $el = this.$el,
 				showPlay = $el.hasClass(css.pause),
 				eventName = !showPlay ? Events.PLAY : Events.PAUSE;
