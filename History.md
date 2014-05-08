@@ -1,4 +1,9 @@
 
+0.8.4 / 2014-05-07 
+==================
+
+ * Make sure segmented slider doesn't appear if isLive.
+
 0.8.3 / 2014-05-07 
 ==================
 

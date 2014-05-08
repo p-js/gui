@@ -11,8 +11,8 @@
 	/* exported GUI */
 	/* global _, $, Handlebars, Backbone*/
 	var GUI = {
-		version: "0.8.3",
-		build: "Wed May 07 2014 12:14:36"
+		version: "0.8.4",
+		build: "Wed May 07 2014 20:40:56"
 	};
 	// Handlebars is provided in the mtvn-util package.
 	// GUI is loaded in to the page separately, so we have to go 
@@ -424,7 +424,7 @@
 					if (!_.isArray(durations)) {
 						return;
 					}
-					if (durations.length > 1 && !this.isSegmented) {
+					if (!this.options.isLive && durations.length > 1 && !this.isSegmented) {
 						_.extend(this, SegmentedSlider);
 					}
 					var currentDuration = 0;
