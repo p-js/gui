@@ -113,7 +113,7 @@ var Slider = (function() {
 			if (!_.isArray(durations)) {
 				return;
 			}
-			if (durations.length > 1 && !this.isSegmented) {
+			if (!this.options.isLive && durations.length > 1 && !this.isSegmented) {
 				_.extend(this, SegmentedSlider);
 			}
 			var currentDuration = 0;
