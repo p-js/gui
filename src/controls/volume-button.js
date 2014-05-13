@@ -44,6 +44,7 @@ var VolumeButton = (function() {
 				this.$container = $(this.$slider.parent());
 				this.$thumb = this.$("." + css.thumb);
 			}
+			this.isMuted = this.options.muted;
 			this.setVolume(isNaN(options.volume) ? 0.7 : options.volume);
 			_.delay(this.updateView, 100);
 		},
@@ -92,11 +93,16 @@ var VolumeButton = (function() {
 		},
 		onSliderClick: function(event) {
 			event.preventDefault();
+			// when there's user input, turn off isMuted.
+			this.isMuted = false;
+			this.trigger(Events.UNMUTE, {
+				type: Events.UNMUTE
+			});
 			this.setVolume(this.calculatePercentageFromTop(event.pageY - this.getContainerOffset()));
 		},
 		updateView: function(volume) {
 			if (_.isUndefined(volume)) {
-				volume = this.currentVolume;
+				volume = this.isMuted ? 0 : this.currentVolume;
 			}
 			if (this.$thumb) {
 				this.$thumb.css({
@@ -114,6 +120,11 @@ var VolumeButton = (function() {
 			if (this.dragging) {
 				event.preventDefault();
 				var moveTo = event.pageY;
+				// when there's user input, turn off isMuted.
+				this.isMuted = false;
+				this.trigger(Events.UNMUTE, {
+					type: Events.UNMUTE
+				});
 				this.setVolume(this.calculatePercentageFromTop(moveTo - this.getContainerOffset()));
 			}
 		},
@@ -160,6 +171,8 @@ var VolumeButton = (function() {
 			}
 		},
 		toggle: function(event) {
+			// when there's user input, turn off isMuted.
+			this.isMuted = false;
 			event.preventDefault();
 			if (isButton(event)) {
 				var $el = this.$el,
