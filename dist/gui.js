@@ -4,8 +4,8 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	/* exported GUI */
 	/* global _, $, Handlebars, Backbone*/
 	var GUI = {
-		version: "0.8.4",
-		build: "Wed May 07 2014 20:40:56"
+		version: "0.8.5",
+		build: "Tue May 13 2014 14:04:25"
 	};
 	// Handlebars is provided in the mtvn-util package.
 	// GUI is loaded in to the page separately, so we have to go 
@@ -656,6 +656,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				if (options.showVolume) {
 					this.volumeButton = new VolumeButton({
 						volume: options.volume,
+						muted: options.muted,
 						showVolumeSlider: options.showVolumeSlider,
 						el: this.$("." + css.volume)
 					});
@@ -851,6 +852,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 					this.$container = $(this.$slider.parent());
 					this.$thumb = this.$("." + css.thumb);
 				}
+				this.isMuted = this.options.muted;
 				this.setVolume(isNaN(options.volume) ? 0.7 : options.volume);
 				_.delay(this.updateView, 100);
 			},
@@ -899,11 +901,16 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			},
 			onSliderClick: function(event) {
 				event.preventDefault();
+				// when there's user input, turn off isMuted.
+				this.isMuted = false;
+				this.trigger(Events.UNMUTE, {
+					type: Events.UNMUTE
+				});
 				this.setVolume(this.calculatePercentageFromTop(event.pageY - this.getContainerOffset()));
 			},
 			updateView: function(volume) {
 				if (_.isUndefined(volume)) {
-					volume = this.currentVolume;
+					volume = this.isMuted ? 0 : this.currentVolume;
 				}
 				if (this.$thumb) {
 					this.$thumb.css({
@@ -921,6 +928,11 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				if (this.dragging) {
 					event.preventDefault();
 					var moveTo = event.pageY;
+					// when there's user input, turn off isMuted.
+					this.isMuted = false;
+					this.trigger(Events.UNMUTE, {
+						type: Events.UNMUTE
+					});
 					this.setVolume(this.calculatePercentageFromTop(moveTo - this.getContainerOffset()));
 				}
 			},
@@ -967,6 +979,8 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				}
 			},
 			toggle: function(event) {
+				// when there's user input, turn off isMuted.
+				this.isMuted = false;
 				event.preventDefault();
 				if (isButton(event)) {
 					var $el = this.$el,
