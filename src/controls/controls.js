@@ -71,6 +71,7 @@ var Controls = (function() {
 			if (options.showVolume) {
 				this.volumeButton = new VolumeButton({
 					volume: options.volume,
+					muted: options.muted,
 					showVolumeSlider: options.showVolumeSlider,
 					el: this.$("." + css.volume)
 				});
