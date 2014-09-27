@@ -1,4 +1,9 @@
 
+0.9.0 / 2014-09-26 
+==================
+
+ * Update build process, add event for learn more button.
+
 0.8.5 / 2014-05-13 
 ==================
 
