@@ -4,8 +4,8 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	/* exported GUI */
 	/* global _, $, Handlebars, Backbone*/
 	var GUI = {
-		version: "0.8.5",
-		build: "Tue May 13 2014 14:04:25"
+		version: "0.9.0",
+		build: "Fri Sep 26 2014 19:06:04"
 	};
 	// Handlebars is provided in the mtvn-util package.
 	// GUI is loaded in to the page separately, so we have to go 
@@ -171,23 +171,26 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 		  });
 		return this.Templates;
 	}).apply({});
-	/* global _, $, Templates*/
-	var DEFAULT_TEMPLATE = Templates["src/ad-display/template.html"],
-		DEFAULT_COPY = {
-			countdownText: "Your content will resume in {{time}}.",
-			messageText: "Your content will resume shortly.",
-			buttonText: "Learn More",
-			buttonTarget: "_blank"
-		};
-	
-	function AdDisplay(options) {
-		this.options = _.defaults(options || {}, DEFAULT_COPY);
-		this.render(this.options);
-	}
-	
-	AdDisplay.prototype = {
+	/* global _, $, Templates, Backbone*/
+	/* exported AdDisplay */
+	var AdDisplay = Backbone.View.extend({
+		template: Templates["src/ad-display/template.html"],
+		tagName: "div",
+		className: "mtvn-ad-gui",
+		events: function() {
+			if (this.options.buttonLink === AdDisplay.LEARN_MORE_EVENT_ONLY) {
+				return {
+					"click .mtvn-ad-gui-learn-more": "onLearnMore",
+					"touchstart .mtvn-ad-gui-learn-more": "onLearnMore",
+				};
+			}
+		},
+		initialize: function(options) {
+			this.options = _.defaults(options || {}, AdDisplay.DEFAULT_COPY);
+			this.render(this.options);
+		},
 		render: function(options) {
-			var template = options.template || DEFAULT_TEMPLATE,
+			var template = options.template || this.template,
 				$el = this.$el = $(template(options));
 			this.$countdown = $el.find(".mtvn-ad-gui-countdown");
 			this.renderMessage(options.time);
@@ -201,18 +204,36 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 					interpolate: /\{\{(.+?)\}\}/g
 				});
 			this.$countdown.text(countdown);
+		},
+		onLearnMore: function(event) {
+			event.preventDefault();
+			if (this.options.buttonLink === AdDisplay.LEARN_MORE_EVENT_ONLY) {
+				event.preventDefault();
+				this.trigger(AdDisplay.Events.LEARN_MORE);
+			}
 		}
-	};
+	}, {
+		Events: {
+			LEARN_MORE: "learn:more"
+		},
+		LEARN_MORE_EVENT_ONLY: "event",
+		DEFAULT_COPY: {
+			countdownText: "Your content will resume in {{time}}.",
+			messageText: "Your content will resume shortly.",
+			buttonText: "Learn More",
+			buttonTarget: "_blank"
+		}
+	});
 	/* global _ */
 	/* exported TopPanelModel */
 	var TopPanelModel = {
-	    availableShareItems: ["facebook", "twitter", "email"],
-	    validate: function(options) {
-	        if (options.share) {
-	            options.share = _.intersection(options.share, TopPanelModel.availableShareItems);
-	        }
-	        return options;
-	    }
+		availableShareItems: ["facebook", "twitter", "email"],
+		validate: function(options) {
+			if (options.share) {
+				options.share = _.intersection(options.share, TopPanelModel.availableShareItems);
+			}
+			return options;
+		}
 	};
 	/* global Backbone, Templates, $, TopPanelModel*/
 	/* exported TopPanel */
@@ -810,13 +831,14 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	/* global Backbone, Events, _, $*/
 	var VolumeButton = (function() {
 		var css = {
-			controls: "mtvn-controls",
-			unmute: "mtvn-controls-unmute",
-			mute: "mtvn-controls-mute",
-			showSlider: "mtvn-controls-volume-slider-container-over",
-			slider: "mtvn-controls-volume-slider",
-			thumb: "mtvn-controls-volume-slider-foreground"
-		}, isButton = function(event) {
+				controls: "mtvn-controls",
+				unmute: "mtvn-controls-unmute",
+				mute: "mtvn-controls-mute",
+				showSlider: "mtvn-controls-volume-slider-container-over",
+				slider: "mtvn-controls-volume-slider",
+				thumb: "mtvn-controls-volume-slider-foreground"
+			},
+			isButton = function(event) {
 				var $target = $(event.target);
 				return $target.hasClass(css.mute) || $target.hasClass(css.unmute);
 			};

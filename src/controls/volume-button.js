@@ -2,13 +2,14 @@
 /* global Backbone, Events, _, $*/
 var VolumeButton = (function() {
 	var css = {
-		controls: "mtvn-controls",
-		unmute: "mtvn-controls-unmute",
-		mute: "mtvn-controls-mute",
-		showSlider: "mtvn-controls-volume-slider-container-over",
-		slider: "mtvn-controls-volume-slider",
-		thumb: "mtvn-controls-volume-slider-foreground"
-	}, isButton = function(event) {
+			controls: "mtvn-controls",
+			unmute: "mtvn-controls-unmute",
+			mute: "mtvn-controls-mute",
+			showSlider: "mtvn-controls-volume-slider-container-over",
+			slider: "mtvn-controls-volume-slider",
+			thumb: "mtvn-controls-volume-slider-foreground"
+		},
+		isButton = function(event) {
 			var $target = $(event.target);
 			return $target.hasClass(css.mute) || $target.hasClass(css.unmute);
 		};

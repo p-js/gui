@@ -19,3 +19,12 @@ $("#ad-gui-5").append((new AdDisplay({
 	buttonLink: "http://google.com",
 	messageText: "Other message about ad with no time."
 })).$el);
+var adDisplay = new AdDisplay({
+	buttonLink: "event",
+	messageText: "learn more should trigger an event"
+});
+adDisplay.on(AdDisplay.Events.LEARN_MORE, function() {
+	/* jshint devel:true */
+	alert("learn more event");
+});
+$("#ad-gui-6").append(adDisplay.$el);
