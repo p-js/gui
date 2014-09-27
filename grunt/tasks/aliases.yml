@@ -1,0 +1,21 @@
+default:
+ - 'clean:pre'
+ - 'jshint:devel'
+ - 'handlebars'
+ - 'compass'
+ - 'rig'
+ - 'replace'
+ - 'copy'
+ - 'clean:post'
+
+release:
+ - 'clean:pre'
+ - 'jshint:release'
+ - 'handlebars'
+ - 'compass'
+ - 'rig'
+ - 'replace'
+ - 'uglify'
+ - 'cssmin'
+ - 'copy'
+ - 'clean:post'
