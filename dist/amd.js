@@ -11,8 +11,8 @@
 	/* exported GUI */
 	/* global _, $, Handlebars, Backbone*/
 	var GUI = {
-		version: "0.9.0",
-		build: "Fri Sep 26 2014 19:06:04"
+		version: "0.9.1",
+		build: "Mon Sep 29 2014 09:20:29"
 	};
 	// Handlebars is provided in the mtvn-util package.
 	// GUI is loaded in to the page separately, so we have to go 
@@ -50,7 +50,7 @@
 		  buffer += "<div class=\"mtvn-ad-gui\">\n	<div class=\"mtvn-ad-gui-container\">\n	    <span class=\"mtvn-ad-gui-countdown\"></span>\n	    ";
 		  stack1 = helpers['if'].call(depth0, depth0.buttonLink, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
 		  if(stack1 || stack1 === 0) { buffer += stack1; }
-		  buffer += "\n	</div>\n</div>";
+		  buffer += "\n	</div>\n</div>\n";
 		  return buffer;
 		  });
 		
@@ -193,15 +193,16 @@
 			}
 		},
 		initialize: function(options) {
-			this.options = _.defaults(options || {}, AdDisplay.DEFAULT_COPY);
-			this.render(this.options);
+			this.render(options);
 		},
 		render: function(options) {
-			var template = options.template || this.template,
-				$el = this.$el = $(template(options));
-			this.$countdown = $el.find(".mtvn-ad-gui-countdown");
+			this.options = _.defaults(options || {}, AdDisplay.DEFAULT_COPY);
+			var template = options.template || this.template;
+			this.$el.html($(template(options)));
+			this.delegateEvents();
+			this.$countdown = this.$el.find(".mtvn-ad-gui-countdown");
 			this.renderMessage(options.time);
-			return $el;
+			return this.$el;
 		},
 		renderMessage: function(time) {
 			var messageTempate = this.options[_.isUndefined(time) ? "messageText" : "countdownText"],
@@ -213,7 +214,6 @@
 			this.$countdown.text(countdown);
 		},
 		onLearnMore: function(event) {
-			event.preventDefault();
 			if (this.options.buttonLink === AdDisplay.LEARN_MORE_EVENT_ONLY) {
 				event.preventDefault();
 				this.trigger(AdDisplay.Events.LEARN_MORE);
@@ -223,7 +223,7 @@
 		Events: {
 			LEARN_MORE: "learn:more"
 		},
-		LEARN_MORE_EVENT_ONLY: "event",
+		LEARN_MORE_EVENT_ONLY: "#",
 		DEFAULT_COPY: {
 			countdownText: "Your content will resume in {{time}}.",
 			messageText: "Your content will resume shortly.",
