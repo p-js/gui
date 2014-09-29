@@ -19,4 +19,11 @@ module.exports = function(grunt) {
 			}
 		}
 	});
+	grunt.registerTask('deploy', 'deploy to svn', function() {
+		grunt.config("svnDir", grunt.option("dir"));
+		if (grunt.option("build")) {
+			grunt.config("buildNumber", "-" + grunt.option("build"));
+		}
+		grunt.task.run("push_svn");
+	});
 };
