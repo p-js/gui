@@ -12,7 +12,7 @@
 	/* global _, $, Handlebars, Backbone*/
 	var GUI = {
 		version: "0.10.0",
-		build: "Mon Sep 29 2014 09:21:40"
+		build: "Mon Sep 29 2014 11:36:24"
 	};
 	// Handlebars is provided in the mtvn-util package.
 	// GUI is loaded in to the page separately, so we have to go 
@@ -31,7 +31,7 @@
 		function program1(depth0,data) {
 		  
 		  var buffer = "", stack1;
-		  buffer += "\n	    <a class=\"mtvn-ad-gui-learn-more\" href=\"";
+		  buffer += "\n    <a class=\"mtvn-ad-gui-learn-more\" href=\"";
 		  if (stack1 = helpers.buttonLink) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
 		  else { stack1 = depth0.buttonLink; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
 		  buffer += escapeExpression(stack1)
@@ -39,18 +39,18 @@
 		  if (stack1 = helpers.buttonTarget) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
 		  else { stack1 = depth0.buttonTarget; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
 		  buffer += escapeExpression(stack1)
-		    + "\">\n	    	";
+		    + "\">\n    	";
 		  if (stack1 = helpers.buttonText) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
 		  else { stack1 = depth0.buttonText; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
 		  buffer += escapeExpression(stack1)
-		    + "\n	    </a>\n	    ";
+		    + "\n    </a>\n    ";
 		  return buffer;
 		  }
 		
-		  buffer += "<div class=\"mtvn-ad-gui\">\n	<div class=\"mtvn-ad-gui-container\">\n	    <span class=\"mtvn-ad-gui-countdown\"></span>\n	    ";
+		  buffer += "<div class=\"mtvn-ad-gui-container\">\n    <span class=\"mtvn-ad-gui-countdown\"></span>\n    ";
 		  stack1 = helpers['if'].call(depth0, depth0.buttonLink, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
 		  if(stack1 || stack1 === 0) { buffer += stack1; }
-		  buffer += "\n	</div>\n</div>\n";
+		  buffer += "\n</div>\n";
 		  return buffer;
 		  });
 		
@@ -196,22 +196,31 @@
 			this.render(options);
 		},
 		render: function(options) {
-			this.options = _.defaults(options || {}, AdDisplay.DEFAULT_COPY);
+			options = this.options = _.defaults(options || {}, AdDisplay.DEFAULT_COPY);
 			var template = options.template || this.template;
 			this.$el.html($(template(options)));
 			this.delegateEvents();
-			this.$countdown = this.$el.find(".mtvn-ad-gui-countdown");
+			this.$countdown = this.$(".mtvn-ad-gui-countdown");
 			this.renderMessage(options.time);
 			return this.$el;
 		},
-		renderMessage: function(time) {
-			var messageTempate = this.options[_.isUndefined(time) ? "messageText" : "countdownText"],
-				countdown = _.template(messageTempate, {
-					time: time
-				}, {
+		renderMessage: function(options) {
+			_.extend(this.options, options);
+			var messageTempate = this.getTemplate(this.options),
+				countdown = _.template(messageTempate, this.options, {
 					interpolate: /\{\{(.+?)\}\}/g
 				});
 			this.$countdown.text(countdown);
+		},
+		getTemplate: function(options) {
+			var text = options.messageText;
+			if (options.time) {
+				text = options.countdownText;
+			}
+			if (options.index >= 0 && options.total > 1) {
+				return options.countdownTextWithPosition + " " + text;
+			}
+			return text;
 		},
 		onLearnMore: function(event) {
 			if (this.options.buttonLink === AdDisplay.LEARN_MORE_EVENT_ONLY) {
@@ -226,6 +235,7 @@
 		LEARN_MORE_EVENT_ONLY: "#",
 		DEFAULT_COPY: {
 			countdownText: "Your content will resume in {{time}}.",
+			countdownTextWithPosition: "Ad {{index + 1}} of {{total}}.",
 			messageText: "Your content will resume shortly.",
 			buttonText: "Learn More",
 			buttonTarget: "_blank"
