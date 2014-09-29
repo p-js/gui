@@ -13,15 +13,16 @@ var AdDisplay = Backbone.View.extend({
 		}
 	},
 	initialize: function(options) {
-		this.options = _.defaults(options || {}, AdDisplay.DEFAULT_COPY);
-		this.render(this.options);
+		this.render(options);
 	},
 	render: function(options) {
-		var template = options.template || this.template,
-			$el = this.$el = $(template(options));
-		this.$countdown = $el.find(".mtvn-ad-gui-countdown");
+		this.options = _.defaults(options || {}, AdDisplay.DEFAULT_COPY);
+		var template = options.template || this.template;
+		this.$el.html($(template(options)));
+		this.delegateEvents();
+		this.$countdown = this.$el.find(".mtvn-ad-gui-countdown");
 		this.renderMessage(options.time);
-		return $el;
+		return this.$el;
 	},
 	renderMessage: function(time) {
 		var messageTempate = this.options[_.isUndefined(time) ? "messageText" : "countdownText"],
@@ -33,7 +34,6 @@ var AdDisplay = Backbone.View.extend({
 		this.$countdown.text(countdown);
 	},
 	onLearnMore: function(event) {
-		event.preventDefault();
 		if (this.options.buttonLink === AdDisplay.LEARN_MORE_EVENT_ONLY) {
 			event.preventDefault();
 			this.trigger(AdDisplay.Events.LEARN_MORE);
@@ -43,7 +43,7 @@ var AdDisplay = Backbone.View.extend({
 	Events: {
 		LEARN_MORE: "learn:more"
 	},
-	LEARN_MORE_EVENT_ONLY: "event",
+	LEARN_MORE_EVENT_ONLY: "#",
 	DEFAULT_COPY: {
 		countdownText: "Your content will resume in {{time}}.",
 		messageText: "Your content will resume shortly.",
