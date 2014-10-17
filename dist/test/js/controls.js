@@ -1,6 +1,6 @@
 /* global MTVNPlayer, $, _*/
 /* jshint devel:true */
-function createGUI(options, target, GUI) {
+function createGUI(options, target) {
 	var controls = new(GUI.Controls)(options),
 		Events = GUI.Events,
 		buffer = 0,
