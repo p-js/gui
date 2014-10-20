@@ -5,7 +5,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	/* global _, $, Handlebars, Backbone*/
 	var GUI = {
 		version: "0.11.0",
-		build: "Mon Sep 29 2014 11:39:21"
+		build: "Mon Oct 20 2014 13:02:18"
 	};
 	// Handlebars is provided in the mtvn-util package.
 	// GUI is loaded in to the page separately, so we have to go 
@@ -16,159 +16,90 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	var Templates = (function() {
 		this["Templates"] = this["Templates"] || {};
 		
-		this["Templates"]["src/ad-display/template.html"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
-		  this.compilerInfo = [4,'>= 1.0.0'];
-		helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-		  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+		this["Templates"]["src/ad-display/template.html"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
+		  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+		  return "    <a class=\"mtvn-ad-gui-learn-more\" href=\""
+		    + escapeExpression(((helper = (helper = helpers.buttonLink || (depth0 != null ? depth0.buttonLink : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"buttonLink","hash":{},"data":data}) : helper)))
+		    + "\" target=\""
+		    + escapeExpression(((helper = (helper = helpers.buttonTarget || (depth0 != null ? depth0.buttonTarget : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"buttonTarget","hash":{},"data":data}) : helper)))
+		    + "\">\n    	"
+		    + escapeExpression(((helper = (helper = helpers.buttonText || (depth0 != null ? depth0.buttonText : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"buttonText","hash":{},"data":data}) : helper)))
+		    + "\n    </a>\n";
+		},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+		  var stack1, buffer = "<div class=\"mtvn-ad-gui-container\">\n    <span class=\"mtvn-ad-gui-countdown\"></span>\n";
+		  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.buttonLink : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
+		  if (stack1 != null) { buffer += stack1; }
+		  return buffer + "</div>\n";
+		},"useData":true});
 		
-		function program1(depth0,data) {
-		  
-		  var buffer = "", stack1;
-		  buffer += "\n    <a class=\"mtvn-ad-gui-learn-more\" href=\"";
-		  if (stack1 = helpers.buttonLink) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-		  else { stack1 = depth0.buttonLink; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-		  buffer += escapeExpression(stack1)
-		    + "\" target=\"";
-		  if (stack1 = helpers.buttonTarget) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-		  else { stack1 = depth0.buttonTarget; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-		  buffer += escapeExpression(stack1)
-		    + "\">\n    	";
-		  if (stack1 = helpers.buttonText) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-		  else { stack1 = depth0.buttonText; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-		  buffer += escapeExpression(stack1)
-		    + "\n    </a>\n    ";
-		  return buffer;
-		  }
 		
-		  buffer += "<div class=\"mtvn-ad-gui-container\">\n    <span class=\"mtvn-ad-gui-countdown\"></span>\n    ";
-		  stack1 = helpers['if'].call(depth0, depth0.buttonLink, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
-		  if(stack1 || stack1 === 0) { buffer += stack1; }
-		  buffer += "\n</div>\n";
-		  return buffer;
-		  });
 		
-		this["Templates"]["src/controls/template.html"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
-		  this.compilerInfo = [4,'>= 1.0.0'];
-		helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-		  var buffer = "", stack1, self=this, functionType="function", escapeExpression=this.escapeExpression;
-		
-		function program1(depth0,data) {
-		  
-		  
-		  return "\n<div class=\"mtvn-controls-rewind mtvn-controls-button\"></div>\n";
-		  }
-		
-		function program3(depth0,data) {
-		  
-		  
-		  return "\n<div class=\"mtvn-controls-live mtvn-controls-button\"></div>\n";
-		  }
-		
-		function program5(depth0,data) {
-		  
-		  
-		  return "\n<div class=\"mtvn-controls-cc mtvn-controls-button\"></div>\n";
-		  }
-		
-		function program7(depth0,data) {
-		  
-		  
-		  return "\n<div class=\"mtvn-controls-volume mtvn-controls-button\">\n	<div class=\"mtvn-controls-volume-slider-container-outer\">\n		<div class=\"mtvn-controls-volume-slider-container\">\n			<div class=\"mtvn-controls-volume-slider\">\n				<div class=\"mtvn-controls-volume-slider-foreground\"></div>\n			</div>\n		</div>\n	</div>\n</div>\n";
-		  }
-		
-		  buffer += "<!-- controls -->\n";
-		  stack1 = helpers['if'].call(depth0, depth0.isDVR, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
-		  if(stack1 || stack1 === 0) { buffer += stack1; }
-		  buffer += "\n<div class=\"mtvn-controls-play-pause mtvn-controls-button\"></div>\n";
-		  stack1 = helpers['if'].call(depth0, depth0.isLive, {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
-		  if(stack1 || stack1 === 0) { buffer += stack1; }
-		  buffer += "\n<div class=\"";
-		  if (stack1 = helpers.slider) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-		  else { stack1 = depth0.slider; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-		  buffer += escapeExpression(stack1)
-		    + "\">\n	<div class=\"";
-		  if (stack1 = helpers.slider) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-		  else { stack1 = depth0.slider; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-		  buffer += escapeExpression(stack1)
-		    + "-time-display\"></div>\n	<div class=\"";
-		  if (stack1 = helpers.slider) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-		  else { stack1 = depth0.slider; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-		  buffer += escapeExpression(stack1)
-		    + "-progress-container\">\n		<div class=\"";
-		  if (stack1 = helpers.slider) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-		  else { stack1 = depth0.slider; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-		  buffer += escapeExpression(stack1)
-		    + "-buffered\"></div>\n		<div class=\"";
-		  if (stack1 = helpers.slider) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-		  else { stack1 = depth0.slider; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-		  buffer += escapeExpression(stack1)
-		    + "-progress\"></div>\n	</div>\n	<div class=\"";
-		  if (stack1 = helpers.slider) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-		  else { stack1 = depth0.slider; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-		  buffer += escapeExpression(stack1)
-		    + "-background\"></div>\n	<div class=\"";
-		  if (stack1 = helpers.slider) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-		  else { stack1 = depth0.slider; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-		  buffer += escapeExpression(stack1)
-		    + "-segment-container\"></div>\n	<div class=\"";
-		  if (stack1 = helpers.slider) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-		  else { stack1 = depth0.slider; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-		  buffer += escapeExpression(stack1)
-		    + "-thumb-container\">\n		<div class=\"";
-		  if (stack1 = helpers.slider) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-		  else { stack1 = depth0.slider; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-		  buffer += escapeExpression(stack1)
-		    + "-tool-tip-container\">\n			<div class=\"";
-		  if (stack1 = helpers.slider) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-		  else { stack1 = depth0.slider; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-		  buffer += escapeExpression(stack1)
-		    + "-tool-tip-background\"></div>\n			<div class=\"";
-		  if (stack1 = helpers.slider) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-		  else { stack1 = depth0.slider; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-		  buffer += escapeExpression(stack1)
-		    + "-tool-tip-time\"></div>\n		</div>\n		<div class=\"";
-		  if (stack1 = helpers.slider) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-		  else { stack1 = depth0.slider; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-		  buffer += escapeExpression(stack1)
+		this["Templates"]["src/controls/template.html"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
+		  return "<div class=\"mtvn-controls-rewind mtvn-controls-button\"></div>\n";
+		  },"3":function(depth0,helpers,partials,data) {
+		  return "<div class=\"mtvn-controls-live mtvn-controls-button\"></div>\n";
+		  },"5":function(depth0,helpers,partials,data) {
+		  return "<div class=\"mtvn-controls-cc mtvn-controls-button\"></div>\n";
+		  },"7":function(depth0,helpers,partials,data) {
+		  return "<div class=\"mtvn-controls-volume mtvn-controls-button\">\n	<div class=\"mtvn-controls-volume-slider-container-outer\">\n		<div class=\"mtvn-controls-volume-slider-container\">\n			<div class=\"mtvn-controls-volume-slider\">\n				<div class=\"mtvn-controls-volume-slider-foreground\"></div>\n			</div>\n		</div>\n	</div>\n</div>\n";
+		  },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+		  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<!-- controls -->\n";
+		  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isDVR : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
+		  if (stack1 != null) { buffer += stack1; }
+		  buffer += "<div class=\"mtvn-controls-play-pause mtvn-controls-button\"></div>\n";
+		  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isLive : depth0), {"name":"if","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data});
+		  if (stack1 != null) { buffer += stack1; }
+		  buffer += "<div class=\""
+		    + escapeExpression(((helper = (helper = helpers.slider || (depth0 != null ? depth0.slider : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"slider","hash":{},"data":data}) : helper)))
+		    + "\">\n	<div class=\""
+		    + escapeExpression(((helper = (helper = helpers.slider || (depth0 != null ? depth0.slider : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"slider","hash":{},"data":data}) : helper)))
+		    + "-time-display\"></div>\n	<div class=\""
+		    + escapeExpression(((helper = (helper = helpers.slider || (depth0 != null ? depth0.slider : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"slider","hash":{},"data":data}) : helper)))
+		    + "-progress-container\">\n		<div class=\""
+		    + escapeExpression(((helper = (helper = helpers.slider || (depth0 != null ? depth0.slider : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"slider","hash":{},"data":data}) : helper)))
+		    + "-buffered\"></div>\n		<div class=\""
+		    + escapeExpression(((helper = (helper = helpers.slider || (depth0 != null ? depth0.slider : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"slider","hash":{},"data":data}) : helper)))
+		    + "-progress\"></div>\n	</div>\n	<div class=\""
+		    + escapeExpression(((helper = (helper = helpers.slider || (depth0 != null ? depth0.slider : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"slider","hash":{},"data":data}) : helper)))
+		    + "-background\"></div>\n	<div class=\""
+		    + escapeExpression(((helper = (helper = helpers.slider || (depth0 != null ? depth0.slider : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"slider","hash":{},"data":data}) : helper)))
+		    + "-segment-container\"></div>\n	<div class=\""
+		    + escapeExpression(((helper = (helper = helpers.slider || (depth0 != null ? depth0.slider : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"slider","hash":{},"data":data}) : helper)))
+		    + "-thumb-container\">\n		<div class=\""
+		    + escapeExpression(((helper = (helper = helpers.slider || (depth0 != null ? depth0.slider : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"slider","hash":{},"data":data}) : helper)))
+		    + "-tool-tip-container\">\n			<div class=\""
+		    + escapeExpression(((helper = (helper = helpers.slider || (depth0 != null ? depth0.slider : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"slider","hash":{},"data":data}) : helper)))
+		    + "-tool-tip-background\"></div>\n			<div class=\""
+		    + escapeExpression(((helper = (helper = helpers.slider || (depth0 != null ? depth0.slider : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"slider","hash":{},"data":data}) : helper)))
+		    + "-tool-tip-time\"></div>\n		</div>\n		<div class=\""
+		    + escapeExpression(((helper = (helper = helpers.slider || (depth0 != null ? depth0.slider : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"slider","hash":{},"data":data}) : helper)))
 		    + "-thumb\"/>\n	</div>\n</div>\n";
-		  stack1 = helpers['if'].call(depth0, depth0.ccEnabled, {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
-		  if(stack1 || stack1 === 0) { buffer += stack1; }
-		  buffer += "\n";
-		  stack1 = helpers['if'].call(depth0, depth0.showVolume, {hash:{},inverse:self.noop,fn:self.program(7, program7, data),data:data});
-		  if(stack1 || stack1 === 0) { buffer += stack1; }
-		  buffer += "\n<div class=\"mtvn-controls-fullscreen mtvn-controls-button\"></div>";
-		  return buffer;
-		  });
+		  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.ccEnabled : depth0), {"name":"if","hash":{},"fn":this.program(5, data),"inverse":this.noop,"data":data});
+		  if (stack1 != null) { buffer += stack1; }
+		  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.showVolume : depth0), {"name":"if","hash":{},"fn":this.program(7, data),"inverse":this.noop,"data":data});
+		  if (stack1 != null) { buffer += stack1; }
+		  return buffer + "<div class=\"mtvn-controls-fullscreen mtvn-controls-button\"></div>";
+		},"useData":true});
 		
-		this["Templates"]["src/top-panel/top-panel.html"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
-		  this.compilerInfo = [4,'>= 1.0.0'];
-		helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-		  var buffer = "", stack1, options, functionType="function", escapeExpression=this.escapeExpression, self=this, blockHelperMissing=helpers.blockHelperMissing;
 		
-		function program1(depth0,data) {
-		  
-		  var buffer = "";
-		  buffer += "\n	<div class=\"mtvn-tp-share-divider\"></div>\n	<div class=\"mtvn-tp-share-item mtvn-tp-"
-		    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
+		
+		this["Templates"]["src/top-panel/top-panel.html"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
+		  var lambda=this.lambda, escapeExpression=this.escapeExpression;
+		  return "	<div class=\"mtvn-tp-share-divider\"></div>\n	<div class=\"mtvn-tp-share-item mtvn-tp-"
+		    + escapeExpression(lambda(depth0, depth0))
 		    + "\" data-share-id=\""
-		    + escapeExpression((typeof depth0 === functionType ? depth0.apply(depth0) : depth0))
-		    + "\"></div>\n	";
-		  return buffer;
-		  }
-		
-		  buffer += "<div class=\"mtvn-tp-container\">\n	<span class=\"mtvn-tp-metadata\">";
-		  if (stack1 = helpers.metadata) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-		  else { stack1 = depth0.metadata; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-		  if(stack1 || stack1 === 0) { buffer += stack1; }
-		  buffer += "</span>\n	<div class=\"mtvn-tp-share\">\n	";
-		  options = {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data};
-		  if (stack1 = helpers.share) { stack1 = stack1.call(depth0, options); }
-		  else { stack1 = depth0.share; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+		    + escapeExpression(lambda(depth0, depth0))
+		    + "\"></div>\n";
+		},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+		  var stack1, helper, options, functionType="function", helperMissing=helpers.helperMissing, blockHelperMissing=helpers.blockHelperMissing, buffer = "<div class=\"mtvn-tp-container\">\n	<span class=\"mtvn-tp-metadata\">";
+		  stack1 = ((helper = (helper = helpers.metadata || (depth0 != null ? depth0.metadata : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"metadata","hash":{},"data":data}) : helper));
+		  if (stack1 != null) { buffer += stack1; }
+		  buffer += "</span>\n	<div class=\"mtvn-tp-share\">\n";
+		  stack1 = ((helper = (helper = helpers.share || (depth0 != null ? depth0.share : depth0)) != null ? helper : helperMissing),(options={"name":"share","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data}),(typeof helper === functionType ? helper.call(depth0, options) : helper));
 		  if (!helpers.share) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
-		  if(stack1 || stack1 === 0) { buffer += stack1; }
-		  buffer += "\n	</div>\n</div>";
-		  return buffer;
-		  });
+		  if (stack1 != null) { buffer += stack1; }
+		  return buffer + "	</div>\n</div>";
+		},"useData":true});
 		return this.Templates;
 	}).apply({});
 	/* global _, $, Templates, Backbone*/
