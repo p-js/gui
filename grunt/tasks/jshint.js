@@ -6,12 +6,19 @@ module.exports = function(grunt, options) {
 	options.settings = options.settings || {};
 	var src = options.settings.jshint || "src/**/*.js";
 	return {
+		options: grunt.file.readJSON("./.jshintrc"),
 		devel: {
-			options: grunt.file.readJSON("./grunt/settings/jshint-dev.json"),
+			options: {
+				unused: false,
+				asi: false,
+				debug: true,
+				devel: true,
+				white: false,
+				indent: undefined
+			},
 			src: src
 		},
 		release: {
-			options: grunt.file.readJSON("./grunt/settings/jshint.json"),
 			src: src
 		}
 	};

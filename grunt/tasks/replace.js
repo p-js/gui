@@ -17,7 +17,7 @@ module.exports = {
 				replacement: '<%= package.version %><%= grunt.config("buildNumber") %>'
 			}]
 		},
-		src: "dist/*.js",
+		src: "dist/**{.js,.css,.json,.txt}",
 		dest: "./"
 	}
 };

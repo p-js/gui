@@ -27,3 +27,4 @@ var TopPanel = Backbone.View.extend({
 		SHARE: "share"
 	}
 });
+

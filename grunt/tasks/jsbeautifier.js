@@ -5,7 +5,7 @@
  */
 module.exports = function(grunt, options) {
 	options.settings = options.settings || {};
-	var jsbeautifyrc = grunt.file.readJSON("./grunt/settings/jsbeautify.json"),
+	var jsbeautifyrc = grunt.file.readJSON("./.jsbeautifyrc"),
 		src = options.settings.jsbeautifier || "src/**/*.js";
 	if (grunt.util.kindOf(src) === "string") {
 		src = [src];

@@ -13,10 +13,10 @@
 	"regexp": true,
 	"undef": true,
 	"strict": false,
-	"trailing": false,
-	"asi": true,
+	"trailing": true,
+	"asi": false,
 	"boss": false,
-	"debug": true,
+	"debug": false,
 	"eqnull": false,
 	"es5": false,
 	"esnext": false,
@@ -41,7 +41,7 @@
 	"validthis": false,
 	"browser": true,
 	"couch": false,
-	"devel": true,
+	"devel": false,
 	"dojo": false,
 	"jquery": false,
 	"mootools": false,
@@ -56,5 +56,6 @@
 	"white": false,
 	"maxerr": 100,
 	"predef": [],
-	"unused": true
+	"unused": true,
+	"indent": 4
 }

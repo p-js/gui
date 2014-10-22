@@ -12,7 +12,7 @@
 	/* global _, $, Handlebars, Backbone*/
 	var GUI = {
 		version: "0.11.0",
-		build: "Mon Oct 20 2014 13:03:30"
+		build: "Wed Oct 22 2014 10:30:49"
 	};
 	// Handlebars is provided in the mtvn-util package.
 	// GUI is loaded in to the page separately, so we have to go 
