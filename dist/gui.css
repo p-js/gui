@@ -480,6 +480,14 @@
 }
 
 /* line 305, ../src/sass/gui.scss */
+.mtvn-tp-hidden {
+  -webkit-transform: translateY(-50px);
+  -moz-transform: translateY(-50px);
+  -o-transform: translateY(-50px);
+  transform: translateY(-50px);
+}
+
+/* line 308, ../src/sass/gui.scss */
 .mtvn-tp-share-divider {
   display: inline-block;
   margin-left: 10px;
@@ -489,7 +497,7 @@
   height: 23px;
 }
 
-/* line 313, ../src/sass/gui.scss */
+/* line 316, ../src/sass/gui.scss */
 .mtvn-tp-facebook {
   background-position: 0 -230px;
   width: 23px;
@@ -498,7 +506,7 @@
   display: inline-block;
 }
 
-/* line 316, ../src/sass/gui.scss */
+/* line 319, ../src/sass/gui.scss */
 .mtvn-tp-twitter {
   background-position: 0 -510px;
   width: 23px;
@@ -507,7 +515,7 @@
   display: inline-block;
 }
 
-/* line 319, ../src/sass/gui.scss */
+/* line 322, ../src/sass/gui.scss */
 .mtvn-tp-email {
   background-position: 0 -207px;
   width: 24px;

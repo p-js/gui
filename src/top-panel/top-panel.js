@@ -18,6 +18,12 @@ var TopPanel = Backbone.View.extend({
 	render: function() {
 		this.$el.html($(this.template(this.options)));
 	},
+	hide: function() {
+		this.$el.addClass("mtvn-tp-hidden");
+	},
+	show: function() {
+		this.$el.removeClass("mtvn-tp-hidden");
+	},
 	onShare: function(event) {
 		event.preventDefault();
 		this.trigger(TopPanel.Events.SHARE, $(event.target).data("share-id"));
