@@ -12,3 +12,4 @@ var Events = {
 	REWIND: "REWIND",
 	SEEK: "SEEK"
 };
+

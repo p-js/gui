@@ -1,6 +1,6 @@
 {
 	"name": "pjs-gui",
-	"version": "0.11.0",
+	"version": "0.12.0",
 	"author": "gianni ferullo <giannif@gmail.com>",
 	"private": true,
 	"description": "GUI",
@@ -42,3 +42,4 @@
 	},
 	"license": "MIT"
 }
+

@@ -1,6 +1,6 @@
 {
 	"name": "pjs-gui",
-	"version": "0.11.0",
+	"version": "0.12.0",
 	"main": [
 		"./dist/gui.js",
 		"./dist/gui.css"
@@ -21,3 +21,4 @@
 		"handlebars": "~2.0.0"
 	}
 }
+

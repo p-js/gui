@@ -11,8 +11,8 @@
 	/* exported GUI */
 	/* global _, $, Handlebars, Backbone*/
 	var GUI = {
-		version: "0.11.0",
-		build: "Mon Oct 20 2014 13:03:30"
+		version: "0.12.0",
+		build: "Fri Jan 09 2015 11:35:02"
 	};
 	// Handlebars is provided in the mtvn-util package.
 	// GUI is loaded in to the page separately, so we have to go 
@@ -202,6 +202,12 @@
 		},
 		render: function() {
 			this.$el.html($(this.template(this.options)));
+		},
+		hide: function() {
+			this.$el.addClass("mtvn-tp-hidden");
+		},
+		show: function() {
+			this.$el.removeClass("mtvn-tp-hidden");
 		},
 		onShare: function(event) {
 			event.preventDefault();

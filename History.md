@@ -1,4 +1,10 @@
 
+0.12.0 / 2015-01-09 
+==================
+
+ * Add show/hide methods for top panel
+ * Update to new project settings
+
 0.11.0 / 2014-10-20 
 ==================
 

@@ -302,6 +302,9 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+.mtvn-tp-hidden {
+	@include transform(translateY(-50px));
+}
 .mtvn-tp-share-divider {
 	display: inline-block;
 	margin-left: 10px;
