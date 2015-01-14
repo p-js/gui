@@ -22,4 +22,3 @@ GUI.AdDisplay = AdDisplay;
 GUI.Controls = Controls;
 GUI.TopPanel = TopPanel;
 GUI.Events = Events;
-

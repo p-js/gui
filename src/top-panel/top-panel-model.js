@@ -9,4 +9,3 @@ var TopPanelModel = {
 		return options;
 	}
 };
-

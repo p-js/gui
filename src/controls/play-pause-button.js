@@ -32,4 +32,3 @@ var PlayPauseButton = (function() {
 		}
 	});
 })();
-

@@ -18,4 +18,3 @@ var SliderDVRMixin = {
 		return this.duration - this.playhead < this.IS_LIVE_THRESHOLD;
 	}
 };
-

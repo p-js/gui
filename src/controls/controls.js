@@ -4,7 +4,6 @@
 var Controls = (function() {
 	//= slider/slider.js
 	var CONTROLS_TEMPLATE = Templates["src/controls/template.html"],
-
 		css = {
 			hide: "mtvn-controls-hidden",
 			slider: "mtvn-controls-slider",
@@ -138,4 +137,3 @@ var Controls = (function() {
 		}
 	});
 })();
-
