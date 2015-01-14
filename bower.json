@@ -1,6 +1,6 @@
 {
 	"name": "pjs-gui",
-	"version": "0.13.3",
+	"version": "0.13.4",
 	"main": [
 		"./dist/gui.js",
 		"./dist/gui.css"
