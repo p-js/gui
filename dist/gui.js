@@ -5,7 +5,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	/* global _, $, Handlebars, Backbone*/
 	var GUI = {
 		version: "0.13.0",
-		build: "Tue Jan 13 2015 16:01:06"
+		build: "Tue Jan 13 2015 16:05:24"
 	};
 	// Handlebars is provided in the mtvn-util package.
 	// GUI is loaded in to the page separately, so we have to go 
