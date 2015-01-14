@@ -1,15 +1,5 @@
 
-0.13.2 / 2015-01-13 
-==================
-
- * Also deploy jpgs
-
-0.13.1 / 2015-01-13 
-==================
-
- * Also deploy css files
-
-0.13.0 / 2015-01-13 
+0.13.3 / 2015-01-13 
 ==================
 
  * Seeking on Android, fixes BRBPL-4472. Fix linting. Update deploy
