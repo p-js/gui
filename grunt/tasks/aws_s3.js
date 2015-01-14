@@ -9,13 +9,13 @@ module.exports = function() {
 		release: {
 			expand: true,
 			cwd: 'dist/',
-			src: ['*.js', '*.css'],
+			src: ['*.js', '*.css', '*.jpg'],
 			dest: 'gui/<%= package.version %>/'
 		},
 		build: {
 			expand: true,
 			cwd: 'dist/',
-			src: ['*.js', '*.css'],
+			src: ['*.js', '*.css', '*.jpg'],
 			dest: 'gui/archive/<%= package.version %><%= grunt.config("buildNumber") %>/'
 		}
 	};

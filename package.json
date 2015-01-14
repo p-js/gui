@@ -1,6 +1,6 @@
 {
 	"name": "pjs-gui",
-	"version": "0.13.1",
+	"version": "0.13.2",
 	"author": "gianni ferullo <giannif@gmail.com>",
 	"private": true,
 	"description": "GUI",
