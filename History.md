@@ -1,5 +1,5 @@
 
-0.13.3 / 2015-01-13 
+0.13.4 / 2015-01-13 
 ==================
 
  * Seeking on Android, fixes BRBPL-4472. Fix linting. Update deploy
