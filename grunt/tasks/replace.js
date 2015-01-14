@@ -19,5 +19,25 @@ module.exports = {
 		},
 		src: "dist/**{.js,.css,.json,.txt}",
 		dest: "./"
+	},
+	sourceMapArchiveS3: {
+		options: {
+			patterns: [{
+				match: /sourceMappingURL=/g,
+				replacement: "sourceMappingURL=/edgeplayer/gui/archive/<%= package.version %><%= grunt.config('buildNumber') %>/"
+			}]
+		},
+		src: "dist/*.min.js",
+		dest: "./"
+	},
+	sourceMapReleaseS3: {
+		options: {
+			patterns: [{
+				match: /sourceMappingURL=/g,
+				replacement: "sourceMappingURL=/edgeplayer/gui/<%= package.version %>/"
+			}]
+		},
+		src: "dist/*.min.js",
+		dest: "./"
 	}
 };

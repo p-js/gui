@@ -12,6 +12,16 @@ var Slider = (function() {
 				m = Math.floor((sec % 3600) / 60),
 				s = Math.floor((sec % 3600) % 60);
 			return (h === 0 ? "" : (h < 10 ? "0" + h + ":" : h + ":")) + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+		},
+		getPageX = function(event) {
+			var pageX = event.pageX;
+			if (pageX > 0) {
+				return pageX;
+			}
+			if (event.touches && event.touches.length > 0) {
+				return event.touches[0].pageX;
+			}
+			return 0;
 		};
 	/* global SliderDVRMixin */
 	//= dvr-mixin.js
@@ -189,7 +199,7 @@ var Slider = (function() {
 				// we don't want this to fire as a click event when you click on the thumb.
 				return;
 			}
-			var moveTo = event.pageX;
+			var moveTo = getPageX(event);
 			if (!this.containerOffset) {
 				this.containerOffset = this.$el.offset().left;
 			}
@@ -212,7 +222,7 @@ var Slider = (function() {
 		onThumbMove: function(event) {
 			if (this.dragging) {
 				event.preventDefault();
-				var moveTo = event.pageX;
+				var moveTo = getPageX(event);
 				if (!this.containerOffset) {
 					this.containerOffset = this.$el.offset().left;
 				}
@@ -284,4 +294,3 @@ var Slider = (function() {
 		}
 	});
 })();
-

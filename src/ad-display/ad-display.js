@@ -61,4 +61,3 @@ var AdDisplay = Backbone.View.extend({
 		buttonTarget: "_blank"
 	}
 });
-

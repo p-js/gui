@@ -16,4 +16,3 @@ var ClosedCaptionButton = (function() {
 		}
 	});
 })();
-

@@ -4,8 +4,8 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	/* exported GUI */
 	/* global _, $, Handlebars, Backbone*/
 	var GUI = {
-		version: "0.12.0",
-		build: "Fri Jan 09 2015 11:35:02"
+		version: "0.13.0",
+		build: "Tue Jan 13 2015 16:05:24"
 	};
 	// Handlebars is provided in the mtvn-util package.
 	// GUI is loaded in to the page separately, so we have to go 
@@ -247,6 +247,16 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 						m = Math.floor((sec % 3600) / 60),
 						s = Math.floor((sec % 3600) % 60);
 					return (h === 0 ? "" : (h < 10 ? "0" + h + ":" : h + ":")) + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+				},
+				getPageX = function(event) {
+					var pageX = event.pageX;
+					if (pageX > 0) {
+						return pageX;
+					}
+					if (event.touches && event.touches.length > 0) {
+						return event.touches[0].pageX;
+					}
+					return 0;
 				};
 			/* global SliderDVRMixin */
 			/* exported SliderDVRMixin */
@@ -461,7 +471,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 						// we don't want this to fire as a click event when you click on the thumb.
 						return;
 					}
-					var moveTo = event.pageX;
+					var moveTo = getPageX(event);
 					if (!this.containerOffset) {
 						this.containerOffset = this.$el.offset().left;
 					}
@@ -484,7 +494,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				onThumbMove: function(event) {
 					if (this.dragging) {
 						event.preventDefault();
-						var moveTo = event.pageX;
+						var moveTo = getPageX(event);
 						if (!this.containerOffset) {
 							this.containerOffset = this.$el.offset().left;
 						}
@@ -557,7 +567,6 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			});
 		})();
 		var CONTROLS_TEMPLATE = Templates["src/controls/template.html"],
-	
 			css = {
 				hide: "mtvn-controls-hidden",
 				slider: "mtvn-controls-slider",

@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - 0.10
+before_install: npm install -g grunt-cli jshint bower
+before_script:
+  - bower install
+script:
+  npm run lint
+after_script:
+ - grunt deploy-s3 -branch $TRAVIS_BRANCH -build $TRAVIS_BUILD_NUMBER -awsAccessKey $AWS_ACCESS_KEY -awsSecretKey $AWS_SECRET_ACCESS_KEY

@@ -188,4 +188,3 @@ var VolumeButton = (function() {
 		}
 	});
 })();
-

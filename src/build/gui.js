@@ -4,4 +4,3 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	//= ../gui.js
 	return GUI;
 })(_, $, Handlebars, Backbone);
-

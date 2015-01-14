@@ -1,6 +1,6 @@
 {
 	"name": "pjs-gui",
-	"version": "0.12.0",
+	"version": "0.13.0",
 	"author": "gianni ferullo <giannif@gmail.com>",
 	"private": true,
 	"description": "GUI",
@@ -8,10 +8,17 @@
 		"type": "git",
 		"url": "https://p-js@github.com/p-js/gui.git"
 	},
+	"scripts": {
+		"release": "grunt release",
+		"lint": "grunt jshint:release && grunt jsbeautifier:verify",
+		"test": "grunt karma:ci",
+		"coverage": "grunt coveralls"
+	},
 	"devDependencies": {
 		"chai": "*",
 		"chai-spies": "*",
 		"grunt": "*",
+		"grunt-aws-s3": "^0.10.4",
 		"grunt-bumpx": "*",
 		"grunt-contrib-clean": "*",
 		"grunt-contrib-compass": "*",
@@ -42,4 +49,3 @@
 	},
 	"license": "MIT"
 }
-
