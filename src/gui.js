@@ -14,10 +14,12 @@ var Templates = (function() {
 	//= ../compiled-templates
 	return this.Templates;
 }).apply({});
+//= time-display
 //= ad-display
 //= top-panel
 //= controls
-/* global AdDisplay, Controls, Events, TopPanel */
+/* global AdDisplay, TimeDisplay, Controls, Events, TopPanel */
+GUI.TimeDisplay = TimeDisplay;
 GUI.AdDisplay = AdDisplay;
 GUI.Controls = Controls;
 GUI.TopPanel = TopPanel;

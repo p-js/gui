@@ -2,8 +2,8 @@
 /* global Backbone, Events*/
 var PlayPauseButton = (function() {
 	var css = {
-		play: "mtvn-controls-play",
-		pause: "mtvn-controls-pause"
+		play: "pjs-controls-play",
+		pause: "pjs-controls-pause"
 	};
 	return Backbone.View.extend({
 		initialize: function(options) {

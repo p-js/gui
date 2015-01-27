@@ -12,7 +12,7 @@
 	/* global _, $, Handlebars, Backbone*/
 	var GUI = {
 		version: "0.14.0",
-		build: "Tue Jan 13 2015 16:46:12"
+		build: "Tue Jan 27 2015 09:17:16"
 	};
 	// Handlebars is provided in the mtvn-util package.
 	// GUI is loaded in to the page separately, so we have to go 
@@ -42,33 +42,22 @@
 		
 		
 		this["Templates"]["src/controls/template.html"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
-		  return "<div class=\"mtvn-controls-rewind mtvn-controls-button\"></div>\n";
-		  },"3":function(depth0,helpers,partials,data) {
-		  return "<div class=\"mtvn-controls-live mtvn-controls-button\"></div>\n";
-		  },"5":function(depth0,helpers,partials,data) {
-		  return "<div class=\"mtvn-controls-cc mtvn-controls-button\"></div>\n";
-		  },"7":function(depth0,helpers,partials,data) {
-		  return "<div class=\"mtvn-controls-volume mtvn-controls-button\">\n	<div class=\"mtvn-controls-volume-slider-container-outer\">\n		<div class=\"mtvn-controls-volume-slider-container\">\n			<div class=\"mtvn-controls-volume-slider\">\n				<div class=\"mtvn-controls-volume-slider-foreground\"></div>\n			</div>\n		</div>\n	</div>\n</div>\n";
+		  return "	<div class=\"pjs-controls-rewind pjs-controls-button\"></div>\n";
 		  },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-		  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<!-- controls -->\n";
+		  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div class=\"pjs-controls-center\">\n";
 		  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isDVR : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
 		  if (stack1 != null) { buffer += stack1; }
-		  buffer += "<div class=\"mtvn-controls-play-pause mtvn-controls-button\"></div>\n";
-		  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isLive : depth0), {"name":"if","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data});
-		  if (stack1 != null) { buffer += stack1; }
-		  buffer += "<div class=\""
+		  return buffer + "	<div class=\"pjs-controls-play-pause pjs-controls-button\"></div>\n</div>\n<div class=\""
 		    + escapeExpression(((helper = (helper = helpers.slider || (depth0 != null ? depth0.slider : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"slider","hash":{},"data":data}) : helper)))
 		    + "\">\n	<div class=\""
 		    + escapeExpression(((helper = (helper = helpers.slider || (depth0 != null ? depth0.slider : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"slider","hash":{},"data":data}) : helper)))
-		    + "-time-display\"></div>\n	<div class=\""
+		    + "-background\"></div>\n	<div class=\""
 		    + escapeExpression(((helper = (helper = helpers.slider || (depth0 != null ? depth0.slider : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"slider","hash":{},"data":data}) : helper)))
 		    + "-progress-container\">\n		<div class=\""
 		    + escapeExpression(((helper = (helper = helpers.slider || (depth0 != null ? depth0.slider : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"slider","hash":{},"data":data}) : helper)))
 		    + "-buffered\"></div>\n		<div class=\""
 		    + escapeExpression(((helper = (helper = helpers.slider || (depth0 != null ? depth0.slider : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"slider","hash":{},"data":data}) : helper)))
 		    + "-progress\"></div>\n	</div>\n	<div class=\""
-		    + escapeExpression(((helper = (helper = helpers.slider || (depth0 != null ? depth0.slider : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"slider","hash":{},"data":data}) : helper)))
-		    + "-background\"></div>\n	<div class=\""
 		    + escapeExpression(((helper = (helper = helpers.slider || (depth0 != null ? depth0.slider : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"slider","hash":{},"data":data}) : helper)))
 		    + "-segment-container\"></div>\n	<div class=\""
 		    + escapeExpression(((helper = (helper = helpers.slider || (depth0 != null ? depth0.slider : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"slider","hash":{},"data":data}) : helper)))
@@ -81,34 +70,52 @@
 		    + "-tool-tip-time\"></div>\n		</div>\n		<div class=\""
 		    + escapeExpression(((helper = (helper = helpers.slider || (depth0 != null ? depth0.slider : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"slider","hash":{},"data":data}) : helper)))
 		    + "-thumb\"/>\n	</div>\n</div>\n";
-		  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.ccEnabled : depth0), {"name":"if","hash":{},"fn":this.program(5, data),"inverse":this.noop,"data":data});
-		  if (stack1 != null) { buffer += stack1; }
-		  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.showVolume : depth0), {"name":"if","hash":{},"fn":this.program(7, data),"inverse":this.noop,"data":data});
-		  if (stack1 != null) { buffer += stack1; }
-		  return buffer + "<div class=\"mtvn-controls-fullscreen mtvn-controls-button\"></div>";
 		},"useData":true});
 		
 		
 		
-		this["Templates"]["src/top-panel/top-panel.html"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
-		  var lambda=this.lambda, escapeExpression=this.escapeExpression;
-		  return "	<div class=\"mtvn-tp-share-divider\"></div>\n	<div class=\"mtvn-tp-share-item mtvn-tp-"
-		    + escapeExpression(lambda(depth0, depth0))
-		    + "\" data-share-id=\""
-		    + escapeExpression(lambda(depth0, depth0))
-		    + "\"></div>\n";
-		},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-		  var stack1, helper, options, functionType="function", helperMissing=helpers.helperMissing, blockHelperMissing=helpers.blockHelperMissing, buffer = "<div class=\"mtvn-tp-container\">\n	<span class=\"mtvn-tp-metadata\">";
+		this["Templates"]["src/top-panel/top-panel.html"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+		  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "<div class=\"pjs-info-container\">\n	<div class=\"pjs-tp-flexbox\">\n		<div class=\"mtvn-tp-metadata\">";
 		  stack1 = ((helper = (helper = helpers.metadata || (depth0 != null ? depth0.metadata : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"metadata","hash":{},"data":data}) : helper));
 		  if (stack1 != null) { buffer += stack1; }
-		  buffer += "</span>\n	<div class=\"mtvn-tp-share\">\n";
-		  stack1 = ((helper = (helper = helpers.share || (depth0 != null ? depth0.share : depth0)) != null ? helper : helperMissing),(options={"name":"share","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data}),(typeof helper === functionType ? helper.call(depth0, options) : helper));
-		  if (!helpers.share) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
-		  if (stack1 != null) { buffer += stack1; }
-		  return buffer + "	</div>\n</div>";
+		  return buffer + "</div>\n		<div class=\"pjs-info-item-share\"></div>\n	</div>\n	<div class=\"pjs-info-time-display\"></div>\n</div>\n";
 		},"useData":true});
 		return this.Templates;
 	}).apply({});
+	/* exported TimeDisplay */
+	/* global Backbone, _ */
+	var TimeDisplay = Backbone.View.extend({
+		template: _.template("<span class=\"pjs-info-current-time\"><%=data.playhead%></span> / <%=data.duration%>", {
+			variable: 'data'
+		}),
+		initialize: function(options) {
+			options = options || {};
+			this.playhead = options.playhead || 0;
+			this.duration = options.duration;
+			this.render();
+		},
+		render: function() {
+			if (!this.duration) {
+				this.$el.html("");
+			} else {
+				this.$el.html(this.template({
+					playhead: TimeDisplay.formatTime(this.playhead),
+					duration: TimeDisplay.formatTime(this.duration)
+				}));
+			}
+			return this;
+		}
+	}, {
+		formatTime: function(sec) {
+			if (isNaN(sec)) {
+				return "00:00";
+			}
+			var h = Math.floor(sec / 3600),
+				m = Math.floor((sec % 3600) / 60),
+				s = Math.floor((sec % 3600) % 60);
+			return (h === 0 ? "" : (h < 10 ? "0" + h + ":" : h + ":")) + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+		}
+	});
 	/* global _, $, Templates, Backbone*/
 	/* exported AdDisplay */
 	var AdDisplay = Backbone.View.extend({
@@ -183,7 +190,7 @@
 			return options;
 		}
 	};
-	/* global Backbone, Templates, $, TopPanelModel*/
+	/* global Backbone, Templates, $, TopPanelModel, TimeDisplay, _*/
 	/* exported TopPanel */
 	var TopPanel = Backbone.View.extend({
 		template: Templates["src/top-panel/top-panel.html"],
@@ -196,18 +203,27 @@
 		initialize: function(options) {
 			this.options = TopPanelModel.validate(options || {});
 			this.render();
+			this.timeDisplay = new TimeDisplay(_.extend(options, {
+				el: this.$(".pjs-info-time-display")
+			}));
 		},
 		setMetadata: function(html) {
 			this.$(".mtvn-tp-metadata").html(html);
 		},
+		setPlayhead: function(playhead) {
+			this.playhead = playhead;
+		},
 		render: function() {
 			this.$el.html($(this.template(this.options)));
+			if (this.timeDisplay) {
+				this.timeDisplay.render();
+			}
 		},
 		hide: function() {
-			this.$el.addClass("mtvn-tp-hidden");
+			this.$el.addClass("pjs-info-panel-hidden");
 		},
 		show: function() {
-			this.$el.removeClass("mtvn-tp-hidden");
+			this.$el.removeClass("pjs-info-panel-hidden");
 		},
 		onShare: function(event) {
 			event.preventDefault();
@@ -237,8 +253,7 @@
 		});
 	})();
 	/* exported Controls */
-	/* global _, Backbone, $, Events, Slider, PlayPauseButton, 
-	  LiveButton, VolumeButton, ClosedCaptionButton, Templates*/
+	/* global _, Backbone, $, Events, Slider, PlayPauseButton, LiveButton, ClosedCaptionButton, Templates*/
 	var Controls = (function() {
 		/* global _, $, Backbone, Events*/
 		/* exported Slider */
@@ -359,7 +374,7 @@
 					/**
 					 * The time and duration.
 					 */
-					this.$timeDisplay = this.$(".mtvn-controls-slider-time-display");
+					// this.$timeDisplay = this.$(".mtvn-controls-slider-time-display");
 					/**
 					 * Tool tip container
 					 */
@@ -456,16 +471,16 @@
 					if (enabled !== this.enabled) {
 						if (enabled) {
 							this.$thumbContainer.show();
-							this.$timeDisplay.css({
-								visibility: "visible"
-							});
+							// this.$timeDisplay.css({
+							// 	visibility: "visible"
+							// });
 							this.$buffered.show();
 							this.$progress.show();
 						} else {
 							this.$thumbContainer.hide();
-							this.$timeDisplay.css({
-								visibility: "hidden"
-							});
+							// this.$timeDisplay.css({
+							// 	visibility: "hidden"
+							// });
 							this.$progress.hide();
 							this.$buffered.hide();
 						}
@@ -488,7 +503,6 @@
 				onThumbActive: function(event) {
 					event.preventDefault();
 					var $el = this.$("." + thumb);
-					$el.removeClass(thumb);
 					$el.addClass(thumbActive);
 					this.dragging = true;
 					this.throttledMeasure();
@@ -513,7 +527,6 @@
 						event.preventDefault();
 						var $el = this.$("." + thumbActive);
 						$el.removeClass(thumbActive);
-						$el.addClass(thumb);
 						this.dragging = false;
 						this.sendSeek();
 						this.$toolTipContainer.hide();
@@ -552,7 +565,7 @@
 					return p * this.duration;
 				},
 				updateTime: function() {
-					this.$timeDisplay.html(this.getTimeDisplayText());
+					// this.$timeDisplay.html(this.getTimeDisplayText());
 				},
 				getTimeDisplayText: function() {
 					if (!this.duration) {
@@ -561,7 +574,7 @@
 					if (this.isLive()) {
 						return formatTime(this.duration);
 					} else {
-						return "<span class=\"mtvn-controls-slider-current-time\">" + formatTime(this.playhead) + "</span> / " + formatTime(this.duration);
+						return "<span class=\"pjs-info-current-time\">" + formatTime(this.playhead) + "</span> / " + formatTime(this.duration);
 					}
 				},
 				sendSeek: function() {
@@ -577,7 +590,7 @@
 			css = {
 				hide: "mtvn-controls-hidden",
 				slider: "mtvn-controls-slider",
-				playPause: "mtvn-controls-play-pause",
+				playPause: "pjs-controls-play-pause",
 				live: "mtvn-controls-live",
 				volume: "mtvn-controls-volume",
 				cc: "mtvn-controls-cc"
@@ -589,12 +602,12 @@
 			};
 		return Backbone.View.extend({
 			tagName: "div",
-			className: "mtvn-controls",
+			className: "pjs-controls",
 			events: {
 				"click .mtvn-controls-fullscreen": "onFullscreen",
 				"touchstart .mtvn-controls-fullscreen": "onFullscreen",
-				"click .mtvn-controls-rewind": "onRewind",
-				"touchstart .mtvn-controls-rewind": "onRewind"
+				"click .pjs-controls-rewind": "onRewind",
+				"touchstart .pjs-controls-rewind": "onRewind"
 			},
 			initialize: function(options) {
 				this.options = options;
@@ -636,17 +649,6 @@
 						this.liveButton.listenTo(this.slider, Events.IS_LIVE, this.liveButton.onLiveChange);
 					}
 				}
-				// VOLUME
-				if (options.showVolume) {
-					this.volumeButton = new VolumeButton({
-						volume: options.volume,
-						muted: options.muted,
-						showVolumeSlider: options.showVolumeSlider,
-						el: this.$("." + css.volume)
-					});
-					// Volume Events
-					addEvents(this, this.volumeButton, [Events.VOLUME, Events.MUTE, Events.UNMUTE], this.sendEvent);
-				}
 				// CC
 				this.closedCaptionButton = new ClosedCaptionButton({
 					ccEnabled: options.ccEnabled,
@@ -657,21 +659,12 @@
 			},
 			hide: function() {
 				this.$el.addClass(css.hide);
-				if (this.volumeButton) {
-					this.volumeButton.setEnabled(false);
-				}
 			},
 			show: function() {
 				this.$el.removeClass(css.hide);
-				if (this.volumeButton) {
-					this.volumeButton.setEnabled(true);
-				}
 			},
-			setVolume: function(volume) {
-				if (!this.volumeButton) {
-					return;
-				}
-				this.volumeButton.setVolume(volume);
+			setVolume: function() {
+				// N/A until desktop
 			},
 			setPaused: function(paused) {
 				this.playPauseButton.setPaused(paused);
@@ -760,8 +753,8 @@
 	/* global Backbone, Events*/
 	var PlayPauseButton = (function() {
 		var css = {
-			play: "mtvn-controls-play",
-			pause: "mtvn-controls-pause"
+			play: "pjs-controls-play",
+			pause: "pjs-controls-pause"
 		};
 		return Backbone.View.extend({
 			initialize: function(options) {
@@ -980,7 +973,8 @@
 			}
 		});
 	})();
-	/* global AdDisplay, Controls, Events, TopPanel */
+	/* global AdDisplay, TimeDisplay, Controls, Events, TopPanel */
+	GUI.TimeDisplay = TimeDisplay;
 	GUI.AdDisplay = AdDisplay;
 	GUI.Controls = Controls;
 	GUI.TopPanel = TopPanel;

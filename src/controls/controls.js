@@ -1,13 +1,12 @@
 /* exported Controls */
-/* global _, Backbone, $, Events, Slider, PlayPauseButton, 
-  LiveButton, VolumeButton, ClosedCaptionButton, Templates*/
+/* global _, Backbone, $, Events, Slider, PlayPauseButton, LiveButton, ClosedCaptionButton, Templates*/
 var Controls = (function() {
 	//= slider/slider.js
 	var CONTROLS_TEMPLATE = Templates["src/controls/template.html"],
 		css = {
 			hide: "mtvn-controls-hidden",
 			slider: "mtvn-controls-slider",
-			playPause: "mtvn-controls-play-pause",
+			playPause: "pjs-controls-play-pause",
 			live: "mtvn-controls-live",
 			volume: "mtvn-controls-volume",
 			cc: "mtvn-controls-cc"
@@ -19,12 +18,12 @@ var Controls = (function() {
 		};
 	return Backbone.View.extend({
 		tagName: "div",
-		className: "mtvn-controls",
+		className: "pjs-controls",
 		events: {
 			"click .mtvn-controls-fullscreen": "onFullscreen",
 			"touchstart .mtvn-controls-fullscreen": "onFullscreen",
-			"click .mtvn-controls-rewind": "onRewind",
-			"touchstart .mtvn-controls-rewind": "onRewind"
+			"click .pjs-controls-rewind": "onRewind",
+			"touchstart .pjs-controls-rewind": "onRewind"
 		},
 		initialize: function(options) {
 			this.options = options;
@@ -66,17 +65,6 @@ var Controls = (function() {
 					this.liveButton.listenTo(this.slider, Events.IS_LIVE, this.liveButton.onLiveChange);
 				}
 			}
-			// VOLUME
-			if (options.showVolume) {
-				this.volumeButton = new VolumeButton({
-					volume: options.volume,
-					muted: options.muted,
-					showVolumeSlider: options.showVolumeSlider,
-					el: this.$("." + css.volume)
-				});
-				// Volume Events
-				addEvents(this, this.volumeButton, [Events.VOLUME, Events.MUTE, Events.UNMUTE], this.sendEvent);
-			}
 			// CC
 			this.closedCaptionButton = new ClosedCaptionButton({
 				ccEnabled: options.ccEnabled,
@@ -87,21 +75,12 @@ var Controls = (function() {
 		},
 		hide: function() {
 			this.$el.addClass(css.hide);
-			if (this.volumeButton) {
-				this.volumeButton.setEnabled(false);
-			}
 		},
 		show: function() {
 			this.$el.removeClass(css.hide);
-			if (this.volumeButton) {
-				this.volumeButton.setEnabled(true);
-			}
 		},
-		setVolume: function(volume) {
-			if (!this.volumeButton) {
-				return;
-			}
-			this.volumeButton.setVolume(volume);
+		setVolume: function() {
+			// N/A until desktop
 		},
 		setPaused: function(paused) {
 			this.playPauseButton.setPaused(paused);

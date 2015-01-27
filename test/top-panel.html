@@ -4,19 +4,25 @@
 	<title>GUI Test</title>
 	<meta charset="utf-8"/>
 	<link rel="stylesheet" type="text/css" href="../gui.css">
-	<script	src="components/zepto/zepto.js"></script>
-	<script	src="components/underscore/underscore.js"></script>
-	<script	src="components/backbone/backbone.js"></script>
-	<script	src="components/handlebars/handlebars.runtime.js"></script>
-	<script	src="../gui.js"></script>
+	<script	src="components/zepto/zepto.js" type="application/javascript"></script>
+	<script	src="components/underscore/underscore.js" type="application/javascript"></script>
+	<script	src="components/backbone/backbone.js" type="application/javascript"></script>
+	<script	src="components/handlebars/handlebars.runtime.js" type="application/javascript"></script>
+	<script	src="../gui.js" type="application/javascript"></script>
+	<style type="text/css">
+		.player-mock-container {
+			width:640px;
+			height:420px;
+			overflow:hidden;
+			background:black;
+			position: relative;
+			background-image: url(image/key_peele_slow_brotion.jpg)
+		}
+	</style>
 </head>
 <body>
-	<p>
-		<div id="top-panel" style="width:640px;height:80px;background:black;"></div>
-	</p>
-	<p>
-		<div id="top-panel2" style="width:640px;height:80px;background:black;"></div>
-	</p>
-	<script src="js/top-panel.js"></script>
+	<div id="top-panel" class="player-mock-container"></div>
+	<div id="top-panel2" class="player-mock-container"></div>
+	<script src="js/top-panel.js" type="application/javascript"></script>
 </body>
 </html>

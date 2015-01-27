@@ -1,4 +1,4 @@
-	<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 	<title>Controls Test</title>
@@ -9,6 +9,16 @@
 	<script	src="components/backbone/backbone.js"></script>
 	<script	src="components/handlebars/handlebars.runtime.js"></script>
 	<script	src="components/mtvn-package-manager/dist/mtvn-package-manager.js"></script>
+	<style>
+		.player-mock-container {
+			width:640px;
+			height:420px;
+			overflow:hidden;
+			background:black;
+			position: relative;
+			background-image: url(image/key_peele_slow_brotion.jpg)
+		}
+	</style>
 	<script>
 		/* global MTVNPlayer, _, $, Backbone, Handlebars */
 		MTVNPlayer.provide("_",_);
@@ -21,20 +31,8 @@
 	</script>
 </head>
 <body>
-	Controls Test
-	<div id="controls" style="padding-top:200px;width:640px;height:50px;overflow:hidden;"></div>
-	<button id="show">show</button>
-	<button id="hide">hide</button>
-	<button id="killbuffer">killbuffer</button>
-	<br/>
-	<button id="seekTo">seek to</button><input type="text" id="seek-value"/>
-	<button id="setDuration">change duration</button><input type="text" id="duration-value"/>
-	2nd
-	<div id="controls2" style="padding-top:200px;width:640px;height:50px;overflow:hidden;"></div>
-	3rd
-	<div id="controls3" style="padding-top:200px;width:640px;height:50px;overflow:hidden;"></div>
-	4th
-	<div id="controls4" style="padding-top:200px;width:640px;height:50px;overflow:hidden;"></div>
+	<p>Controls</p>
+	<div id="controls" class="player-mock-container"></div>
 	<script	src="js/controls.js"></script>
 </body>
 </html>

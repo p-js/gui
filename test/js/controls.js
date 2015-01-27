@@ -74,39 +74,39 @@ MTVNPlayer.loadPackages({
 	}
 }, _.partial(createGUI, {
 	playing: false,
-	showVolume: true,
+	isDVR: true,
 	ccEnabled: true
 }, "#controls"));
 
-MTVNPlayer.loadPackages({
-	"pjs-gui": {
-		url: "../mtvn.js"
-	}
-}, _.partial(createGUI, {
-	playing: false,
-	isDVR: true,
-	showVolume: true,
-	showVolumeSlider: true,
-	ccEnabled: true
-}, "#controls2"));
+// MTVNPlayer.loadPackages({
+// 	"pjs-gui": {
+// 		url: "../mtvn.js"
+// 	}
+// }, _.partial(createGUI, {
+// 	playing: false,
+// 	isDVR: true,
+// 	showVolume: true,
+// 	showVolumeSlider: true,
+// 	ccEnabled: true
+// }, "#controls2"));
 
-MTVNPlayer.loadPackages({
-	"pjs-gui": {
-		url: "../mtvn.js"
-	}
-}, _.partial(createGUI, {
-	playing: false,
-	showVolume: true,
-	showVolumeSlider: true,
-	ccEnabled: true,
-	isLive: true
-}, "#controls3"));
+// MTVNPlayer.loadPackages({
+// 	"pjs-gui": {
+// 		url: "../mtvn.js"
+// 	}
+// }, _.partial(createGUI, {
+// 	playing: false,
+// 	showVolume: true,
+// 	showVolumeSlider: true,
+// 	ccEnabled: true,
+// 	isLive: true
+// }, "#controls3"));
 
-MTVNPlayer.loadPackages({
-	"pjs-gui": {
-		url: "../mtvn.js"
-	}
-}, _.partial(createGUI, {
-	playing: false,
-	showVolumeSlider: true,
-}, "#controls4"));
+// MTVNPlayer.loadPackages({
+// 	"pjs-gui": {
+// 		url: "../mtvn.js"
+// 	}
+// }, _.partial(createGUI, {
+// 	playing: false,
+// 	showVolumeSlider: true,
+// }, "#controls4"));

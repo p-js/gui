@@ -80,7 +80,7 @@ var Slider = (function() {
 			/**
 			 * The time and duration.
 			 */
-			this.$timeDisplay = this.$(".mtvn-controls-slider-time-display");
+			// this.$timeDisplay = this.$(".mtvn-controls-slider-time-display");
 			/**
 			 * Tool tip container
 			 */
@@ -177,16 +177,16 @@ var Slider = (function() {
 			if (enabled !== this.enabled) {
 				if (enabled) {
 					this.$thumbContainer.show();
-					this.$timeDisplay.css({
-						visibility: "visible"
-					});
+					// this.$timeDisplay.css({
+					// 	visibility: "visible"
+					// });
 					this.$buffered.show();
 					this.$progress.show();
 				} else {
 					this.$thumbContainer.hide();
-					this.$timeDisplay.css({
-						visibility: "hidden"
-					});
+					// this.$timeDisplay.css({
+					// 	visibility: "hidden"
+					// });
 					this.$progress.hide();
 					this.$buffered.hide();
 				}
@@ -209,7 +209,6 @@ var Slider = (function() {
 		onThumbActive: function(event) {
 			event.preventDefault();
 			var $el = this.$("." + thumb);
-			$el.removeClass(thumb);
 			$el.addClass(thumbActive);
 			this.dragging = true;
 			this.throttledMeasure();
@@ -234,7 +233,6 @@ var Slider = (function() {
 				event.preventDefault();
 				var $el = this.$("." + thumbActive);
 				$el.removeClass(thumbActive);
-				$el.addClass(thumb);
 				this.dragging = false;
 				this.sendSeek();
 				this.$toolTipContainer.hide();
@@ -273,7 +271,7 @@ var Slider = (function() {
 			return p * this.duration;
 		},
 		updateTime: function() {
-			this.$timeDisplay.html(this.getTimeDisplayText());
+			// this.$timeDisplay.html(this.getTimeDisplayText());
 		},
 		getTimeDisplayText: function() {
 			if (!this.duration) {
@@ -282,7 +280,7 @@ var Slider = (function() {
 			if (this.isLive()) {
 				return formatTime(this.duration);
 			} else {
-				return "<span class=\"mtvn-controls-slider-current-time\">" + formatTime(this.playhead) + "</span> / " + formatTime(this.duration);
+				return "<span class=\"pjs-info-current-time\">" + formatTime(this.playhead) + "</span> / " + formatTime(this.duration);
 			}
 		},
 		sendSeek: function() {

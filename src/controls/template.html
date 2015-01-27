@@ -1,18 +1,15 @@
-<!-- controls -->
-{{#if isDVR}}
-<div class="mtvn-controls-rewind mtvn-controls-button"></div>
-{{/if}}
-<div class="mtvn-controls-play-pause mtvn-controls-button"></div>
-{{#if isLive}}
-<div class="mtvn-controls-live mtvn-controls-button"></div>
-{{/if}}
+<div class="pjs-controls-center">
+	{{#if isDVR}}
+	<div class="pjs-controls-rewind pjs-controls-button"></div>
+	{{/if}}
+	<div class="pjs-controls-play-pause pjs-controls-button"></div>
+</div>
 <div class="{{slider}}">
-	<div class="{{slider}}-time-display"></div>
+	<div class="{{slider}}-background"></div>
 	<div class="{{slider}}-progress-container">
 		<div class="{{slider}}-buffered"></div>
 		<div class="{{slider}}-progress"></div>
 	</div>
-	<div class="{{slider}}-background"></div>
 	<div class="{{slider}}-segment-container"></div>
 	<div class="{{slider}}-thumb-container">
 		<div class="{{slider}}-tool-tip-container">
@@ -22,18 +19,3 @@
 		<div class="{{slider}}-thumb"/>
 	</div>
 </div>
-{{#if ccEnabled}}
-<div class="mtvn-controls-cc mtvn-controls-button"></div>
-{{/if}}
-{{#if showVolume}}
-<div class="mtvn-controls-volume mtvn-controls-button">
-	<div class="mtvn-controls-volume-slider-container-outer">
-		<div class="mtvn-controls-volume-slider-container">
-			<div class="mtvn-controls-volume-slider">
-				<div class="mtvn-controls-volume-slider-foreground"></div>
-			</div>
-		</div>
-	</div>
-</div>
-{{/if}}
-<div class="mtvn-controls-fullscreen mtvn-controls-button"></div>

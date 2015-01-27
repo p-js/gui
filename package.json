@@ -18,7 +18,7 @@
 		"chai": "*",
 		"chai-spies": "*",
 		"grunt": "*",
-		"grunt-aws-s3": "^0.10.4",
+		"grunt-aws-s3": "^0.11.0",
 		"grunt-bumpx": "*",
 		"grunt-contrib-clean": "*",
 		"grunt-contrib-compass": "*",
@@ -45,7 +45,7 @@
 		"karma-phantomjs-launcher": "*",
 		"load-grunt-config": "*",
 		"load-grunt-tasks": "*",
-		"mocha": "^1.21.4"
+		"mocha": "^2.1.0"
 	},
 	"license": "MIT"
 }

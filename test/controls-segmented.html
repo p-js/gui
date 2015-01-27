@@ -9,10 +9,20 @@
 	<script	type="text/javascript" src="components/backbone/backbone.js"></script>
 	<script	type="text/javascript" src="components/handlebars/handlebars.runtime.js"></script>
 	<script	type="text/javascript" src="../gui.js"></script>
+	<style>
+		.player-mock-container {
+			width:640px;
+			height:420px;
+			overflow:hidden;
+			background:black;
+			position: relative;
+			background-image: url(image/key_peele_slow_brotion.jpg)
+		}
+	</style>
 </head>
 <body>
 	Controls Test
-	<div id="controls" style="padding-top:200px;width:640px;height:50px;overflow:hidden;"></div>
+	<div id="controls" class="player-mock-container"></div>
 	<button id="show">show</button>
 	<button id="hide">hide</button>
 	<button id="killbuffer">killbuffer</button>

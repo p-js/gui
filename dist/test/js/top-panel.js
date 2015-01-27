@@ -11,7 +11,9 @@ tp.on(TopPanel.Events.SHARE, function(id) {
 $("#top-panel").append(tp.$el);
 var tp = new TopPanel({
 	metadata: "Lorem ipsum dolor sit amet.",
-	share: ["facebook", "twitter", "email", "made up value"]
+	share: ["facebook", "twitter", "email", "made up value"],
+	playhead: 5,
+	duration: 360
 });
 tp.on(TopPanel.Events.SHARE, function(id) {
 	console.log("top panel 2 share", id);
