@@ -12,7 +12,7 @@
 	/* global _, $, Handlebars, Backbone*/
 	var GUI = {
 		version: "0.14.0",
-		build: "Wed Jan 28 2015 11:01:15"
+		build: "Wed Jan 28 2015 12:54:11"
 	};
 	// Handlebars is provided the pjs/player project.
 	// GUI is loaded in to the page separately, so we have to go 
@@ -41,13 +41,9 @@
 		
 		
 		
-		this["Templates"]["src/controls/template.html"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
-		  return "	<div class=\"pjs-controls-rewind pjs-controls-button\"></div>\n";
-		  },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-		  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression, buffer = "<div class=\"pjs-controls-center\">\n";
-		  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isDVR : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
-		  if (stack1 != null) { buffer += stack1; }
-		  return buffer + "	<div class=\"pjs-controls-play-pause pjs-controls-button\"></div>\n</div>\n<div class=\""
+		this["Templates"]["src/controls/template.html"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+		  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
+		  return "<div class=\"pjs-info-current-time\">00:01</div>\n<div class=\""
 		    + escapeExpression(((helper = (helper = helpers.slider || (depth0 != null ? depth0.slider : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"slider","hash":{},"data":data}) : helper)))
 		    + "\">\n	<div class=\""
 		    + escapeExpression(((helper = (helper = helpers.slider || (depth0 != null ? depth0.slider : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"slider","hash":{},"data":data}) : helper)))
@@ -69,7 +65,7 @@
 		    + escapeExpression(((helper = (helper = helpers.slider || (depth0 != null ? depth0.slider : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"slider","hash":{},"data":data}) : helper)))
 		    + "-tool-tip-time\"></div>\n		</div>\n		<div class=\""
 		    + escapeExpression(((helper = (helper = helpers.slider || (depth0 != null ? depth0.slider : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"slider","hash":{},"data":data}) : helper)))
-		    + "-thumb\"/>\n	</div>\n</div>\n";
+		    + "-thumb\"/>\n	</div>\n</div>\n<div class=\"pjs-info-duration\">00:05</div>\n";
 		},"useData":true});
 		
 		
@@ -281,7 +277,7 @@
 		});
 	})();
 	/* exported Controls */
-	/* global _, Backbone, $, Events, Slider, PlayPauseButton, LiveButton, ClosedCaptionButton, Templates*/
+	/* global _, Backbone, $, Events, Slider, PlayPauseButton, TimeDisplay, LiveButton, ClosedCaptionButton, Templates*/
 	var Controls = (function() {
 		/* global _, $, Backbone, Events*/
 		/* exported Slider */
@@ -648,6 +644,9 @@
 			render: function() {
 				var options = this.options;
 				this.$el.html($(CONTROLS_TEMPLATE(options)));
+				this.$currentTime = this.$(".pjs-info-current-time");
+				this.$duration = this.$(".pjs-info-duration");
+				this.$currentTime.html(TimeDisplay.formatTime(options.playhead));
 				// PLAY PAUSE
 				this.playPauseButton = new PlayPauseButton({
 					el: this.$("." + css.playPause),
@@ -662,6 +661,7 @@
 					isDVR: options.isDVR,
 					durations: options.durations
 				});
+				this.setDurations(options.durations);
 				// Seek Event
 				this.listenTo(this.slider, Events.SEEK, this.sendEvent);
 				// LIVE
@@ -708,13 +708,16 @@
 				this.slider.setBuffered(buffered);
 			},
 			setDurations: function(durations) {
+				this.totalDuration = _.reduce(durations, function(memo, duration) {
+					return memo + duration;
+				}, 0);
+				this.$duration.html(TimeDisplay.formatTime(this.totalDuration));
 				this.slider.setDurations(durations);
 			},
 			sendEvent: function(event) {
 				event.target = this;
 				this.trigger(event.type, event);
 			},
-	
 			onRewind: function() {
 				event.preventDefault();
 				this.sendEvent({

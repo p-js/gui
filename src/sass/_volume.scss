@@ -1,0 +1,56 @@
+.mtvn-controls-volume {
+	position: relative;
+}
+.mtvn-controls-volume-slider-foreground:before {
+	position: absolute;
+	left: 5px;
+	top: -55px;
+	display: block;
+	height: 55px;
+	width: 4px;
+	background: #757575;
+	content: ''
+}
+.mtvn-controls-volume-slider-foreground:after {
+	position: absolute;
+	left: 5px;
+	display: block;
+	height: 55px;
+	width: 4px;
+	content: '';
+	background: #005469;
+	top: 5px
+}
+.mtvn-controls-volume-slider-foreground {
+	background: #ddd;
+	content: '';
+	height: 5px;
+	left: 4px;
+	position: absolute;
+	width: 14px;
+}
+.mtvn-controls-volume-slider {
+	position: relative;
+	display: block;
+	width: 22px;
+	height: 60px;
+	left: 5px;
+	cursor: pointer;
+	overflow: hidden;
+}
+.mtvn-controls-volume-slider-container-outer {
+	position: absolute;
+	top: -78px;
+	width: 33px;
+	left: -5px;
+	overflow: hidden;
+}
+.mtvn-controls-volume-slider-container {
+	background: rgba(33, 33, 33, 0.8);
+	padding-top: 5px;
+	@include transition(all .2s ease-in);
+	@include transform(translateY(65px));
+}
+.mtvn-controls-volume-slider-container-over {
+	@include transform(translateY(0));
+}

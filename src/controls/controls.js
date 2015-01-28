@@ -1,5 +1,5 @@
 /* exported Controls */
-/* global _, Backbone, $, Events, Slider, PlayPauseButton, LiveButton, ClosedCaptionButton, Templates*/
+/* global _, Backbone, $, Events, Slider, PlayPauseButton, TimeDisplay, LiveButton, ClosedCaptionButton, Templates*/
 var Controls = (function() {
 	//= slider/slider.js
 	var CONTROLS_TEMPLATE = Templates["src/controls/template.html"],
@@ -36,6 +36,9 @@ var Controls = (function() {
 		render: function() {
 			var options = this.options;
 			this.$el.html($(CONTROLS_TEMPLATE(options)));
+			this.$currentTime = this.$(".pjs-info-current-time");
+			this.$duration = this.$(".pjs-info-duration");
+			this.$currentTime.html(TimeDisplay.formatTime(options.playhead));
 			// PLAY PAUSE
 			this.playPauseButton = new PlayPauseButton({
 				el: this.$("." + css.playPause),
@@ -50,6 +53,7 @@ var Controls = (function() {
 				isDVR: options.isDVR,
 				durations: options.durations
 			});
+			this.setDurations(options.durations);
 			// Seek Event
 			this.listenTo(this.slider, Events.SEEK, this.sendEvent);
 			// LIVE
@@ -96,13 +100,16 @@ var Controls = (function() {
 			this.slider.setBuffered(buffered);
 		},
 		setDurations: function(durations) {
+			this.totalDuration = _.reduce(durations, function(memo, duration) {
+				return memo + duration;
+			}, 0);
+			this.$duration.html(TimeDisplay.formatTime(this.totalDuration));
 			this.slider.setDurations(durations);
 		},
 		sendEvent: function(event) {
 			event.target = this;
 			this.trigger(event.type, event);
 		},
-
 		onRewind: function() {
 			event.preventDefault();
 			this.sendEvent({

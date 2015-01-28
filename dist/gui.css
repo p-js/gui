@@ -4,42 +4,33 @@
   background-repeat: no-repeat;
 }
 
-/* line 56, ../src/sass/gui.scss */
+/* line 1, ../src/sass/_controls.scss */
 .pjs-controls {
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.1);
-  -webkit-user-select: none;
-  opacity: 1;
-  -webkit-transition: opacity 0.2s ease-in;
-  -moz-transition: opacity 0.2s ease-in;
-  -o-transition: opacity 0.2s ease-in;
-  transition: opacity 0.2s ease-in;
-}
-
-/* line 64, ../src/sass/gui.scss */
-.pjs-controls-center {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  height: 30px;
   width: 100%;
-  height: 100%;
   position: absolute;
-  top: 0;
+  bottom: 0;
   left: 0;
+  -webkit-user-select: none;
 }
 
-/* line 74, ../src/sass/gui.scss */
+/* line 10, ../src/sass/_controls.scss */
+.pjs-controls-item, .mtvn-controls-slider, .pjs-info-current-time, .pjs-info-duration {
+  margin: 10px;
+}
+
+/* line 13, ../src/sass/_controls.scss */
 .mtvn-controls-hidden {
   opacity: 0;
 }
 
-/* line 77, ../src/sass/gui.scss */
+/* line 16, ../src/sass/_controls.scss */
 .pjs-controls-button {
   padding: 10px;
 }
 
-/* line 80, ../src/sass/gui.scss */
+/* line 19, ../src/sass/_controls.scss */
 .pjs-controls-play:before {
   background-position: 0 -857px;
   width: 90px;
@@ -50,7 +41,7 @@
   display: inline-block;
 }
 
-/* line 83, ../src/sass/gui.scss */
+/* line 22, ../src/sass/_controls.scss */
 .mtvn-controls-is-live:before {
   background-position: 0 -727px;
   width: 29px;
@@ -61,7 +52,7 @@
   display: inline-block;
 }
 
-/* line 86, ../src/sass/gui.scss */
+/* line 25, ../src/sass/_controls.scss */
 .pjs-controls-rewind:before {
   background-position: 0 -947px;
   width: 90px;
@@ -72,7 +63,7 @@
   display: inline-block;
 }
 
-/* line 89, ../src/sass/gui.scss */
+/* line 28, ../src/sass/_controls.scss */
 .mtvn-controls-go-live:before {
   background-position: 0 -590px;
   width: 29px;
@@ -84,7 +75,7 @@
   cursor: pointer;
 }
 
-/* line 93, ../src/sass/gui.scss */
+/* line 32, ../src/sass/_controls.scss */
 .pjs-controls-pause:before {
   background-position: 0 -767px;
   width: 90px;
@@ -95,7 +86,7 @@
   display: inline-block;
 }
 
-/* line 96, ../src/sass/gui.scss */
+/* line 35, ../src/sass/_controls.scss */
 .pjs-controls-fullscreen:before {
   background-position: 0 -550px;
   width: 40px;
@@ -106,7 +97,7 @@
   display: inline-block;
 }
 
-/* line 99, ../src/sass/gui.scss */
+/* line 38, ../src/sass/_controls.scss */
 .mtvn-controls-mute:before {
   background-position: 0 -748px;
   width: 23px;
@@ -117,7 +108,7 @@
   display: inline-block;
 }
 
-/* line 102, ../src/sass/gui.scss */
+/* line 41, ../src/sass/_controls.scss */
 .mtvn-controls-unmute:before {
   background-position: 0 -1414px;
   width: 23px;
@@ -128,7 +119,7 @@
   display: inline-block;
 }
 
-/* line 105, ../src/sass/gui.scss */
+/* line 44, ../src/sass/_controls.scss */
 .mtvn-controls-cc:before {
   background-position: 0 -181px;
   width: 26px;
@@ -139,22 +130,31 @@
   display: inline-block;
 }
 
-/* line 108, ../src/sass/gui.scss */
+/* line 47, ../src/sass/_controls.scss */
 .mtvn-controls-slider {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
   color: #C8C8C8;
   font-family: San Francisco, Arial, Helvetica, sans-serif;
   font-size: 12px;
   font-weight: bold;
   text-align: right;
-  height: 20px;
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  position: relative;
+  height: 10px;
   -webkit-user-select: none;
 }
 
-/* line 121, ../src/sass/gui.scss */
+/* line 59, ../src/sass/_controls.scss */
+.pjs-controls-slider-item, .mtvn-controls-slider-progress-container, .mtvn-controls-slider-background, .mtvn-controls-slider-progress, .mtvn-controls-slider-buffered, .mtvn-controls-slider-thumb-container, .mtvn-controls-slider-segment-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* line 64, ../src/sass/_controls.scss */
 .mtvn-controls-slider-time-display {
   text-align: right;
   height: 12px;
@@ -162,52 +162,52 @@
   padding-bottom: 18px;
 }
 
-/* line 127, ../src/sass/gui.scss */
+/* line 70, ../src/sass/_controls.scss */
 .pjs-info-current-time {
   color: white;
+  display: inline-block;
 }
 
-/* line 130, ../src/sass/gui.scss */
+/* line 75, ../src/sass/_controls.scss */
+.pjs-info-duration {
+  color: white;
+  display: inline-block;
+}
+
+/* line 80, ../src/sass/_controls.scss */
 .mtvn-controls-slider-progress-container {
-  position: relative;
-  height: 20px;
+  height: 10px;
 }
 
-/* line 134, ../src/sass/gui.scss */
+/* line 84, ../src/sass/_controls.scss */
 .mtvn-controls-slider-background {
-  height: 20px;
+  height: 10px;
   width: 100%;
   background: rgba(0, 0, 0, 0.5);
-  position: absolute;
 }
 
-/* line 140, ../src/sass/gui.scss */
+/* line 90, ../src/sass/_controls.scss */
 .mtvn-controls-slider-progress {
   background: #1ab7ea;
-  height: 20px;
+  height: 10px;
   width: 0px;
-  top: 0px;
-  position: absolute;
 }
 
-/* line 147, ../src/sass/gui.scss */
+/* line 96, ../src/sass/_controls.scss */
 .mtvn-controls-slider-buffered {
   background: rgba(255, 255, 255, 0.3);
-  height: 20px;
+  height: 10px;
   width: 0px;
-  top: 0px;
-  position: absolute;
 }
 
-/* line 154, ../src/sass/gui.scss */
+/* line 102, ../src/sass/_controls.scss */
 .mtvn-controls-slider-thumb-container {
   -webkit-user-select: none;
   width: 0px;
   height: 0px;
-  position: absolute;
 }
 
-/* line 160, ../src/sass/gui.scss */
+/* line 108, ../src/sass/_controls.scss */
 .mtvn-controls-slider-thumb {
   border-radius: 50%;
   width: 48px;
@@ -224,7 +224,7 @@
   border-width: thin;
 }
 
-/* line 172, ../src/sass/gui.scss */
+/* line 120, ../src/sass/_controls.scss */
 .mtvn-controls-slider-thumb-active {
   -webkit-transform: scale(1.4);
   -moz-transform: scale(1.4);
@@ -232,14 +232,12 @@
   transform: scale(1.4);
 }
 
-/* line 175, ../src/sass/gui.scss */
+/* line 123, ../src/sass/_controls.scss */
 .mtvn-controls-slider-segment-container {
-  position: absolute;
-  height: 20px;
-  top: 0;
+  height: 10px;
 }
 
-/* line 180, ../src/sass/gui.scss */
+/* line 127, ../src/sass/_controls.scss */
 .mtvn-controls-slider-segment {
   position: absolute;
   width: 8px;
@@ -253,7 +251,7 @@
   background-color: #9B9B9B;
 }
 
-/* line 189, ../src/sass/gui.scss */
+/* line 136, ../src/sass/_controls.scss */
 .mtvn-controls-slider-tool-tip-background {
   background-position: 0 -1130px;
   width: 78px;
@@ -263,14 +261,14 @@
   margin-left: -37px;
 }
 
-/* line 193, ../src/sass/gui.scss */
+/* line 140, ../src/sass/_controls.scss */
 .mtvn-controls-slider-tool-tip-container {
   margin-top: -62px;
   height: 60px;
   padding-bottom: 1px;
 }
 
-/* line 198, ../src/sass/gui.scss */
+/* line 145, ../src/sass/_controls.scss */
 .mtvn-controls-slider-tool-tip-time {
   width: 78px;
   margin-top: -45px;
@@ -279,7 +277,7 @@
   text-align: center;
 }
 
-/* line 205, ../src/sass/gui.scss */
+/* line 1, ../src/sass/_ad.scss */
 .mtvn-ad-gui {
   background: rgba(33, 33, 33, 0.8);
   color: white;
@@ -287,7 +285,7 @@
   width: 100%;
 }
 
-/* line 211, ../src/sass/gui.scss */
+/* line 7, ../src/sass/_ad.scss */
 .mtvn-ad-gui * {
   margin: 0;
   padding: 0;
@@ -303,19 +301,19 @@
   line-height: 1em;
 }
 
-/* line 214, ../src/sass/gui.scss */
+/* line 10, ../src/sass/_ad.scss */
 .mtvn-ad-gui-container {
   padding: 10px 10px;
   vertical-align: middle;
 }
 
-/* line 218, ../src/sass/gui.scss */
+/* line 14, ../src/sass/_ad.scss */
 .mtvn-ad-gui-countdown {
   padding: 4px;
   display: inline-block;
 }
 
-/* line 222, ../src/sass/gui.scss */
+/* line 18, ../src/sass/_ad.scss */
 .mtvn-ad-gui-learn-more {
   color: white;
   text-decoration: none;
@@ -328,100 +326,19 @@
   padding: 3px;
 }
 
-/* line 233, ../src/sass/gui.scss */
+/* line 29, ../src/sass/_ad.scss */
 .mtvn-ad-gui-learn-more:hover {
   color: white;
   text-decoration: none;
 }
 
-/* line 237, ../src/sass/gui.scss */
+/* line 33, ../src/sass/_ad.scss */
 .mtvn-ad-gui-learn-more:visited {
   color: white;
   text-decoration: none;
 }
 
-/* line 241, ../src/sass/gui.scss */
-.mtvn-controls-volume {
-  position: relative;
-}
-
-/* line 244, ../src/sass/gui.scss */
-.mtvn-controls-volume-slider-foreground:before {
-  position: absolute;
-  left: 5px;
-  top: -55px;
-  display: block;
-  height: 55px;
-  width: 4px;
-  background: #757575;
-  content: "";
-}
-
-/* line 254, ../src/sass/gui.scss */
-.mtvn-controls-volume-slider-foreground:after {
-  position: absolute;
-  left: 5px;
-  display: block;
-  height: 55px;
-  width: 4px;
-  content: '';
-  background: #005469;
-  top: 5px;
-}
-
-/* line 264, ../src/sass/gui.scss */
-.mtvn-controls-volume-slider-foreground {
-  background: #ddd;
-  content: '';
-  height: 5px;
-  left: 4px;
-  position: absolute;
-  width: 14px;
-}
-
-/* line 272, ../src/sass/gui.scss */
-.mtvn-controls-volume-slider {
-  position: relative;
-  display: block;
-  width: 22px;
-  height: 60px;
-  left: 5px;
-  cursor: pointer;
-  overflow: hidden;
-}
-
-/* line 281, ../src/sass/gui.scss */
-.mtvn-controls-volume-slider-container-outer {
-  position: absolute;
-  top: -78px;
-  width: 33px;
-  left: -5px;
-  overflow: hidden;
-}
-
-/* line 288, ../src/sass/gui.scss */
-.mtvn-controls-volume-slider-container {
-  background: rgba(33, 33, 33, 0.8);
-  padding-top: 5px;
-  -webkit-transition: all 0.2s ease-in;
-  -moz-transition: all 0.2s ease-in;
-  -o-transition: all 0.2s ease-in;
-  transition: all 0.2s ease-in;
-  -webkit-transform: translateY(65px);
-  -moz-transform: translateY(65px);
-  -o-transform: translateY(65px);
-  transform: translateY(65px);
-}
-
-/* line 294, ../src/sass/gui.scss */
-.mtvn-controls-volume-slider-container-over {
-  -webkit-transform: translateY(0);
-  -moz-transform: translateY(0);
-  -o-transform: translateY(0);
-  transform: translateY(0);
-}
-
-/* line 297, ../src/sass/gui.scss */
+/* line 1, ../src/sass/_info.scss */
 .pjs-info {
   color: white;
   position: relative;
@@ -441,12 +358,12 @@
   line-height: 1em;
 }
 
-/* line 304, ../src/sass/gui.scss */
+/* line 8, ../src/sass/_info.scss */
 .pjs-info-container {
   padding: 8px 10px;
 }
 
-/* line 307, ../src/sass/gui.scss */
+/* line 11, ../src/sass/_info.scss */
 .pjs-tp-flexbox {
   display: -webkit-box;
   display: -moz-box;
@@ -455,7 +372,7 @@
   display: flex;
 }
 
-/* line 310, ../src/sass/gui.scss */
+/* line 14, ../src/sass/_info.scss */
 .pjs-controls-share {
   background-position: 0 -1037px;
   width: 45px;
@@ -465,12 +382,12 @@
   margin: 0 30px 0 30px;
 }
 
-/* line 314, ../src/sass/gui.scss */
+/* line 18, ../src/sass/_info.scss */
 .pjs-info-share-item {
   display: inline-block;
 }
 
-/* line 317, ../src/sass/gui.scss */
+/* line 21, ../src/sass/_info.scss */
 .pjs-info-metadata {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -489,7 +406,7 @@
   text-shadow: 1px 1px 3px black;
 }
 
-/* line 330, ../src/sass/gui.scss */
+/* line 34, ../src/sass/_info.scss */
 .pjs-info-panel-hidden {
   -webkit-transform: translateY(-50px);
   -moz-transform: translateY(-50px);
@@ -497,7 +414,7 @@
   transform: translateY(-50px);
 }
 
-/* line 333, ../src/sass/gui.scss */
+/* line 37, ../src/sass/_info.scss */
 .pjs-info-facebook {
   background-position: 0 -434px;
   width: 116px;
@@ -506,7 +423,7 @@
   display: inline-block;
 }
 
-/* line 336, ../src/sass/gui.scss */
+/* line 40, ../src/sass/_info.scss */
 .pjs-info-twitter {
   background-position: 0 -1298px;
   width: 116px;
@@ -515,11 +432,23 @@
   display: inline-block;
 }
 
-/* line 339, ../src/sass/gui.scss */
+/* line 43, ../src/sass/_info.scss */
 .pjs-info-email {
   background-position: 0 -202px;
   width: 116px;
   height: 116px;
   content: "";
   display: inline-block;
+}
+
+/* line 10, ../src/sass/gui.scss */
+.pjs-controls-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }

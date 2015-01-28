@@ -65,7 +65,7 @@ function createGUI(options, target, GUI) {
 	});
 	$("#setDuration").click(function() {
 		buffer = 0;
-		controls.setDuration(parseFloat($("#duration-value").val(), 10));
+		controls.setDurations(parseFloat($("#duration-value").val(), 10));
 	});
 }
 MTVNPlayer.loadPackages({

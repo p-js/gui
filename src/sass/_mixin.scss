@@ -1,0 +1,57 @@
+@mixin image-with-dims($name) {
+	@include images-sprite($name);
+	width: images-sprite-width($name);
+	height: images-sprite-height($name);
+	content: "";
+	display: inline-block;
+}
+@mixin image-with-dims-psuedo($name) {
+	@include image-with-dims($name);
+	content: "";
+	display: inline-block;
+}
+@mixin reset() {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-family: inherit;
+	font-size: 100%;
+	vertical-align: baseline;
+	text-decoration: none;
+	text-align: left;
+	font-weight: normal;
+	font-style: normal;
+	line-height: 1em;
+}
+@mixin flexbox() {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+}
+@mixin flex($values) {
+	-webkit-box-flex: $values;
+	-moz-box-flex: $values;
+	-webkit-flex: $values;
+	-ms-flex: $values;
+	flex: $values;
+}
+@mixin transition($values) {
+	-webkit-transition: $values;
+	-moz-transition: $values;
+	-o-transition: $values;
+	transition: $values;
+}
+@mixin transform($values) {
+	-webkit-transform: $values;
+	-moz-transform: $values;
+	-o-transform: $values;
+	transform: $values;
+}
+@mixin absolute(){
+	position: absolute;
+	top: 0;
+	left: 0;
+}
