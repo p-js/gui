@@ -12,7 +12,7 @@ module.exports = function(grunt, options) {
 		},
 		test: {
 			files: ['test/**', 'test/**/*'],
-			tasks: ['test']
+			tasks: ['copy', 'test']
 		}
 	};
 };

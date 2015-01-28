@@ -20,8 +20,8 @@ var Controls = (function() {
 		tagName: "div",
 		className: "pjs-controls",
 		events: {
-			"click .mtvn-controls-fullscreen": "onFullscreen",
-			"touchstart .mtvn-controls-fullscreen": "onFullscreen",
+			"click .pjs-controls-fullscreen": "onFullscreen",
+			"touchstart .pjs-controls-fullscreen": "onFullscreen",
 			"click .pjs-controls-rewind": "onRewind",
 			"touchstart .pjs-controls-rewind": "onRewind"
 		},
@@ -102,6 +102,7 @@ var Controls = (function() {
 			event.target = this;
 			this.trigger(event.type, event);
 		},
+
 		onRewind: function() {
 			event.preventDefault();
 			this.sendEvent({

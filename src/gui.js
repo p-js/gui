@@ -4,7 +4,7 @@ var GUI = {
 	version: "@@version",
 	build: "@@timestamp"
 };
-// Handlebars is provided in the mtvn-util package.
+// Handlebars is provided the pjs/player project.
 // GUI is loaded in to the page separately, so we have to go 
 // through a package manager.
 // If we compile it in, we could use a scoped var. 

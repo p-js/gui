@@ -5,8 +5,11 @@ var tp = new TopPanel({
 	metadata: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.",
 	share: ["facebook", "twitter", "email"]
 });
-tp.on(TopPanel.Events.SHARE, function(id) {
-	console.log("top panel 1 share", id);
+tp.on(GUI.Events.SHARE, function(event) {
+	console.log("top panel 1 share", event.data);
+});
+tp.on(GUI.Events.FULLSCREEN, function() {
+	console.log("top panel 1 fullscreen");
 });
 $("#top-panel").append(tp.$el);
 var tp = new TopPanel({
@@ -15,7 +18,10 @@ var tp = new TopPanel({
 	playhead: 5,
 	duration: 360
 });
-tp.on(TopPanel.Events.SHARE, function(id) {
-	console.log("top panel 2 share", id);
+tp.on(GUI.Events.SHARE, function(event) {
+	console.log("top panel 2 share", event.data);
+});
+tp.on(GUI.Events.FULLSCREEN, function() {
+	console.log("top panel 2 fullscreen");
 });
 $("#top-panel2").append(tp.$el);

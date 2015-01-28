@@ -7,6 +7,7 @@ var Events = {
 	GO_LIVE: "GO_LIVE",
 	IS_LIVE: "IS_LIVE",
 	MUTE: "MUTE",
+	SHARE: "share",
 	VOLUME: "VOLUME",
 	UNMUTE: "UNMUTE",
 	REWIND: "REWIND",

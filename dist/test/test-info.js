@@ -1,28 +1,16 @@
 /* jshint expr:true */
 /* global GUI, chai, describe, it*/
 var expect = chai.expect;
-describe("TimeDisplay", function() {
-	var TimeDisplay = GUI.TimeDisplay;
+describe("TopPanel", function() {
+	var TopPanel = GUI.TopPanel;
 	it("should instantiate without args", function() {
-		var td = new TimeDisplay();
-		expect(td).to.be.an("object");
-		expect(td.$el.html()).to.equal("");
+		var tp = new TopPanel();
+		expect(tp).to.be.an("object");
 	});
-	it("should instantiate with options", function() {
-		var td = new TimeDisplay({
-			playhead: 5,
-			duration: 10
+	it("should contain trigger share events ", function() {
+		var tp = new TopPanel({
+			metadata: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.",
+			share: ["facebook", "twitter", "email"]
 		});
-		expect(td.playhead).to.equal(5);
-		expect(td.duration).to.equal(10);
-		expect(td.$el.html()).to.equal('<span class="pjs-info-current-time">5</span> / 10');
-	});
-	it("should process the time", function() {
-		expect(TimeDisplay.formatTime(0)).to.equal("00:00");
-		expect(TimeDisplay.formatTime(5)).to.equal("00:05");
-		expect(TimeDisplay.formatTime(60)).to.equal("01:00");
-		expect(TimeDisplay.formatTime(65)).to.equal("01:05");
-		expect(TimeDisplay.formatTime(3605)).to.equal("01:00:05");
-		expect(TimeDisplay.formatTime(3665)).to.equal("01:01:05");
 	});
 });

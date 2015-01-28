@@ -5,9 +5,9 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	/* global _, $, Handlebars, Backbone*/
 	var GUI = {
 		version: "0.14.0",
-		build: "Tue Jan 27 2015 09:17:16"
+		build: "Wed Jan 28 2015 11:01:15"
 	};
-	// Handlebars is provided in the mtvn-util package.
+	// Handlebars is provided the pjs/player project.
 	// GUI is loaded in to the page separately, so we have to go 
 	// through a package manager.
 	// If we compile it in, we could use a scoped var. 
@@ -67,11 +67,22 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 		
 		
 		
-		this["Templates"]["src/top-panel/top-panel.html"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-		  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "<div class=\"pjs-info-container\">\n	<div class=\"pjs-tp-flexbox\">\n		<div class=\"mtvn-tp-metadata\">";
+		this["Templates"]["src/top-panel/top-panel.html"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
+		  var lambda=this.lambda, escapeExpression=this.escapeExpression;
+		  return "	<div class=\"pjs-info-share-item pjs-info-"
+		    + escapeExpression(lambda(depth0, depth0))
+		    + "\" data-share-id=\""
+		    + escapeExpression(lambda(depth0, depth0))
+		    + "\"></div>\n";
+		},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+		  var stack1, helper, options, functionType="function", helperMissing=helpers.helperMissing, blockHelperMissing=helpers.blockHelperMissing, buffer = "<div class=\"pjs-info-container\">\n	<div class=\"pjs-tp-flexbox\">\n		<div class=\"pjs-info-metadata\">";
 		  stack1 = ((helper = (helper = helpers.metadata || (depth0 != null ? depth0.metadata : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"metadata","hash":{},"data":data}) : helper));
 		  if (stack1 != null) { buffer += stack1; }
-		  return buffer + "</div>\n		<div class=\"pjs-info-item-share\"></div>\n	</div>\n	<div class=\"pjs-info-time-display\"></div>\n</div>\n";
+		  buffer += "</div>\n		<div class=\"pjs-controls-share\"></div>\n		<div class=\"pjs-controls-fullscreen\"></div>\n	</div>\n	<div class=\"pjs-info-time-display\"></div>\n</div>\n<div class=\"pjs-controls-center\">\n";
+		  stack1 = ((helper = (helper = helpers.share || (depth0 != null ? depth0.share : depth0)) != null ? helper : helperMissing),(options={"name":"share","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data}),(typeof helper === functionType ? helper.call(depth0, options) : helper));
+		  if (!helpers.share) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
+		  if (stack1 != null) { buffer += stack1; }
+		  return buffer + "</div>\n";
 		},"useData":true});
 		return this.Templates;
 	}).apply({});
@@ -183,15 +194,19 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			return options;
 		}
 	};
-	/* global Backbone, Templates, $, TopPanelModel, TimeDisplay, _*/
+	/* global Backbone, Templates, $, TopPanelModel, TimeDisplay, _, Events*/
 	/* exported TopPanel */
 	var TopPanel = Backbone.View.extend({
 		template: Templates["src/top-panel/top-panel.html"],
 		tagName: "div",
-		className: "mtvn-tp",
+		className: "pjs-info",
 		events: {
-			"click .mtvn-tp-share": "onShare",
-			"touchstart .mtvn-tp-share": "onShare"
+			"click .pjs-controls-share": "showShare",
+			"touchstart .pjs-controls-share": "showShare",
+			"click .pjs-controls-center": "onShare",
+			"touchstart .pjs-controls-center": "onShare",
+			"click .pjs-controls-fullscreen": "onFullscreen",
+			"touchstart .pjs-controls-fullscreen": "onFullscreen"
 		},
 		initialize: function(options) {
 			this.options = TopPanelModel.validate(options || {});
@@ -199,9 +214,11 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			this.timeDisplay = new TimeDisplay(_.extend(options, {
 				el: this.$(".pjs-info-time-display")
 			}));
+			this.$sharePanel = this.$(".pjs-controls-center");
+			this.$sharePanel.hide();
 		},
 		setMetadata: function(html) {
-			this.$(".mtvn-tp-metadata").html(html);
+			this.$(".pjs-info-metadata").html(html);
 		},
 		setPlayhead: function(playhead) {
 			this.playhead = playhead;
@@ -211,6 +228,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			if (this.timeDisplay) {
 				this.timeDisplay.render();
 			}
+			return this;
 		},
 		hide: function() {
 			this.$el.addClass("pjs-info-panel-hidden");
@@ -218,13 +236,23 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 		show: function() {
 			this.$el.removeClass("pjs-info-panel-hidden");
 		},
+		showShare: function(event) {
+			event.preventDefault();
+			this.$(".pjs-controls-center").show();
+		},
 		onShare: function(event) {
 			event.preventDefault();
-			this.trigger(TopPanel.Events.SHARE, $(event.target).data("share-id"));
-		}
-	}, {
-		Events: {
-			SHARE: "share"
+			this.trigger(Events.SHARE, {
+				type: Events.SHARE,
+				data: $(event.target).data("share-id")
+			});
+		},
+		onFullscreen: function(event) {
+			event.preventDefault();
+			this.trigger(Events.FULLSCREEN, {
+				target: this,
+				type: Events.FULLSCREEN
+			});
 		}
 	});
 	/* exported ClosedCaptionButton */
@@ -597,8 +625,8 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			tagName: "div",
 			className: "pjs-controls",
 			events: {
-				"click .mtvn-controls-fullscreen": "onFullscreen",
-				"touchstart .mtvn-controls-fullscreen": "onFullscreen",
+				"click .pjs-controls-fullscreen": "onFullscreen",
+				"touchstart .pjs-controls-fullscreen": "onFullscreen",
 				"click .pjs-controls-rewind": "onRewind",
 				"touchstart .pjs-controls-rewind": "onRewind"
 			},
@@ -679,6 +707,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				event.target = this;
 				this.trigger(event.type, event);
 			},
+	
 			onRewind: function() {
 				event.preventDefault();
 				this.sendEvent({
@@ -702,6 +731,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 		GO_LIVE: "GO_LIVE",
 		IS_LIVE: "IS_LIVE",
 		MUTE: "MUTE",
+		SHARE: "share",
 		VOLUME: "VOLUME",
 		UNMUTE: "UNMUTE",
 		REWIND: "REWIND",

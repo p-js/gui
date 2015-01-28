@@ -9,7 +9,8 @@ module.exports = function(config) {
 			"components/backbone/backbone.js",
 			"components/handlebars/handlebars.runtime.js",
 			"dist/gui.js",
-			"test/test-time-display.js"
+			"test/test-time-display.js",
+			"test/test-info.js"
 		]
 	});
 };
