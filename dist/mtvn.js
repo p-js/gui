@@ -1086,7 +1086,7 @@
 	/* global Main, AdDisplay, Time, Controls, Events, TopView */
 	var GUI = Main;
 	GUI.version = "0.14.0";
-	GUI.build = "Thu Jan 29 2015 17:52:39";
+	GUI.build = "Thu Jan 29 2015 17:55:49";
 	GUI.Time = Time;
 	GUI.AdDisplay = AdDisplay;
 	GUI.Controls = Controls;
