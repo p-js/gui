@@ -1,7 +1,7 @@
 /* global GUI, $ */
 /* jshint devel:true */
-var TopPanel = GUI.TopPanel;
-var tp = new TopPanel({
+var TopView = GUI.TopView;
+var tp = new TopView({
 	metadata: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.",
 	share: ["facebook", "twitter", "email"]
 });
@@ -12,7 +12,7 @@ tp.on(GUI.Events.FULLSCREEN, function() {
 	console.log("top panel 1 fullscreen");
 });
 $("#top-panel").append(tp.$el);
-var tp = new TopPanel({
+var tp = new TopView({
 	metadata: "Lorem ipsum dolor sit amet.",
 	share: ["facebook", "twitter", "email", "made up value"],
 	playhead: 5,

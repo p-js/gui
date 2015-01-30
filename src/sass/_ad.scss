@@ -1,21 +1,21 @@
-.mtvn-ad-gui {
+.pjs-ad-gui {
 	background: rgba(33, 33, 33, 0.8);
 	color: white;
 	position: relative;
 	width: 100%;
 }
-.mtvn-ad-gui * {
+.pjs-ad-gui * {
 	@include reset()
 }
-.mtvn-ad-gui-container {
+.pjs-ad-gui-container {
 	padding: 10px 10px;
 	vertical-align: middle;
 }
-.mtvn-ad-gui-countdown {
+.pjs-ad-gui-countdown {
 	padding: 4px;
 	display: inline-block;
 }
-.mtvn-ad-gui-learn-more {
+.pjs-ad-gui-learn-more {
 	color: white;
 	text-decoration: none;
 	position: absolute;
@@ -26,11 +26,11 @@
 	cursor: pointer;
 	padding: 3px;
 }
-.mtvn-ad-gui-learn-more:hover {
+.pjs-ad-gui-learn-more:hover {
 	color: white;
 	text-decoration:none;
 }
-.mtvn-ad-gui-learn-more:visited {
+.pjs-ad-gui-learn-more:visited {
 	color: white;
 	text-decoration:none;
 }

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Controls Test</title>
+	<meta charset="utf-8" content="" />
+	<link rel="stylesheet" type="text/css" href="../gui.css">
+	<script	type="text/javascript" src="components/zepto/zepto.js"></script>
+	<script	type="text/javascript" src="components/underscore/underscore.js"></script>
+	<script	type="text/javascript" src="components/pjs-logger/dist/logger.js"></script>
+	
+	<script	type="text/javascript" src="components/backbone/backbone.js"></script>
+	<script	type="text/javascript" src="components/pjs-fullscreen/dist/pjs-fullscreen.js"></script>
+	<script	type="text/javascript" src="components/handlebars/handlebars.runtime.js"></script>
+	<script	type="text/javascript" src="../gui.js"></script>
+	<style>
+		.player-mock-container {
+			width:640px;
+			height:420px;
+			overflow:hidden;
+			background:black;
+			position: relative;
+			background-image: url(image/key_peele_slow_brotion.jpg)
+		}
+	</style>
+</head>
+<body>
+	Controls Test
+	<div id="gui" class="player-mock-container"></div>
+	<button id="show">show</button>
+	<button id="hide">hide</button>
+	<button id="killbuffer">killbuffer</button>
+	<br/>
+	<button id="seekTo">seek to</button><input type="text" id="seek-value"/>
+	<button id="setDuration">change durations</button><input type="text" id="duration-value"/>
+	<script type="text/javascript" src="js/gui.js"></script>
+</body>
+</html>

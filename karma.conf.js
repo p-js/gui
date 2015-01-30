@@ -7,6 +7,7 @@ module.exports = function(config) {
 			"test/js/zepto.js",
 			"components/underscore/underscore.js",
 			"components/backbone/backbone.js",
+			"components/pjs-logger/dist/logger.js",
 			"components/handlebars/handlebars.runtime.js",
 			"dist/gui.js",
 			"test/test-time-display.js",

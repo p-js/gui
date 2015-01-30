@@ -1,15 +1,14 @@
 /* exported Controls */
-/* global _, Backbone, $, Events, Slider, PlayPauseButton, TimeDisplay, LiveButton, ClosedCaptionButton, Templates*/
+/* global _, Backbone, $, Events, Slider, PlayPauseButton, Time, ClosedCaptionButton, Templates*/
 var Controls = (function() {
 	//= slider/slider.js
-	var CONTROLS_TEMPLATE = Templates["src/controls/template.html"],
+	var CONTROLS_TEMPLATE = Templates["src/bottom/template.html"],
 		css = {
-			hide: "mtvn-controls-hidden",
-			slider: "mtvn-controls-slider",
+			hide: "pjs-controls-hidden",
+			slider: "pjs-controls-slider",
 			playPause: "pjs-controls-play-pause",
-			live: "mtvn-controls-live",
-			volume: "mtvn-controls-volume",
-			cc: "mtvn-controls-cc"
+			volume: "pjs-controls-volume",
+			cc: "pjs-controls-cc"
 		},
 		addEvents = function(listener, dispatcher, events, cb) {
 			_.each(events, function(eventName) {
@@ -27,7 +26,7 @@ var Controls = (function() {
 		},
 		initialize: function(options) {
 			this.options = options;
-			_.bindAll(this, "sendEvent");
+			_.bindAll(this, "sendEvent", "setPlayheadOnDrag");
 			_.extend(this.options, {
 				slider: css.slider
 			});
@@ -36,9 +35,9 @@ var Controls = (function() {
 		render: function() {
 			var options = this.options;
 			this.$el.html($(CONTROLS_TEMPLATE(options)));
-			this.$currentTime = this.$(".pjs-info-current-time");
+			this.$currentTime = this.$(".pjs-info-current-time")
+				.html(Time.format(options.playhead));
 			this.$duration = this.$(".pjs-info-duration");
-			this.$currentTime.html(TimeDisplay.formatTime(options.playhead));
 			// PLAY PAUSE
 			this.playPauseButton = new PlayPauseButton({
 				el: this.$("." + css.playPause),
@@ -56,19 +55,7 @@ var Controls = (function() {
 			this.setDurations(options.durations);
 			// Seek Event
 			this.listenTo(this.slider, Events.SEEK, this.sendEvent);
-			// LIVE
-			if (options.isLive) {
-				this.liveButton = new LiveButton({
-					el: this.$("." + css.live),
-					isLive: options.isLive
-				});
-				if (options.isDVR) {
-					// Live Event
-					this.listenTo(this.liveButton, Events.GO_LIVE, this.sendEvent);
-					// Handle IS_LIVE Event
-					this.liveButton.listenTo(this.slider, Events.IS_LIVE, this.liveButton.onLiveChange);
-				}
-			}
+			this.listenTo(this.slider, Slider.Events.THUMB_DRAG, this.setPlayheadOnDrag);
 			// CC
 			this.closedCaptionButton = new ClosedCaptionButton({
 				ccEnabled: options.ccEnabled,
@@ -93,6 +80,9 @@ var Controls = (function() {
 			// used for testing.
 			return this.slider.playhead;
 		},
+		setPlayheadOnDrag: function(playhead) {
+			this.$currentTime.html(Time.format(playhead));
+		},
 		setPlayhead: function(playhead) {
 			this.slider.setPlayhead(playhead);
 		},
@@ -103,7 +93,7 @@ var Controls = (function() {
 			this.totalDuration = _.reduce(durations, function(memo, duration) {
 				return memo + duration;
 			}, 0);
-			this.$duration.html(TimeDisplay.formatTime(this.totalDuration));
+			this.$duration.html(Time.format(this.totalDuration));
 			this.slider.setDurations(durations);
 		},
 		sendEvent: function(event) {

@@ -7,7 +7,7 @@ module.exports = function(grunt, options) {
 	var settings = options.settings || {};
 	return {
 		src: {
-			files: settings.watch || ['Gruntfile.js', 'src/**/*'],
+			files: settings.watch || ['Gruntfile.js', 'src/**', 'src/**/*'],
 			tasks: settings.watchTasks || ['default']
 		},
 		test: {

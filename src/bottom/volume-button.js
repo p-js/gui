@@ -2,12 +2,12 @@
 /* global Backbone, Events, _, $*/
 var VolumeButton = (function() {
 	var css = {
-			controls: "mtvn-controls",
-			unmute: "mtvn-controls-unmute",
-			mute: "mtvn-controls-mute",
-			showSlider: "mtvn-controls-volume-slider-container-over",
-			slider: "mtvn-controls-volume-slider",
-			thumb: "mtvn-controls-volume-slider-foreground"
+			controls: "pjs-controls",
+			unmute: "pjs-controls-unmute",
+			mute: "pjs-controls-mute",
+			showSlider: "pjs-controls-volume-slider-container-over",
+			slider: "pjs-controls-volume-slider",
+			thumb: "pjs-controls-volume-slider-foreground"
 		},
 		isButton = function(event) {
 			var $target = $(event.target);
@@ -20,12 +20,12 @@ var VolumeButton = (function() {
 			"touchstart": "toggle"
 		},
 		mouseEvents: {
-			"click .mtvn-controls-volume-slider": "onSliderClick",
-			"touchstart .mtvn-controls-volume-slider": "onSliderClick",
+			"click .pjs-controls-volume-slider": "onSliderClick",
+			"touchstart .pjs-controls-volume-slider": "onSliderClick",
 			"mouseover": "onMouseOver",
 			"mouseleave": "onMouseOut",
-			"mousedown .mtvn-controls-volume-slider-foreground": "onThumbActive",
-			"touchstart .mtvn-controls-volume-slider-foreground": "onThumbActive"
+			"mousedown .pjs-controls-volume-slider-foreground": "onThumbActive",
+			"touchstart .pjs-controls-volume-slider-foreground": "onThumbActive"
 		},
 		events: function() {
 			if (this.options.showVolumeSlider) {

@@ -1,26 +1,28 @@
-/* exported GUI */
-/* global _, $, Handlebars, Backbone*/
-var GUI = {
-	version: "@@version",
-	build: "@@timestamp"
-};
+/* exported GUI, Templates */
 // Handlebars is provided the pjs/player project.
 // GUI is loaded in to the page separately, so we have to go 
 // through a package manager.
-// If we compile it in, we could use a scoped var. 
-/* jshint unused:false */
 // templates are written to "this", here we're scoping it.
 var Templates = (function() {
 	//= ../compiled-templates
 	return this.Templates;
 }).apply({});
-//= time-display
+//= events.js
+//= time.js
+//= buttons
 //= ad-display
-//= top-panel
-//= controls
-/* global AdDisplay, TimeDisplay, Controls, Events, TopPanel */
-GUI.TimeDisplay = TimeDisplay;
+//= top
+//= center-controls
+//= share
+//= bottom
+//= main.js
+/* global Main, AdDisplay, Time, Controls, Events, TopView */
+var GUI = Main;
+GUI.version = "@@version";
+GUI.build = "@@timestamp";
+GUI.Time = Time;
 GUI.AdDisplay = AdDisplay;
 GUI.Controls = Controls;
-GUI.TopPanel = TopPanel;
+GUI.TopView = TopView;
+
 GUI.Events = Events;

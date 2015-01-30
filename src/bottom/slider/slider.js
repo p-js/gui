@@ -1,18 +1,10 @@
-/* global _, $, Backbone, Events*/
+/* global _, $, Backbone, Events, Logger*/
 /* exported Slider */
 var Slider = (function() {
 	var RESIZE = "slider:resize",
-		thumb = "mtvn-controls-slider-thumb",
-		thumbActive = "mtvn-controls-slider-thumb-active",
-		formatTime = function(sec) {
-			if (isNaN(sec)) {
-				return "00:00";
-			}
-			var h = Math.floor(sec / 3600),
-				m = Math.floor((sec % 3600) / 60),
-				s = Math.floor((sec % 3600) % 60);
-			return (h === 0 ? "" : (h < 10 ? "0" + h + ":" : h + ":")) + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
-		},
+		THUMB_DRAG = "slider:thumb:drag",
+		thumb = "pjs-controls-slider-thumb",
+		thumbActive = "pjs-controls-slider-thumb-active",
 		getPageX = function(event) {
 			var pageX = event.pageX;
 			if (pageX > 0) {
@@ -28,6 +20,7 @@ var Slider = (function() {
 	/* global SegmentedSlider */
 	//= segmented-mixin.js
 	return Backbone.View.extend({
+		logger: new Logger("GUI.Slider"),
 		/**
 		 * The thumb is visible and the slider is clickable when enabled.
 		 */
@@ -52,10 +45,10 @@ var Slider = (function() {
 			return _.extend({
 				"click": "onSliderClick",
 				"touchstart": "onSliderClick",
-				"touchstart .mtvn-controls-slider-thumb-container": "onThumbActive",
-				"touchmove .mtvn-controls-slider-thumb-container": "onThumbMove",
-				"touchend .mtvn-controls-slider-thumb-container": "onThumbInactive",
-				"mousedown .mtvn-controls-slider-thumb-container": "onThumbActive"
+				"touchstart .pjs-controls-slider-thumb-container": "onThumbActive",
+				"touchmove .pjs-controls-slider-thumb-container": "onThumbMove",
+				"touchend .pjs-controls-slider-thumb-container": "onThumbInactive",
+				"mousedown .pjs-controls-slider-thumb-container": "onThumbActive"
 			});
 		},
 		initialize: function(options) {
@@ -68,32 +61,19 @@ var Slider = (function() {
 			/**
 			 * Contains the thumb and the tooltop.
 			 */
-			this.$thumbContainer = this.$(".mtvn-controls-slider-thumb-container");
+			this.$thumbContainer = this.$(".pjs-controls-slider-thumb-container");
 			/**
 			 * Meets the thumb visually.
 			 */
-			this.$progress = this.$(".mtvn-controls-slider-progress");
+			this.$progress = this.$(".pjs-controls-slider-progress");
 			/**
 			 * The amount buffered.
 			 */
-			this.$buffered = this.$(".mtvn-controls-slider-buffered");
-			/**
-			 * The time and duration.
-			 */
-			// this.$timeDisplay = this.$(".mtvn-controls-slider-time-display");
-			/**
-			 * Tool tip container
-			 */
-			this.$toolTipContainer = this.$(".mtvn-controls-slider-tool-tip-container");
-			this.$toolTipContainer.hide();
-			/**
-			 * Tool tip time
-			 */
-			this.$toolTipTime = this.$(".mtvn-controls-slider-tool-tip-time");
+			this.$buffered = this.$(".pjs-controls-slider-buffered");
 			/**
 			 * Segment marker container
 			 */
-			this.$dividerContainer = this.$(".mtvn-controls-slider-segment-container");
+			this.$dividerContainer = this.$(".pjs-controls-slider-segment-container");
 			/**
 			 * Don't fire measure too often. Perhaps a forced measure can be called from the player code.
 			 */
@@ -150,7 +130,6 @@ var Slider = (function() {
 			this.checkLive();
 			this.throttledMeasure();
 			this.moveThumb(this.getLeftFromPlayhead(this.isLive() ? this.duration : this.playhead));
-			this.updateTime();
 		},
 		setBuffered: function(buffered) {
 			if (!this.dragging && !this.seeking && this.duration > 1) {
@@ -177,16 +156,10 @@ var Slider = (function() {
 			if (enabled !== this.enabled) {
 				if (enabled) {
 					this.$thumbContainer.show();
-					// this.$timeDisplay.css({
-					// 	visibility: "visible"
-					// });
 					this.$buffered.show();
 					this.$progress.show();
 				} else {
 					this.$thumbContainer.hide();
-					// this.$timeDisplay.css({
-					// 	visibility: "hidden"
-					// });
 					this.$progress.hide();
 					this.$buffered.hide();
 				}
@@ -195,6 +168,8 @@ var Slider = (function() {
 		},
 		onSliderClick: function(event) {
 			event.preventDefault();
+			event.stopPropagation();
+			this.logger.info("onSliderClick");
 			if (!this.enabled || $(event.target).hasClass(thumb)) {
 				// we don't want this to fire as a click event when you click on the thumb.
 				return;
@@ -215,8 +190,7 @@ var Slider = (function() {
 			this.$buffered.css({
 				width: 0
 			});
-			this.$toolTipTime.html(formatTime(this.playhead));
-			this.$toolTipContainer.show();
+			this.trigger(THUMB_DRAG, this.playhead);
 		},
 		onThumbMove: function(event) {
 			if (this.dragging) {
@@ -235,7 +209,6 @@ var Slider = (function() {
 				$el.removeClass(thumbActive);
 				this.dragging = false;
 				this.sendSeek();
-				this.$toolTipContainer.hide();
 			}
 		},
 		moveThumb: function(moveTo) {
@@ -253,7 +226,7 @@ var Slider = (function() {
 			this.$progress.css({
 				width: left
 			});
-			this.$toolTipTime.html(formatTime(this.getTimeFromThumb(left)));
+			this.trigger(THUMB_DRAG, this.getTimeFromThumb(left));
 			this.lastLeft = left;
 		},
 		getLeftFromPlayhead: function(playhead) {
@@ -270,25 +243,16 @@ var Slider = (function() {
 			var p = thumbLeft / this.sliderWidth;
 			return p * this.duration;
 		},
-		updateTime: function() {
-			// this.$timeDisplay.html(this.getTimeDisplayText());
-		},
-		getTimeDisplayText: function() {
-			if (!this.duration) {
-				return "";
-			}
-			if (this.isLive()) {
-				return formatTime(this.duration);
-			} else {
-				return "<span class=\"pjs-info-current-time\">" + formatTime(this.playhead) + "</span> / " + formatTime(this.duration);
-			}
-		},
 		sendSeek: function() {
 			this.setPlayhead(this.getTimeFromThumb());
 			this.trigger(Events.SEEK, {
 				type: Events.SEEK,
 				data: this.playhead
 			});
+		}
+	}, {
+		Events: {
+			THUMB_DRAG: THUMB_DRAG
 		}
 	});
 })();

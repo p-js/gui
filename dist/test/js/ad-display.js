@@ -44,4 +44,4 @@ $("body").append((new AdDisplay({
 	index: 0,
 	total: 3
 })).$el);
-$(".mtvn-ad-gui").wrap("<div class=\"gui-wrapper\"></div>");
+$(".pjs-ad-gui").wrap("<div class=\"gui-wrapper\"></div>");

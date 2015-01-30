@@ -2,8 +2,8 @@
 /* global Backbone, Events, _*/
 var LiveButton = (function() {
 	var css = {
-		live: "mtvn-controls-is-live",
-		golive: "mtvn-controls-go-live"
+		live: "pjs-controls-is-live",
+		golive: "pjs-controls-go-live"
 	};
 	return Backbone.View.extend({
 		initialize: function(options) {

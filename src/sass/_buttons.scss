@@ -1,0 +1,41 @@
+.pjs-controls-share {
+	@include image-with-dims(share);
+	margin: $info-item-margin;
+}
+.pjs-controls-play:before {
+	@include image-with-dims-psuedo(play);
+}
+.pjs-controls-is-live:before {
+	@include image-with-dims-psuedo(live);
+}
+.pjs-controls-rewind:before {
+	@include image-with-dims-psuedo(rewind30);
+}
+.pjs-controls-go-live:before {
+	@include image-with-dims-psuedo(golive);
+	cursor: pointer;
+}
+.pjs-controls-pause:before {
+	@include image-with-dims-psuedo(pause);
+}
+.pjs-controls-fullscreen:before {
+	@include image-with-dims-psuedo(fullscreen);
+}
+.pjs-controls-mute:before {
+	@include image-with-dims-psuedo(mute);
+}
+.pjs-controls-unmute:before {
+	@include image-with-dims-psuedo(unmute);
+}
+.pjs-controls-cc:before {
+	@include image-with-dims-psuedo(cc);
+}
+.pjs-share-facebook {
+	@include image-with-dims(facebook);
+}
+.pjs-share-twitter {
+	@include image-with-dims(twitter);
+}
+.pjs-share-email {
+	@include image-with-dims(email);
+}

@@ -1,5 +1,5 @@
 /* line 224, images/*.png */
-.images-sprite, .pjs-controls-play:before, .mtvn-controls-is-live:before, .pjs-controls-rewind:before, .mtvn-controls-go-live:before, .pjs-controls-pause:before, .pjs-controls-fullscreen:before, .mtvn-controls-mute:before, .mtvn-controls-unmute:before, .mtvn-controls-cc:before, .mtvn-controls-slider-tool-tip-background, .pjs-controls-share, .pjs-info-facebook, .pjs-info-twitter, .pjs-info-email {
+.images-sprite, .pjs-controls-share, .pjs-controls-play:before, .pjs-controls-is-live:before, .pjs-controls-rewind:before, .pjs-controls-go-live:before, .pjs-controls-pause:before, .pjs-controls-fullscreen:before, .pjs-controls-mute:before, .pjs-controls-unmute:before, .pjs-controls-cc:before, .pjs-share-facebook, .pjs-share-twitter, .pjs-share-email {
   background-image: url('images-s3bfaca0048.png');
   background-repeat: no-repeat;
 }
@@ -12,133 +12,41 @@
   position: absolute;
   bottom: 0;
   left: 0;
+  font-size: 1em;
   -webkit-user-select: none;
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
 }
 
-/* line 10, ../src/sass/_controls.scss */
-.pjs-controls-item, .mtvn-controls-slider, .pjs-info-current-time, .pjs-info-duration {
+/* line 12, ../src/sass/_controls.scss */
+.pjs-controls-item, .pjs-controls-slider, .pjs-info-current-time, .pjs-info-duration {
   margin: 10px;
 }
 
-/* line 13, ../src/sass/_controls.scss */
-.mtvn-controls-hidden {
+/* line 15, ../src/sass/_controls.scss */
+.pjs-controls-hidden {
   opacity: 0;
+  -webkit-transform: translateY(50px);
+  -moz-transform: translateY(50px);
+  -o-transform: translateY(50px);
+  transform: translateY(50px);
 }
 
-/* line 16, ../src/sass/_controls.scss */
+/* line 19, ../src/sass/_controls.scss */
 .pjs-controls-button {
   padding: 10px;
 }
 
-/* line 19, ../src/sass/_controls.scss */
-.pjs-controls-play:before {
-  background-position: 0 -857px;
-  width: 90px;
-  height: 90px;
-  content: "";
-  display: inline-block;
-  content: "";
-  display: inline-block;
-}
-
 /* line 22, ../src/sass/_controls.scss */
-.mtvn-controls-is-live:before {
-  background-position: 0 -727px;
-  width: 29px;
-  height: 21px;
-  content: "";
-  display: inline-block;
-  content: "";
-  display: inline-block;
-}
-
-/* line 25, ../src/sass/_controls.scss */
-.pjs-controls-rewind:before {
-  background-position: 0 -947px;
-  width: 90px;
-  height: 90px;
-  content: "";
-  display: inline-block;
-  content: "";
-  display: inline-block;
-}
-
-/* line 28, ../src/sass/_controls.scss */
-.mtvn-controls-go-live:before {
-  background-position: 0 -590px;
-  width: 29px;
-  height: 21px;
-  content: "";
-  display: inline-block;
-  content: "";
-  display: inline-block;
-  cursor: pointer;
-}
-
-/* line 32, ../src/sass/_controls.scss */
-.pjs-controls-pause:before {
-  background-position: 0 -767px;
-  width: 90px;
-  height: 90px;
-  content: "";
-  display: inline-block;
-  content: "";
-  display: inline-block;
-}
-
-/* line 35, ../src/sass/_controls.scss */
-.pjs-controls-fullscreen:before {
-  background-position: 0 -550px;
-  width: 40px;
-  height: 40px;
-  content: "";
-  display: inline-block;
-  content: "";
-  display: inline-block;
-}
-
-/* line 38, ../src/sass/_controls.scss */
-.mtvn-controls-mute:before {
-  background-position: 0 -748px;
-  width: 23px;
-  height: 19px;
-  content: "";
-  display: inline-block;
-  content: "";
-  display: inline-block;
-}
-
-/* line 41, ../src/sass/_controls.scss */
-.mtvn-controls-unmute:before {
-  background-position: 0 -1414px;
-  width: 23px;
-  height: 19px;
-  content: "";
-  display: inline-block;
-  content: "";
-  display: inline-block;
-}
-
-/* line 44, ../src/sass/_controls.scss */
-.mtvn-controls-cc:before {
-  background-position: 0 -181px;
-  width: 26px;
-  height: 21px;
-  content: "";
-  display: inline-block;
-  content: "";
-  display: inline-block;
-}
-
-/* line 47, ../src/sass/_controls.scss */
-.mtvn-controls-slider {
+.pjs-controls-slider {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
   color: #C8C8C8;
-  font-family: San Francisco, Arial, Helvetica, sans-serif;
   font-size: 12px;
   font-weight: bold;
   text-align: right;
@@ -147,68 +55,68 @@
   -webkit-user-select: none;
 }
 
-/* line 59, ../src/sass/_controls.scss */
-.pjs-controls-slider-item, .mtvn-controls-slider-progress-container, .mtvn-controls-slider-background, .mtvn-controls-slider-progress, .mtvn-controls-slider-buffered, .mtvn-controls-slider-thumb-container, .mtvn-controls-slider-segment-container {
+/* line 33, ../src/sass/_controls.scss */
+.pjs-controls-slider-item, .pjs-controls-slider-progress-container, .pjs-controls-slider-background, .pjs-controls-slider-progress, .pjs-controls-slider-buffered, .pjs-controls-slider-thumb-container, .pjs-controls-slider-segment-container {
   position: absolute;
   top: 0;
   left: 0;
 }
 
-/* line 64, ../src/sass/_controls.scss */
-.mtvn-controls-slider-time-display {
+/* line 38, ../src/sass/_controls.scss */
+.pjs-controls-slider-time-display {
   text-align: right;
   height: 12px;
   padding-top: 4px;
   padding-bottom: 18px;
 }
 
-/* line 70, ../src/sass/_controls.scss */
+/* line 44, ../src/sass/_controls.scss */
 .pjs-info-current-time {
   color: white;
   display: inline-block;
 }
 
-/* line 75, ../src/sass/_controls.scss */
+/* line 49, ../src/sass/_controls.scss */
 .pjs-info-duration {
-  color: white;
+  color: #9B9B9B;
   display: inline-block;
 }
 
-/* line 80, ../src/sass/_controls.scss */
-.mtvn-controls-slider-progress-container {
+/* line 54, ../src/sass/_controls.scss */
+.pjs-controls-slider-progress-container {
   height: 10px;
 }
 
-/* line 84, ../src/sass/_controls.scss */
-.mtvn-controls-slider-background {
+/* line 58, ../src/sass/_controls.scss */
+.pjs-controls-slider-background {
   height: 10px;
   width: 100%;
   background: rgba(0, 0, 0, 0.5);
 }
 
-/* line 90, ../src/sass/_controls.scss */
-.mtvn-controls-slider-progress {
+/* line 64, ../src/sass/_controls.scss */
+.pjs-controls-slider-progress {
   background: #1ab7ea;
   height: 10px;
   width: 0px;
 }
 
-/* line 96, ../src/sass/_controls.scss */
-.mtvn-controls-slider-buffered {
+/* line 70, ../src/sass/_controls.scss */
+.pjs-controls-slider-buffered {
   background: rgba(255, 255, 255, 0.3);
   height: 10px;
   width: 0px;
 }
 
-/* line 102, ../src/sass/_controls.scss */
-.mtvn-controls-slider-thumb-container {
+/* line 76, ../src/sass/_controls.scss */
+.pjs-controls-slider-thumb-container {
   -webkit-user-select: none;
   width: 0px;
   height: 0px;
 }
 
-/* line 108, ../src/sass/_controls.scss */
-.mtvn-controls-slider-thumb {
+/* line 82, ../src/sass/_controls.scss */
+.pjs-controls-slider-thumb {
   border-radius: 50%;
   width: 48px;
   height: 48px;
@@ -224,61 +132,35 @@
   border-width: thin;
 }
 
-/* line 120, ../src/sass/_controls.scss */
-.mtvn-controls-slider-thumb-active {
+/* line 94, ../src/sass/_controls.scss */
+.pjs-controls-slider-thumb-active {
   -webkit-transform: scale(1.4);
   -moz-transform: scale(1.4);
   -o-transform: scale(1.4);
   transform: scale(1.4);
 }
 
-/* line 123, ../src/sass/_controls.scss */
-.mtvn-controls-slider-segment-container {
+/* line 97, ../src/sass/_controls.scss */
+.pjs-controls-slider-segment-container {
   height: 10px;
 }
 
-/* line 127, ../src/sass/_controls.scss */
-.mtvn-controls-slider-segment {
+/* line 101, ../src/sass/_controls.scss */
+.pjs-controls-slider-segment {
   position: absolute;
-  width: 8px;
-  height: 8px;
+  width: 4px;
+  height: 4px;
   top: 50%;
+  border-radius: 50%;
   -webkit-transform: translateY(-50%);
   -moz-transform: translateY(-50%);
   -o-transform: translateY(-50%);
   transform: translateY(-50%);
-  border-radius: 50%;
   background-color: #9B9B9B;
 }
 
-/* line 136, ../src/sass/_controls.scss */
-.mtvn-controls-slider-tool-tip-background {
-  background-position: 0 -1130px;
-  width: 78px;
-  height: 52px;
-  content: "";
-  display: inline-block;
-  margin-left: -37px;
-}
-
-/* line 140, ../src/sass/_controls.scss */
-.mtvn-controls-slider-tool-tip-container {
-  margin-top: -62px;
-  height: 60px;
-  padding-bottom: 1px;
-}
-
-/* line 145, ../src/sass/_controls.scss */
-.mtvn-controls-slider-tool-tip-time {
-  width: 78px;
-  margin-top: -45px;
-  margin-left: -37px;
-  font-size: 14px;
-  text-align: center;
-}
-
 /* line 1, ../src/sass/_ad.scss */
-.mtvn-ad-gui {
+.pjs-ad-gui {
   background: rgba(33, 33, 33, 0.8);
   color: white;
   position: relative;
@@ -286,7 +168,7 @@
 }
 
 /* line 7, ../src/sass/_ad.scss */
-.mtvn-ad-gui * {
+.pjs-ad-gui * {
   margin: 0;
   padding: 0;
   border: 0;
@@ -302,19 +184,19 @@
 }
 
 /* line 10, ../src/sass/_ad.scss */
-.mtvn-ad-gui-container {
+.pjs-ad-gui-container {
   padding: 10px 10px;
   vertical-align: middle;
 }
 
 /* line 14, ../src/sass/_ad.scss */
-.mtvn-ad-gui-countdown {
+.pjs-ad-gui-countdown {
   padding: 4px;
   display: inline-block;
 }
 
 /* line 18, ../src/sass/_ad.scss */
-.mtvn-ad-gui-learn-more {
+.pjs-ad-gui-learn-more {
   color: white;
   text-decoration: none;
   position: absolute;
@@ -327,20 +209,19 @@
 }
 
 /* line 29, ../src/sass/_ad.scss */
-.mtvn-ad-gui-learn-more:hover {
+.pjs-ad-gui-learn-more:hover {
   color: white;
   text-decoration: none;
 }
 
 /* line 33, ../src/sass/_ad.scss */
-.mtvn-ad-gui-learn-more:visited {
+.pjs-ad-gui-learn-more:visited {
   color: white;
   text-decoration: none;
 }
 
 /* line 1, ../src/sass/_info.scss */
 .pjs-info {
-  color: white;
   position: relative;
   width: 100%;
   height: 100%;
@@ -356,38 +237,18 @@
   font-weight: normal;
   font-style: normal;
   line-height: 1em;
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
 }
 
 /* line 8, ../src/sass/_info.scss */
 .pjs-info-container {
-  padding: 8px 10px;
+  margin: 8px 10px;
 }
 
-/* line 11, ../src/sass/_info.scss */
-.pjs-tp-flexbox {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-}
-
-/* line 14, ../src/sass/_info.scss */
-.pjs-controls-share {
-  background-position: 0 -1037px;
-  width: 45px;
-  height: 45px;
-  content: "";
-  display: inline-block;
-  margin: 0 30px 0 30px;
-}
-
-/* line 18, ../src/sass/_info.scss */
-.pjs-info-share-item {
-  display: inline-block;
-}
-
-/* line 21, ../src/sass/_info.scss */
+/* line 12, ../src/sass/_info.scss */
 .pjs-info-metadata {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -396,7 +257,6 @@
   flex: 1;
   height: 23px;
   line-height: 23px;
-  font-family: San Francisco, Arial, Helvetica, sans-serif;
   color: #FFFFFF;
   font-size: 20px;
   font-weight: bold;
@@ -406,16 +266,145 @@
   text-shadow: 1px 1px 3px black;
 }
 
-/* line 34, ../src/sass/_info.scss */
+/* line 24, ../src/sass/_info.scss */
 .pjs-info-panel-hidden {
-  -webkit-transform: translateY(-50px);
-  -moz-transform: translateY(-50px);
-  -o-transform: translateY(-50px);
-  transform: translateY(-50px);
+  -webkit-transform: translateY(-55px);
+  -moz-transform: translateY(-55px);
+  -o-transform: translateY(-55px);
+  transform: translateY(-55px);
 }
 
-/* line 37, ../src/sass/_info.scss */
-.pjs-info-facebook {
+/* line 1, ../src/sass/_share.scss */
+.pjs-share-item {
+  margin: 10px;
+}
+
+/* line 4, ../src/sass/_share.scss */
+.pjs-share-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* line 8, ../src/sass/_share.scss */
+.pjs-share {
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+
+/* line 1, ../src/sass/_buttons.scss */
+.pjs-controls-share {
+  background-position: 0 -1037px;
+  width: 45px;
+  height: 45px;
+  content: "";
+  display: inline-block;
+  margin: 0 30px 0 30px;
+}
+
+/* line 5, ../src/sass/_buttons.scss */
+.pjs-controls-play:before {
+  background-position: 0 -857px;
+  width: 90px;
+  height: 90px;
+  content: "";
+  display: inline-block;
+  content: "";
+  display: inline-block;
+}
+
+/* line 8, ../src/sass/_buttons.scss */
+.pjs-controls-is-live:before {
+  background-position: 0 -727px;
+  width: 29px;
+  height: 21px;
+  content: "";
+  display: inline-block;
+  content: "";
+  display: inline-block;
+}
+
+/* line 11, ../src/sass/_buttons.scss */
+.pjs-controls-rewind:before {
+  background-position: 0 -947px;
+  width: 90px;
+  height: 90px;
+  content: "";
+  display: inline-block;
+  content: "";
+  display: inline-block;
+}
+
+/* line 14, ../src/sass/_buttons.scss */
+.pjs-controls-go-live:before {
+  background-position: 0 -590px;
+  width: 29px;
+  height: 21px;
+  content: "";
+  display: inline-block;
+  content: "";
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* line 18, ../src/sass/_buttons.scss */
+.pjs-controls-pause:before {
+  background-position: 0 -767px;
+  width: 90px;
+  height: 90px;
+  content: "";
+  display: inline-block;
+  content: "";
+  display: inline-block;
+}
+
+/* line 21, ../src/sass/_buttons.scss */
+.pjs-controls-fullscreen:before {
+  background-position: 0 -550px;
+  width: 40px;
+  height: 40px;
+  content: "";
+  display: inline-block;
+  content: "";
+  display: inline-block;
+}
+
+/* line 24, ../src/sass/_buttons.scss */
+.pjs-controls-mute:before {
+  background-position: 0 -748px;
+  width: 23px;
+  height: 19px;
+  content: "";
+  display: inline-block;
+  content: "";
+  display: inline-block;
+}
+
+/* line 27, ../src/sass/_buttons.scss */
+.pjs-controls-unmute:before {
+  background-position: 0 -1414px;
+  width: 23px;
+  height: 19px;
+  content: "";
+  display: inline-block;
+  content: "";
+  display: inline-block;
+}
+
+/* line 30, ../src/sass/_buttons.scss */
+.pjs-controls-cc:before {
+  background-position: 0 -181px;
+  width: 26px;
+  height: 21px;
+  content: "";
+  display: inline-block;
+  content: "";
+  display: inline-block;
+}
+
+/* line 33, ../src/sass/_buttons.scss */
+.pjs-share-facebook {
   background-position: 0 -434px;
   width: 116px;
   height: 116px;
@@ -423,8 +412,8 @@
   display: inline-block;
 }
 
-/* line 40, ../src/sass/_info.scss */
-.pjs-info-twitter {
+/* line 36, ../src/sass/_buttons.scss */
+.pjs-share-twitter {
   background-position: 0 -1298px;
   width: 116px;
   height: 116px;
@@ -432,8 +421,8 @@
   display: inline-block;
 }
 
-/* line 43, ../src/sass/_info.scss */
-.pjs-info-email {
+/* line 39, ../src/sass/_buttons.scss */
+.pjs-share-email {
   background-position: 0 -202px;
   width: 116px;
   height: 116px;
@@ -441,8 +430,32 @@
   display: inline-block;
 }
 
-/* line 10, ../src/sass/gui.scss */
-.pjs-controls-center {
+/* line 12, ../src/sass/gui.scss */
+.pjs-gui {
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+/* line 16, ../src/sass/gui.scss */
+.pjs-flexbox {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+/* line 20, ../src/sass/gui.scss */
+.pjs-gui-background {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background: rgba(255, 255, 255, 0.1);
+  top: 0;
+  left: 0;
+}
+
+/* line 29, ../src/sass/gui.scss */
+.pjs-gui-center-controls {
   display: flex;
   justify-content: center;
   align-items: center;

@@ -3,12 +3,12 @@
 var AdDisplay = Backbone.View.extend({
 	template: Templates["src/ad-display/template.html"],
 	tagName: "div",
-	className: "mtvn-ad-gui",
+	className: "pjs-ad-gui",
 	events: function() {
 		if (this.options.buttonLink === AdDisplay.LEARN_MORE_EVENT_ONLY) {
 			return {
-				"click .mtvn-ad-gui-learn-more": "onLearnMore",
-				"touchstart .mtvn-ad-gui-learn-more": "onLearnMore",
+				"click .pjs-ad-gui-learn-more": "onLearnMore",
+				"touchstart .pjs-ad-gui-learn-more": "onLearnMore",
 			};
 		}
 	},
@@ -20,7 +20,7 @@ var AdDisplay = Backbone.View.extend({
 		var template = options.template || this.template;
 		this.$el.html($(template(options)));
 		this.delegateEvents();
-		this.$countdown = this.$(".mtvn-ad-gui-countdown");
+		this.$countdown = this.$(".pjs-ad-gui-countdown");
 		this.renderMessage(options.time);
 		return this.$el;
 	},
