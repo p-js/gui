@@ -1,0 +1,15 @@
+.pjs-gui-center-controls{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  @include transition($transition);
+}
+
+.pjs-gui-center-controls-hidden{
+	opacity: 0;
+}

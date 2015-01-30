@@ -14,7 +14,6 @@ _.each(GUI.Events, function(eventType) {
 	});
 });
 FullScreen.on(FullScreen.Events.FULL_SCREEN_CHANGE, function(event) {
-	console.debug("gui.js:17 ");
 	var $gui = $("#gui");
 	if (event.data) {
 		$gui.width("100%").height("100%");
@@ -24,6 +23,12 @@ FullScreen.on(FullScreen.Events.FULL_SCREEN_CHANGE, function(event) {
 });
 gui.on(GUI.Events.FULLSCREEN, function() {
 	var $gui = $("#gui");
-	FullScreen.requestFullScreen($gui[0]);
+	if (!FullScreen.requestFullScreen($gui[0])) {
+		if ($gui.width() === 640) {
+			$gui.width("100%").height("100%");
+		} else {
+			$gui.width(640).height(420);
+		}
+	}
 });
 gui.$el.appendTo($("#gui"));

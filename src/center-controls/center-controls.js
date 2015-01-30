@@ -1,7 +1,10 @@
 /* exported CenterView */
-/* global Backbone, $, PlayPauseButton, Templates*/
-var CenterView = Backbone.View.extend({
+/* global BaseView, $, PlayPauseButton, Templates*/
+var CenterView = BaseView.extend({
 	template: Templates["src/center-controls/template.html"],
+	css: {
+		hide: "pjs-gui-center-controls-hidden"
+	},
 	className: "pjs-gui-center-controls",
 	initialize: function(options) {
 		this.options = options;
@@ -15,14 +18,5 @@ var CenterView = Backbone.View.extend({
 			el: this.$(".pjs-controls-play-pause"),
 			paused: options.paused
 		});
-	},
-	isShowing: function() {
-		return !this.$el.hasClass("pjs-controls-hidden");
-	},
-	hide: function() {
-		this.$el.addClass("pjs-controls-hidden");
-	},
-	show: function() {
-		this.$el.removeClass("pjs-controls-hidden");
 	}
 });

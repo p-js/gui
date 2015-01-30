@@ -1,5 +1,5 @@
 /* exported Main */
-/* global _, Backbone, Logger, Events, TopView, CenterView, Controls, ShareView, PlayPauseButton, $*/
+/* global _, Backbone, Logger, Events, TopView, CenterView, BottomView, ShareView, PlayPauseButton, $*/
 var Main = Backbone.View.extend({
 	tagName: "div",
 	className: "pjs-gui",
@@ -40,7 +40,7 @@ var Main = Backbone.View.extend({
 		// this.listenTo(this.topView, TopView.Events.SHARE, this.showShare);
 		this.topView.$el.appendTo(this.$el);
 		// Bottom
-		this.bottomView = new Controls(options);
+		this.bottomView = new BottomView(options);
 		this.bottomView.$el.appendTo(this.$el);
 		this.listenTo(this.bottomView, Events.SEEK, this.onSeek);
 		this.listenTo(this.bottomView, Events.SEEK, this.sendEvent);

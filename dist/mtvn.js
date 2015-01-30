@@ -170,6 +170,24 @@
 			return $el.hasClass("pjs-controls-pause");
 		}
 	});
+	/* exported BaseView */
+	/* global Backbone*/
+	/**
+	 * @ignore
+	 * Hide and show functionality is in almost every view.
+	 */
+	var BaseView = Backbone.View.extend({
+		css: {},
+		isShowing: function() {
+			return !this.$el.hasClass(this.css.hide);
+		},
+		hide: function() {
+			this.$el.addClass(this.css.hide);
+		},
+		show: function() {
+			this.$el.removeClass(this.css.hide);
+		}
+	});
 	/* global _, $, Templates, Backbone*/
 	/* exported AdDisplay */
 	var AdDisplay = Backbone.View.extend({
@@ -244,12 +262,14 @@
 			return options;
 		}
 	};
-	/* global Backbone, Templates, $, TopPanelModel*/
+	/* global BaseView, Templates, $, TopPanelModel*/
 	/* exported TopView */
-	var TopView = Backbone.View.extend({
+	var TopView = BaseView.extend({
 		template: Templates["src/top/template.html"],
-		tagName: "div",
 		className: "pjs-info",
+		css: {
+			hide: "pjs-info-panel-hidden"
+		},
 		initialize: function(options) {
 			this.options = TopPanelModel.validate(options || {});
 			this.render();
@@ -260,18 +280,15 @@
 		render: function() {
 			this.$el.html($(this.template(this.options)));
 			return this;
-		},
-		hide: function() {
-			this.$el.addClass("pjs-info-panel-hidden");
-		},
-		show: function() {
-			this.$el.removeClass("pjs-info-panel-hidden");
 		}
 	});
 	/* exported CenterView */
-	/* global Backbone, $, PlayPauseButton, Templates*/
-	var CenterView = Backbone.View.extend({
+	/* global BaseView, $, PlayPauseButton, Templates*/
+	var CenterView = BaseView.extend({
 		template: Templates["src/center-controls/template.html"],
+		css: {
+			hide: "pjs-gui-center-controls-hidden"
+		},
 		className: "pjs-gui-center-controls",
 		initialize: function(options) {
 			this.options = options;
@@ -285,15 +302,6 @@
 				el: this.$(".pjs-controls-play-pause"),
 				paused: options.paused
 			});
-		},
-		isShowing: function() {
-			return !this.$el.hasClass("pjs-controls-hidden");
-		},
-		hide: function() {
-			this.$el.addClass("pjs-controls-hidden");
-		},
-		show: function() {
-			this.$el.removeClass("pjs-controls-hidden");
 		}
 	});
 	/* exported ShareView */
@@ -322,9 +330,9 @@
 			}
 		});
 	})();
-	/* exported Controls */
-	/* global _, Backbone, $, Events, Slider, PlayPauseButton, Time, ClosedCaptionButton, Templates*/
-	var Controls = (function() {
+	/* exported BottomView */
+	/* global _, BaseView, $, Events, Slider, Time, Templates*/
+	var BottomView = (function() {
 		/* global _, $, Backbone, Events, Logger*/
 		/* exported Slider */
 		var Slider = (function() {
@@ -620,51 +628,32 @@
 				}
 			});
 		})();
-		var CONTROLS_TEMPLATE = Templates["src/bottom/template.html"],
-			css = {
+		return BaseView.extend({
+			template: Templates["src/bottom/template.html"],
+			className: "pjs-controls",
+			css: {
 				hide: "pjs-controls-hidden",
 				slider: "pjs-controls-slider",
-				playPause: "pjs-controls-play-pause",
-				volume: "pjs-controls-volume",
-				cc: "pjs-controls-cc"
-			},
-			addEvents = function(listener, dispatcher, events, cb) {
-				_.each(events, function(eventName) {
-					listener.listenTo(dispatcher, eventName, cb);
-				});
-			};
-		return Backbone.View.extend({
-			tagName: "div",
-			className: "pjs-controls",
-			events: {
-				"click .pjs-controls-fullscreen": "onFullscreen",
-				"touchstart .pjs-controls-fullscreen": "onFullscreen",
-				"click .pjs-controls-rewind": "onRewind",
-				"touchstart .pjs-controls-rewind": "onRewind"
+				currentTime: "pjs-info-current-time",
+				duration: "pjs-info-duration"
 			},
 			initialize: function(options) {
 				this.options = options;
 				_.bindAll(this, "sendEvent", "setPlayheadOnDrag");
 				_.extend(this.options, {
-					slider: css.slider
+					slider: this.css.slider
 				});
 				this.render();
 			},
 			render: function() {
 				var options = this.options;
-				this.$el.html($(CONTROLS_TEMPLATE(options)));
-				this.$currentTime = this.$(".pjs-info-current-time")
+				this.$el.html($(this.template(options)));
+				this.$currentTime = this.$("." + this.css.currentTime)
 					.html(Time.format(options.playhead));
-				this.$duration = this.$(".pjs-info-duration");
-				// PLAY PAUSE
-				this.playPauseButton = new PlayPauseButton({
-					el: this.$("." + css.playPause),
-					paused: options.paused
-				});
-				addEvents(this, this.playPauseButton, [Events.PLAY, Events.PAUSE], this.sendEvent);
+				this.$duration = this.$("." + this.css.duration);
 				// SLIDER
 				this.slider = new Slider({
-					el: this.$("." + css.slider),
+					el: this.$("." + this.css.slider),
 					playhead: options.playhead,
 					isLive: options.isLive,
 					isDVR: options.isDVR,
@@ -674,25 +663,6 @@
 				// Seek Event
 				this.listenTo(this.slider, Events.SEEK, this.sendEvent);
 				this.listenTo(this.slider, Slider.Events.THUMB_DRAG, this.setPlayheadOnDrag);
-				// CC
-				this.closedCaptionButton = new ClosedCaptionButton({
-					ccEnabled: options.ccEnabled,
-					el: this.$("." + css.cc)
-				});
-				// CC Event
-				this.listenTo(this.closedCaptionButton, Events.CC, this.sendEvent);
-			},
-			hide: function() {
-				this.$el.addClass(css.hide);
-			},
-			show: function() {
-				this.$el.removeClass(css.hide);
-			},
-			setVolume: function() {
-				// N/A until desktop
-			},
-			setPaused: function(paused) {
-				this.playPauseButton.setPaused(paused);
 			},
 			getPlayhead: function() {
 				// used for testing.
@@ -717,248 +687,11 @@
 			sendEvent: function(event) {
 				event.target = this;
 				this.trigger(event.type, event);
-			},
-			onRewind: function() {
-				event.preventDefault();
-				this.sendEvent({
-					type: Events.REWIND
-				});
-			},
-			onFullscreen: function(event) {
-				event.preventDefault();
-				this.sendEvent({
-					type: Events.FULLSCREEN
-				});
-			}
-		});
-	})();
-	/* exported LiveButton */
-	/* global Backbone, Events, _*/
-	var LiveButton = (function() {
-		var css = {
-			live: "pjs-controls-is-live",
-			golive: "pjs-controls-go-live"
-		};
-		return Backbone.View.extend({
-			initialize: function(options) {
-				this.options = options;
-				this.setLive(options.isLive);
-				_.bindAll(this, "onLiveChange");
-			},
-			events: {
-				click: "toggle",
-				touchstart: "toggle"
-			},
-			onLiveChange: function(event) {
-				this.setLive(event.data);
-			},
-			setLive: function(isLive) {
-				var $el = this.$el;
-				$el.toggleClass(css.live, isLive);
-				$el.toggleClass(css.golive, !isLive);
-			},
-			toggle: function(event) {
-				event.preventDefault();
-				if (this.$el.hasClass(css.golive)) {
-					this.trigger(Events.GO_LIVE, {
-						type: Events.GO_LIVE
-					});
-				}
-			}
-		});
-	})();
-	/* exported VolumeButton */
-	/* global Backbone, Events, _, $*/
-	var VolumeButton = (function() {
-		var css = {
-				controls: "pjs-controls",
-				unmute: "pjs-controls-unmute",
-				mute: "pjs-controls-mute",
-				showSlider: "pjs-controls-volume-slider-container-over",
-				slider: "pjs-controls-volume-slider",
-				thumb: "pjs-controls-volume-slider-foreground"
-			},
-			isButton = function(event) {
-				var $target = $(event.target);
-				return $target.hasClass(css.mute) || $target.hasClass(css.unmute);
-			};
-		return Backbone.View.extend({
-			enabled: true,
-			defaultEvents: {
-				"click": "toggle",
-				"touchstart": "toggle"
-			},
-			mouseEvents: {
-				"click .pjs-controls-volume-slider": "onSliderClick",
-				"touchstart .pjs-controls-volume-slider": "onSliderClick",
-				"mouseover": "onMouseOver",
-				"mouseleave": "onMouseOut",
-				"mousedown .pjs-controls-volume-slider-foreground": "onThumbActive",
-				"touchstart .pjs-controls-volume-slider-foreground": "onThumbActive"
-			},
-			events: function() {
-				if (this.options.showVolumeSlider) {
-					return _.extend(this.defaultEvents, this.mouseEvents);
-				}
-				return this.defaultEvents;
-			},
-			initialize: function(options) {
-				_.bindAll(this, "updateView");
-				this.options = options;
-				if (options.showVolumeSlider) {
-					_.bindAll(this, "onThumbMove", "onThumbInactive", "toggleSlider");
-					var $doc = $(document);
-					this.listenTo($doc, "mousemove", this.onThumbMove);
-					this.listenTo($doc, "mouseup", this.onThumbInactive);
-					this.$slider = this.$("." + css.slider);
-					this.$container = $(this.$slider.parent());
-					this.$thumb = this.$("." + css.thumb);
-				}
-				this.isMuted = this.options.muted;
-				this.setVolume(isNaN(options.volume) ? 0.7 : options.volume);
-				_.delay(this.updateView, 100);
-			},
-			setEnabled: function(enabled) {
-				if (this.enabled !== enabled) {
-					this.enabled = enabled;
-					if (!enabled && this.$container) {
-						this.$container.removeClass(css.showSlider);
-					}
-				}
-			},
-			onThumbActive: function(event) {
-				event.preventDefault();
-				this.dragging = true;
-			},
-			getElementOffset: function() {
-				if (!this.elOffset) {
-					var offset = this.$el.offset();
-					if (offset.width > 0) {
-						this.elOffset = offset;
-					}
-				}
-				return this.elOffset;
-			},
-			onMouseOut: function(event) {
-				this.isMouseOver = false;
-				var offsetX = event.offsetX,
-					elOffset = this.getElementOffset();
-				if (_.isUndefined(offsetX)) {
-					// Firefox doesn't have offsetX.
-					offsetX = event.pageX - elOffset.left;
-				}
-				var isLeftOrRight = offsetX < 0 || offsetX >= elOffset.width,
-					// Firefox doesn't have toElement
-					$toEl = event.toElement ? $(event.toElement) : $(event.relatedTarget),
-					// Toggle immediately if we roll off the button to the left or right.
-					toggleTime = isLeftOrRight && $toEl.hasClass(css.controls) ? 0 : 1500;
-				_.delay(this.toggleSlider, toggleTime);
-			},
-			onMouseOver: function() {
-				this.isMouseOver = this.enabled;
-				this.toggleSlider();
-			},
-			toggleSlider: function() {
-				this.$container.toggleClass(css.showSlider, this.isMouseOver);
-			},
-			onSliderClick: function(event) {
-				event.preventDefault();
-				// when there's user input, turn off isMuted.
-				this.isMuted = false;
-				this.trigger(Events.UNMUTE, {
-					type: Events.UNMUTE
-				});
-				this.setVolume(this.calculatePercentageFromTop(event.pageY - this.getContainerOffset()));
-			},
-			updateView: function(volume) {
-				if (_.isUndefined(volume)) {
-					volume = this.isMuted ? 0 : this.currentVolume;
-				}
-				if (this.$thumb) {
-					this.$thumb.css({
-						top: this.calculateSliderValueFromPercentage(volume)
-					});
-					if (this.getVolumeHeight() === 0) {
-						_.delay(this.updateView, 100);
-					}
-				}
-				var showMute = volume > 0;
-				this.$el.toggleClass(css.mute, showMute);
-				this.$el.toggleClass(css.unmute, !showMute);
-			},
-			onThumbMove: function(event) {
-				if (this.dragging) {
-					event.preventDefault();
-					var moveTo = event.pageY;
-					// when there's user input, turn off isMuted.
-					this.isMuted = false;
-					this.trigger(Events.UNMUTE, {
-						type: Events.UNMUTE
-					});
-					this.setVolume(this.calculatePercentageFromTop(moveTo - this.getContainerOffset()));
-				}
-			},
-			onThumbInactive: function(event) {
-				if (this.dragging) {
-					event.preventDefault();
-					this.dragging = false;
-				}
-			},
-			calculatePercentageFromTop: function(moveTo) {
-				var top = Math.max(0, moveTo),
-					volumeHeight = this.getVolumeHeight();
-				top = Math.min(top, volumeHeight);
-				return 1 - top / volumeHeight;
-			},
-			calculateSliderValueFromPercentage: function(percentage) {
-				return (1 - percentage) * this.getVolumeHeight();
-			},
-			getContainerOffset: function() {
-				if (!this.containerOffset) {
-					this.containerOffset = this.$slider.offset().top;
-				}
-				return this.containerOffset;
-			},
-			getVolumeHeight: function() {
-				if (!this.volumeHeight) {
-					this.volumeHeight = this.$slider.offset().height - this.$thumb.offset().height;
-				}
-				return this.volumeHeight;
-			},
-			setVolume: function(volume) {
-				if (isNaN(volume)) {
-					return;
-				}
-				volume = Math.round(volume * 100) / 100;
-				if (this.currentVolume !== volume) {
-					this.currentVolume = volume;
-					this.trigger(Events.VOLUME, {
-						type: Events.VOLUME,
-						data: this.currentVolume,
-						target: this
-					});
-					this.updateView();
-				}
-			},
-			toggle: function(event) {
-				// when there's user input, turn off isMuted.
-				this.isMuted = false;
-				event.preventDefault();
-				if (isButton(event)) {
-					var $el = this.$el,
-						showMute = $el.hasClass(css.unmute),
-						eventName = showMute ? Events.UNMUTE : Events.MUTE,
-						newVol = showMute ? this.currentVolume : 0;
-					this.updateView(newVol);
-					this.trigger(eventName, {
-						type: eventName
-					});
-				}
 			}
 		});
 	})();
 	/* exported Main */
-	/* global _, Backbone, Logger, Events, TopView, CenterView, Controls, ShareView, PlayPauseButton, $*/
+	/* global _, Backbone, Logger, Events, TopView, CenterView, BottomView, ShareView, PlayPauseButton, $*/
 	var Main = Backbone.View.extend({
 		tagName: "div",
 		className: "pjs-gui",
@@ -999,7 +732,7 @@
 			// this.listenTo(this.topView, TopView.Events.SHARE, this.showShare);
 			this.topView.$el.appendTo(this.$el);
 			// Bottom
-			this.bottomView = new Controls(options);
+			this.bottomView = new BottomView(options);
 			this.bottomView.$el.appendTo(this.$el);
 			this.listenTo(this.bottomView, Events.SEEK, this.onSeek);
 			this.listenTo(this.bottomView, Events.SEEK, this.sendEvent);
@@ -1083,13 +816,13 @@
 			});
 		}
 	});
-	/* global Main, AdDisplay, Time, Controls, Events, TopView */
+	/* global Main, AdDisplay, Time, BottomView, Events, TopView */
 	var GUI = Main;
 	GUI.version = "0.14.0";
-	GUI.build = "Thu Jan 29 2015 17:55:49";
+	GUI.build = "Fri Jan 30 2015 09:02:04";
 	GUI.Time = Time;
 	GUI.AdDisplay = AdDisplay;
-	GUI.Controls = Controls;
+	GUI.BottomView = BottomView;
 	GUI.TopView = TopView;
 	
 	GUI.Events = Events;

@@ -1,9 +1,11 @@
-/* global Backbone, Templates, $, TopPanelModel*/
+/* global BaseView, Templates, $, TopPanelModel*/
 /* exported TopView */
-var TopView = Backbone.View.extend({
+var TopView = BaseView.extend({
 	template: Templates["src/top/template.html"],
-	tagName: "div",
 	className: "pjs-info",
+	css: {
+		hide: "pjs-info-panel-hidden"
+	},
 	initialize: function(options) {
 		this.options = TopPanelModel.validate(options || {});
 		this.render();
@@ -14,11 +16,5 @@ var TopView = Backbone.View.extend({
 	render: function() {
 		this.$el.html($(this.template(this.options)));
 		return this;
-	},
-	hide: function() {
-		this.$el.addClass("pjs-info-panel-hidden");
-	},
-	show: function() {
-		this.$el.removeClass("pjs-info-panel-hidden");
 	}
 });

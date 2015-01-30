@@ -1,11 +1,11 @@
 /* global GUI, $, _ */
 /* jshint devel:true */
-var controls = new(GUI.Controls)({
-	playing: false,
-	showVolume: true,
-	ccEnabled: true,
-	durations: [60, 30, 60, 30, 30]
-}),
+var controls = new(GUI.BottomView)({
+		playing: false,
+		showVolume: true,
+		ccEnabled: true,
+		durations: [60, 30, 60, 30, 30]
+	}),
 	Events = GUI.Events,
 	buffer = 0,
 	bufferInterval = setInterval(function() {

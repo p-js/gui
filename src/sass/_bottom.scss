@@ -7,7 +7,7 @@
 	left: 0;
 	font-size: 1em;
 	-webkit-user-select: none;
-	@include transition(all .2s ease-out);
+	@include transition($transition);
 }
 .pjs-controls-item {
 	margin: 10px;
@@ -83,7 +83,7 @@
 	border-radius: 50%;
 	width: 48px;
 	height: 48px;
-	@include transition(all .2s ease-out);
+	@include transition($transition);
 	margin-left: -19px;
 	margin-top: -25px;
 	background-color: #D9F2FA;

@@ -1,6 +1,6 @@
 /* global GUI, $, _ */
 /* jshint devel:true */
-var controls = new(GUI.Controls)({
+var controls = new(GUI.BottomView)({
 		playing: false,
 		showVolume: true,
 		ccEnabled: true,

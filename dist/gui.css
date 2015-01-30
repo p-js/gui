@@ -4,7 +4,7 @@
   background-repeat: no-repeat;
 }
 
-/* line 1, ../src/sass/_controls.scss */
+/* line 1, ../src/sass/_bottom.scss */
 .pjs-controls {
   display: flex;
   height: 30px;
@@ -14,18 +14,18 @@
   left: 0;
   font-size: 1em;
   -webkit-user-select: none;
-  -webkit-transition: all 0.2s ease-out;
-  -moz-transition: all 0.2s ease-out;
-  -o-transition: all 0.2s ease-out;
-  transition: all 0.2s ease-out;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
 }
 
-/* line 12, ../src/sass/_controls.scss */
+/* line 12, ../src/sass/_bottom.scss */
 .pjs-controls-item, .pjs-controls-slider, .pjs-info-current-time, .pjs-info-duration {
   margin: 10px;
 }
 
-/* line 15, ../src/sass/_controls.scss */
+/* line 15, ../src/sass/_bottom.scss */
 .pjs-controls-hidden {
   opacity: 0;
   -webkit-transform: translateY(50px);
@@ -34,12 +34,12 @@
   transform: translateY(50px);
 }
 
-/* line 19, ../src/sass/_controls.scss */
+/* line 19, ../src/sass/_bottom.scss */
 .pjs-controls-button {
   padding: 10px;
 }
 
-/* line 22, ../src/sass/_controls.scss */
+/* line 22, ../src/sass/_bottom.scss */
 .pjs-controls-slider {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -55,14 +55,14 @@
   -webkit-user-select: none;
 }
 
-/* line 33, ../src/sass/_controls.scss */
+/* line 33, ../src/sass/_bottom.scss */
 .pjs-controls-slider-item, .pjs-controls-slider-progress-container, .pjs-controls-slider-background, .pjs-controls-slider-progress, .pjs-controls-slider-buffered, .pjs-controls-slider-thumb-container, .pjs-controls-slider-segment-container {
   position: absolute;
   top: 0;
   left: 0;
 }
 
-/* line 38, ../src/sass/_controls.scss */
+/* line 38, ../src/sass/_bottom.scss */
 .pjs-controls-slider-time-display {
   text-align: right;
   height: 12px;
@@ -70,60 +70,60 @@
   padding-bottom: 18px;
 }
 
-/* line 44, ../src/sass/_controls.scss */
+/* line 44, ../src/sass/_bottom.scss */
 .pjs-info-current-time {
   color: white;
   display: inline-block;
 }
 
-/* line 49, ../src/sass/_controls.scss */
+/* line 49, ../src/sass/_bottom.scss */
 .pjs-info-duration {
   color: #9B9B9B;
   display: inline-block;
 }
 
-/* line 54, ../src/sass/_controls.scss */
+/* line 54, ../src/sass/_bottom.scss */
 .pjs-controls-slider-progress-container {
   height: 10px;
 }
 
-/* line 58, ../src/sass/_controls.scss */
+/* line 58, ../src/sass/_bottom.scss */
 .pjs-controls-slider-background {
   height: 10px;
   width: 100%;
   background: rgba(0, 0, 0, 0.5);
 }
 
-/* line 64, ../src/sass/_controls.scss */
+/* line 64, ../src/sass/_bottom.scss */
 .pjs-controls-slider-progress {
   background: #1ab7ea;
   height: 10px;
   width: 0px;
 }
 
-/* line 70, ../src/sass/_controls.scss */
+/* line 70, ../src/sass/_bottom.scss */
 .pjs-controls-slider-buffered {
   background: rgba(255, 255, 255, 0.3);
   height: 10px;
   width: 0px;
 }
 
-/* line 76, ../src/sass/_controls.scss */
+/* line 76, ../src/sass/_bottom.scss */
 .pjs-controls-slider-thumb-container {
   -webkit-user-select: none;
   width: 0px;
   height: 0px;
 }
 
-/* line 82, ../src/sass/_controls.scss */
+/* line 82, ../src/sass/_bottom.scss */
 .pjs-controls-slider-thumb {
   border-radius: 50%;
   width: 48px;
   height: 48px;
-  -webkit-transition: all 0.2s ease-out;
-  -moz-transition: all 0.2s ease-out;
-  -o-transition: all 0.2s ease-out;
-  transition: all 0.2s ease-out;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
   margin-left: -19px;
   margin-top: -25px;
   background-color: #D9F2FA;
@@ -132,7 +132,7 @@
   border-width: thin;
 }
 
-/* line 94, ../src/sass/_controls.scss */
+/* line 94, ../src/sass/_bottom.scss */
 .pjs-controls-slider-thumb-active {
   -webkit-transform: scale(1.4);
   -moz-transform: scale(1.4);
@@ -140,12 +140,12 @@
   transform: scale(1.4);
 }
 
-/* line 97, ../src/sass/_controls.scss */
+/* line 97, ../src/sass/_bottom.scss */
 .pjs-controls-slider-segment-container {
   height: 10px;
 }
 
-/* line 101, ../src/sass/_controls.scss */
+/* line 101, ../src/sass/_bottom.scss */
 .pjs-controls-slider-segment {
   position: absolute;
   width: 4px;
@@ -157,6 +157,27 @@
   -o-transform: translateY(-50%);
   transform: translateY(-50%);
   background-color: #9B9B9B;
+}
+
+/* line 1, ../src/sass/_center-controls.scss */
+.pjs-gui-center-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+}
+
+/* line 13, ../src/sass/_center-controls.scss */
+.pjs-gui-center-controls-hidden {
+  opacity: 0;
 }
 
 /* line 1, ../src/sass/_ad.scss */
@@ -220,7 +241,7 @@
   text-decoration: none;
 }
 
-/* line 1, ../src/sass/_info.scss */
+/* line 1, ../src/sass/_top.scss */
 .pjs-info {
   position: relative;
   width: 100%;
@@ -237,18 +258,18 @@
   font-weight: normal;
   font-style: normal;
   line-height: 1em;
-  -webkit-transition: all 0.2s ease-out;
-  -moz-transition: all 0.2s ease-out;
-  -o-transition: all 0.2s ease-out;
-  transition: all 0.2s ease-out;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
 }
 
-/* line 8, ../src/sass/_info.scss */
+/* line 8, ../src/sass/_top.scss */
 .pjs-info-container {
   margin: 8px 10px;
 }
 
-/* line 12, ../src/sass/_info.scss */
+/* line 12, ../src/sass/_top.scss */
 .pjs-info-metadata {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -266,7 +287,7 @@
   text-shadow: 1px 1px 3px black;
 }
 
-/* line 24, ../src/sass/_info.scss */
+/* line 24, ../src/sass/_top.scss */
 .pjs-info-panel-hidden {
   -webkit-transform: translateY(-55px);
   -moz-transform: translateY(-55px);
@@ -287,10 +308,10 @@
 
 /* line 8, ../src/sass/_share.scss */
 .pjs-share {
-  -webkit-transition: all 0.2s ease-out;
-  -moz-transition: all 0.2s ease-out;
-  -o-transition: all 0.2s ease-out;
-  transition: all 0.2s ease-out;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
 }
 
 /* line 1, ../src/sass/_buttons.scss */
@@ -430,12 +451,12 @@
   display: inline-block;
 }
 
-/* line 12, ../src/sass/gui.scss */
+/* line 14, ../src/sass/gui.scss */
 .pjs-gui {
   font-family: Helvetica, Arial, sans-serif;
 }
 
-/* line 16, ../src/sass/gui.scss */
+/* line 18, ../src/sass/gui.scss */
 .pjs-flexbox {
   display: -webkit-box;
   display: -moz-box;
@@ -444,24 +465,16 @@
   display: flex;
 }
 
-/* line 20, ../src/sass/gui.scss */
+/* line 22, ../src/sass/gui.scss */
 .pjs-gui-background {
   width: 100%;
   height: 100%;
   position: absolute;
   background: rgba(255, 255, 255, 0.1);
-  top: 0;
-  left: 0;
-}
-
-/* line 29, ../src/sass/gui.scss */
-.pjs-gui-center-controls {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  position: absolute;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
   top: 0;
   left: 0;
 }

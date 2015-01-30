@@ -10,19 +10,20 @@ var Templates = (function() {
 //= events.js
 //= time.js
 //= buttons
+//= base-view.js
 //= ad-display
 //= top
 //= center-controls
 //= share
 //= bottom
 //= main.js
-/* global Main, AdDisplay, Time, Controls, Events, TopView */
+/* global Main, AdDisplay, Time, BottomView, Events, TopView */
 var GUI = Main;
 GUI.version = "@@version";
 GUI.build = "@@timestamp";
 GUI.Time = Time;
 GUI.AdDisplay = AdDisplay;
-GUI.Controls = Controls;
+GUI.BottomView = BottomView;
 GUI.TopView = TopView;
 
 GUI.Events = Events;
