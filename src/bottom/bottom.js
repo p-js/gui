@@ -8,8 +8,9 @@ var BottomView = (function() {
 		css: {
 			hide: "pjs-controls-hidden",
 			slider: "pjs-controls-slider",
-			currentTime: "pjs-info-current-time",
-			duration: "pjs-info-duration"
+			currentTime: "pjs-gui-current-time",
+
+			duration: "pjs-gui-duration"
 		},
 		initialize: function(options) {
 			this.options = options;

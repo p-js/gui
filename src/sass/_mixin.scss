@@ -16,27 +16,13 @@
 	border: 0;
 	outline: 0;
 	font-family: inherit;
-	font-size: 100%;
+	font-size: 62.5%;
 	vertical-align: baseline;
 	text-decoration: none;
 	text-align: left;
 	font-weight: normal;
 	font-style: normal;
 	line-height: 1em;
-}
-@mixin flexbox() {
-	display: -webkit-box;
-	display: -moz-box;
-	display: -ms-flexbox;
-	display: -webkit-flex;
-	display: flex;
-}
-@mixin flex($values) {
-	-webkit-box-flex: $values;
-	-moz-box-flex: $values;
-	-webkit-flex: $values;
-	-ms-flex: $values;
-	flex: $values;
 }
 @mixin transition($values) {
 	-webkit-transition: $values;

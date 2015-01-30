@@ -4,6 +4,8 @@ $info-item-margin: 0 30px 0 30px;
 $transition: all .3s ease-out;
 
 @import 'mixin';
+@import 'mixin/flex';
+@import 'text';
 @import 'bottom';
 @import 'center-controls';
 @import 'ad';

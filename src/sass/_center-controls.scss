@@ -1,7 +1,7 @@
-.pjs-gui-center-controls{
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.pjs-gui-center-controls {
+  @include flexbox();
+  @include justify-content(center);
+  @include align-items(center);
   width: 100%;
   height: 100%;
   position: absolute;

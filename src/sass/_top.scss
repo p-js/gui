@@ -1,26 +1,18 @@
-.pjs-info {
-	position: relative;
+.pjs-gui-top {
+	position: absolute;
 	width: 100%;
-	height: 100%;
-	@include reset();
 	@include transition($transition);
 }
-.pjs-info-container {
- 	margin: 8px 10px;
+.pjs-gui-top-container {
+ 	margin: 15px 20px;
 }
-
-.pjs-info-metadata {
+.pjs-gui-top-metadata {
 	@include flex(1);
-	height: 23px;
-	line-height: 23px;
-	color: #FFFFFF;
-	font-size: 20px;
-	font-weight: bold;
+	@include metadata-title();
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	text-shadow: 1px 1px 3px black;
 }
-.pjs-info-panel-hidden {
-	@include transform(translateY(-55px));
+.pjs-gui-top-hidden {
+	@include transform(translateY(-60px));
 }

@@ -1,11 +1,11 @@
 .pjs-controls {
-	display: flex;
+	@include flexbox();
+	@include time-text();
 	height: 30px;
 	width: 100%;
 	position:absolute;
 	bottom: 0;
 	left: 0;
-	font-size: 1em;
 	-webkit-user-select: none;
 	@include transition($transition);
 }
@@ -22,9 +22,6 @@
 .pjs-controls-slider {
 	@include flex(1);
 	@extend .pjs-controls-item;
-	color: #C8C8C8;
-	font-size: 12px;
-	font-weight: bold;
 	text-align: right;
 	position: relative;
 	height: $slider-height;
@@ -41,12 +38,12 @@
 	padding-top: 4px;
 	padding-bottom: 18px;
 }
-.pjs-info-current-time {
+.pjs-gui-current-time {
 	@extend .pjs-controls-item;
 	color: white;
 	display:inline-block;
 }
-.pjs-info-duration {
+.pjs-gui-duration {
 	@extend .pjs-controls-item;
 	color: #9B9B9B;
 	display:inline-block;

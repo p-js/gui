@@ -36,7 +36,7 @@
 		
 		this["Templates"]["src/bottom/template.html"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
 		  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-		  return "<div class=\"pjs-info-current-time\">00:00</div>\n<div class=\""
+		  return "<div class=\"pjs-gui-current-time\">00:00</div>\n<div class=\""
 		    + escapeExpression(((helper = (helper = helpers.slider || (depth0 != null ? depth0.slider : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"slider","hash":{},"data":data}) : helper)))
 		    + "\">\n	<div class=\""
 		    + escapeExpression(((helper = (helper = helpers.slider || (depth0 != null ? depth0.slider : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"slider","hash":{},"data":data}) : helper)))
@@ -52,7 +52,7 @@
 		    + escapeExpression(((helper = (helper = helpers.slider || (depth0 != null ? depth0.slider : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"slider","hash":{},"data":data}) : helper)))
 		    + "-thumb-container\">\n		<div class=\""
 		    + escapeExpression(((helper = (helper = helpers.slider || (depth0 != null ? depth0.slider : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"slider","hash":{},"data":data}) : helper)))
-		    + "-thumb\"/>\n	</div>\n</div>\n<div class=\"pjs-info-duration\">00:00</div>\n";
+		    + "-thumb\"/>\n	</div>\n</div>\n<div class=\"pjs-gui-duration\">00:00</div>\n";
 		},"useData":true});
 		
 		
@@ -86,7 +86,7 @@
 		
 		
 		this["Templates"]["src/top/template.html"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-		  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "<div class=\"pjs-flexbox pjs-info-container\">\n	<div class=\"pjs-info-metadata\">";
+		  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "<div class=\"pjs-flexbox pjs-gui-top-container\">\n	<div class=\"pjs-gui-top-metadata\">";
 		  stack1 = ((helper = (helper = helpers.metadata || (depth0 != null ? depth0.metadata : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"metadata","hash":{},"data":data}) : helper));
 		  if (stack1 != null) { buffer += stack1; }
 		  return buffer + "</div>\n	<div class=\"pjs-controls-share\"></div>\n	<div class=\"pjs-controls-fullscreen\"></div>\n</div>\n";
@@ -266,16 +266,16 @@
 	/* exported TopView */
 	var TopView = BaseView.extend({
 		template: Templates["src/top/template.html"],
-		className: "pjs-info",
+		className: "pjs-gui-top",
 		css: {
-			hide: "pjs-info-panel-hidden"
+			hide: "pjs-gui-top-hidden"
 		},
 		initialize: function(options) {
 			this.options = TopPanelModel.validate(options || {});
 			this.render();
 		},
 		setMetadata: function(html) {
-			this.$(".pjs-info-metadata").html(html);
+			this.$(".pjs-gui-top-metadata").html(html);
 		},
 		render: function() {
 			this.$el.html($(this.template(this.options)));
@@ -634,8 +634,9 @@
 			css: {
 				hide: "pjs-controls-hidden",
 				slider: "pjs-controls-slider",
-				currentTime: "pjs-info-current-time",
-				duration: "pjs-info-duration"
+				currentTime: "pjs-gui-current-time",
+	
+				duration: "pjs-gui-duration"
 			},
 			initialize: function(options) {
 				this.options = options;
@@ -819,7 +820,7 @@
 	/* global Main, AdDisplay, Time, BottomView, Events, TopView */
 	var GUI = Main;
 	GUI.version = "0.14.0";
-	GUI.build = "Fri Jan 30 2015 09:02:04";
+	GUI.build = "Fri Jan 30 2015 10:46:57";
 	GUI.Time = Time;
 	GUI.AdDisplay = AdDisplay;
 	GUI.BottomView = BottomView;

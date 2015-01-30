@@ -6,13 +6,19 @@
 
 /* line 1, ../src/sass/_bottom.scss */
 .pjs-controls {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
   display: flex;
+  color: #C8C8C8;
+  font-size: .9em;
+  text-shadow: 1px 1px 1px black;
   height: 30px;
   width: 100%;
   position: absolute;
   bottom: 0;
   left: 0;
-  font-size: 1em;
   -webkit-user-select: none;
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
@@ -21,7 +27,7 @@
 }
 
 /* line 12, ../src/sass/_bottom.scss */
-.pjs-controls-item, .pjs-controls-slider, .pjs-info-current-time, .pjs-info-duration {
+.pjs-controls-item, .pjs-controls-slider, .pjs-gui-current-time, .pjs-gui-duration {
   margin: 10px;
 }
 
@@ -42,27 +48,25 @@
 /* line 22, ../src/sass/_bottom.scss */
 .pjs-controls-slider {
   -webkit-box-flex: 1;
-  -moz-box-flex: 1;
   -webkit-flex: 1;
+  -moz-box-flex: 1;
+  -moz-flex: 1;
   -ms-flex: 1;
   flex: 1;
-  color: #C8C8C8;
-  font-size: 12px;
-  font-weight: bold;
   text-align: right;
   position: relative;
   height: 10px;
   -webkit-user-select: none;
 }
 
-/* line 33, ../src/sass/_bottom.scss */
+/* line 30, ../src/sass/_bottom.scss */
 .pjs-controls-slider-item, .pjs-controls-slider-progress-container, .pjs-controls-slider-background, .pjs-controls-slider-progress, .pjs-controls-slider-buffered, .pjs-controls-slider-thumb-container, .pjs-controls-slider-segment-container {
   position: absolute;
   top: 0;
   left: 0;
 }
 
-/* line 38, ../src/sass/_bottom.scss */
+/* line 35, ../src/sass/_bottom.scss */
 .pjs-controls-slider-time-display {
   text-align: right;
   height: 12px;
@@ -70,52 +74,52 @@
   padding-bottom: 18px;
 }
 
-/* line 44, ../src/sass/_bottom.scss */
-.pjs-info-current-time {
+/* line 41, ../src/sass/_bottom.scss */
+.pjs-gui-current-time {
   color: white;
   display: inline-block;
 }
 
-/* line 49, ../src/sass/_bottom.scss */
-.pjs-info-duration {
+/* line 46, ../src/sass/_bottom.scss */
+.pjs-gui-duration {
   color: #9B9B9B;
   display: inline-block;
 }
 
-/* line 54, ../src/sass/_bottom.scss */
+/* line 51, ../src/sass/_bottom.scss */
 .pjs-controls-slider-progress-container {
   height: 10px;
 }
 
-/* line 58, ../src/sass/_bottom.scss */
+/* line 55, ../src/sass/_bottom.scss */
 .pjs-controls-slider-background {
   height: 10px;
   width: 100%;
   background: rgba(0, 0, 0, 0.5);
 }
 
-/* line 64, ../src/sass/_bottom.scss */
+/* line 61, ../src/sass/_bottom.scss */
 .pjs-controls-slider-progress {
   background: #1ab7ea;
   height: 10px;
   width: 0px;
 }
 
-/* line 70, ../src/sass/_bottom.scss */
+/* line 67, ../src/sass/_bottom.scss */
 .pjs-controls-slider-buffered {
   background: rgba(255, 255, 255, 0.3);
   height: 10px;
   width: 0px;
 }
 
-/* line 76, ../src/sass/_bottom.scss */
+/* line 73, ../src/sass/_bottom.scss */
 .pjs-controls-slider-thumb-container {
   -webkit-user-select: none;
   width: 0px;
   height: 0px;
 }
 
-/* line 82, ../src/sass/_bottom.scss */
+/* line 79, ../src/sass/_bottom.scss */
 .pjs-controls-slider-thumb {
   border-radius: 50%;
   width: 48px;
@@ -132,7 +136,7 @@
   border-width: thin;
 }
 
-/* line 94, ../src/sass/_bottom.scss */
+/* line 91, ../src/sass/_bottom.scss */
 .pjs-controls-slider-thumb-active {
   -webkit-transform: scale(1.4);
   -moz-transform: scale(1.4);
@@ -140,12 +144,12 @@
   transform: scale(1.4);
 }
 
-/* line 97, ../src/sass/_bottom.scss */
+/* line 94, ../src/sass/_bottom.scss */
 .pjs-controls-slider-segment-container {
   height: 10px;
 }
 
-/* line 101, ../src/sass/_bottom.scss */
+/* line 98, ../src/sass/_bottom.scss */
 .pjs-controls-slider-segment {
   position: absolute;
   width: 4px;
@@ -161,8 +165,20 @@
 
 /* line 1, ../src/sass/_center-controls.scss */
 .pjs-gui-center-controls {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  -moz-align-items: center;
   align-items: center;
   width: 100%;
   height: 100%;
@@ -195,7 +211,7 @@
   border: 0;
   outline: 0;
   font-family: inherit;
-  font-size: 100%;
+  font-size: 62.5%;
   vertical-align: baseline;
   text-decoration: none;
   text-align: left;
@@ -242,57 +258,43 @@
 }
 
 /* line 1, ../src/sass/_top.scss */
-.pjs-info {
-  position: relative;
+.pjs-gui-top {
+  position: absolute;
   width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  outline: 0;
-  font-family: inherit;
-  font-size: 100%;
-  vertical-align: baseline;
-  text-decoration: none;
-  text-align: left;
-  font-weight: normal;
-  font-style: normal;
-  line-height: 1em;
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
   -o-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out;
 }
 
-/* line 8, ../src/sass/_top.scss */
-.pjs-info-container {
-  margin: 8px 10px;
+/* line 6, ../src/sass/_top.scss */
+.pjs-gui-top-container {
+  margin: 15px 20px;
 }
 
-/* line 12, ../src/sass/_top.scss */
-.pjs-info-metadata {
+/* line 9, ../src/sass/_top.scss */
+.pjs-gui-top-metadata {
   -webkit-box-flex: 1;
-  -moz-box-flex: 1;
   -webkit-flex: 1;
+  -moz-box-flex: 1;
+  -moz-flex: 1;
   -ms-flex: 1;
   flex: 1;
-  height: 23px;
-  line-height: 23px;
   color: #FFFFFF;
-  font-size: 20px;
+  font-size: 1.2em;
   font-weight: bold;
+  text-shadow: 1px 1px 1px black;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  text-shadow: 1px 1px 3px black;
 }
 
-/* line 24, ../src/sass/_top.scss */
-.pjs-info-panel-hidden {
-  -webkit-transform: translateY(-55px);
-  -moz-transform: translateY(-55px);
-  -o-transform: translateY(-55px);
-  transform: translateY(-55px);
+/* line 16, ../src/sass/_top.scss */
+.pjs-gui-top-hidden {
+  -webkit-transform: translateY(-60px);
+  -moz-transform: translateY(-60px);
+  -o-transform: translateY(-60px);
+  transform: translateY(-60px);
 }
 
 /* line 1, ../src/sass/_share.scss */
@@ -451,21 +453,21 @@
   display: inline-block;
 }
 
-/* line 14, ../src/sass/gui.scss */
+/* line 16, ../src/sass/gui.scss */
 .pjs-gui {
   font-family: Helvetica, Arial, sans-serif;
 }
 
-/* line 18, ../src/sass/gui.scss */
+/* line 20, ../src/sass/gui.scss */
 .pjs-flexbox {
   display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
   display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
   display: flex;
 }
 
-/* line 22, ../src/sass/gui.scss */
+/* line 24, ../src/sass/gui.scss */
 .pjs-gui-background {
   width: 100%;
   height: 100%;
