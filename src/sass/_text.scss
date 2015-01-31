@@ -1,13 +1,19 @@
-@mixin metadata-title {
+@mixin base-text {
+	font-family: Helvetica, Arial, sans-serif;
 	color: #FFFFFF;
-	font-size: 1.2em;
-	font-weight: bold;
+	font-size: 14px;
 	text-shadow: 1px 1px 1px black;
+}
+
+@mixin metadata-text {
+	font-size: 22px;
+	font-weight: bold;
 } 
 
-@mixin time-text {
+@mixin playhead-text {
+}
+
+@mixin duration-text {
 	color: #C8C8C8;
-	font-size: .9em;
-	text-shadow: 1px 1px 1px black;
 }
 	

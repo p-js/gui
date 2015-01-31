@@ -1,11 +1,7 @@
 .pjs-ad-gui {
 	background: rgba(33, 33, 33, 0.8);
-	color: white;
 	position: relative;
 	width: 100%;
-}
-.pjs-ad-gui * {
-	@include reset()
 }
 .pjs-ad-gui-container {
 	padding: 10px 10px;
@@ -16,7 +12,6 @@
 	display: inline-block;
 }
 .pjs-ad-gui-learn-more {
-	color: white;
 	text-decoration: none;
 	position: absolute;
 	right: 10px;
@@ -27,10 +22,8 @@
 	padding: 3px;
 }
 .pjs-ad-gui-learn-more:hover {
-	color: white;
 	text-decoration:none;
 }
 .pjs-ad-gui-learn-more:visited {
-	color: white;
 	text-decoration:none;
 }

@@ -14,7 +14,8 @@ $transition: all .3s ease-out;
 @import 'buttons';
 
 .pjs-gui {
-  font-family: Helvetica, Arial, sans-serif;
+	@include reset();
+ 	@include base-text();
 }
 
 .pjs-flexbox {

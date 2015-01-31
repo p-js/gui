@@ -1,6 +1,5 @@
 .pjs-controls {
 	@include flexbox();
-	@include time-text();
 	height: 30px;
 	width: 100%;
 	position:absolute;
@@ -28,24 +27,16 @@
 	-webkit-user-select: none;
 }
 .pjs-controls-slider-item {
-	position: absolute;
-	top: 0;
-	left: 0;
-}
-.pjs-controls-slider-time-display {
-	text-align: right;
-	height: 12px;
-	padding-top: 4px;
-	padding-bottom: 18px;
+	@include absolute();
 }
 .pjs-gui-current-time {
 	@extend .pjs-controls-item;
-	color: white;
+	@include playhead-text();
 	display:inline-block;
 }
 .pjs-gui-duration {
 	@extend .pjs-controls-item;
-	color: #9B9B9B;
+	@include duration-text();
 	display:inline-block;
 }
 .pjs-controls-slider-progress-container {

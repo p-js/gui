@@ -813,7 +813,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	/* global Main, AdDisplay, Time, BottomView, Events, TopView */
 	var GUI = Main;
 	GUI.version = "0.14.0";
-	GUI.build = "Fri Jan 30 2015 10:46:57";
+	GUI.build = "Fri Jan 30 2015 18:06:39";
 	GUI.Time = Time;
 	GUI.AdDisplay = AdDisplay;
 	GUI.BottomView = BottomView;

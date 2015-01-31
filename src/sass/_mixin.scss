@@ -5,18 +5,13 @@
 	content: "";
 	display: inline-block;
 }
-@mixin image-with-dims-psuedo($name) {
-	@include image-with-dims($name);
-	content: "";
-	display: inline-block;
-}
 @mixin reset() {
 	margin: 0;
 	padding: 0;
 	border: 0;
 	outline: 0;
 	font-family: inherit;
-	font-size: 62.5%;
+	font-size: 100%;
 	vertical-align: baseline;
 	text-decoration: none;
 	text-align: left;

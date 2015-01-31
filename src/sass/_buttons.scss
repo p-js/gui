@@ -1,41 +1,38 @@
-.pjs-controls-share {
+// ":before" is used so image sprites work on firefox.
+
+.pjs-controls-share:before {
 	@include image-with-dims(share);
+	cursor: pointer;
 	margin: $info-item-margin;
 }
 .pjs-controls-play:before {
-	@include image-with-dims-psuedo(play);
-}
-.pjs-controls-is-live:before {
-	@include image-with-dims-psuedo(live);
-}
-.pjs-controls-rewind:before {
-	@include image-with-dims-psuedo(rewind30);
-}
-.pjs-controls-go-live:before {
-	@include image-with-dims-psuedo(golive);
+	@include image-with-dims(play);
 	cursor: pointer;
 }
+.pjs-controls-rewind:before {
+	@include image-with-dims(rewind30);
+}
 .pjs-controls-pause:before {
-	@include image-with-dims-psuedo(pause);
+	@include image-with-dims(pause);
+	cursor: pointer;
 }
 .pjs-controls-fullscreen:before {
-	@include image-with-dims-psuedo(fullscreen);
-}
-.pjs-controls-mute:before {
-	@include image-with-dims-psuedo(mute);
-}
-.pjs-controls-unmute:before {
-	@include image-with-dims-psuedo(unmute);
+	@include image-with-dims(fullscreen);
+	cursor: pointer;
 }
 .pjs-controls-cc:before {
-	@include image-with-dims-psuedo(cc);
+	@include image-with-dims(cc);
+	cursor: pointer;
 }
-.pjs-share-facebook {
+.pjs-share-facebook:before {
 	@include image-with-dims(facebook);
+	cursor: pointer;
 }
-.pjs-share-twitter {
+.pjs-share-twitter:before {
 	@include image-with-dims(twitter);
+	cursor: pointer;
 }
-.pjs-share-email {
+.pjs-share-email:before {
 	@include image-with-dims(email);
+	cursor: pointer;
 }
