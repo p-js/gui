@@ -68,21 +68,21 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 		
 		
 		this["Templates"]["src/center-controls/template.html"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
-		  return "	<div class=\"pjs-controls-rewind pjs-controls-button\"></div>\n";
+		  return "	<div class=\"pjs-gui-controls-rewind pjs-gui-controls-button\"></div>\n";
 		  },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
 		  var stack1, buffer = "<div class=\"pjs-gui-center-controls\">\n";
 		  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isDVR : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
 		  if (stack1 != null) { buffer += stack1; }
-		  return buffer + "	<div class=\"pjs-controls-play-pause pjs-controls-button\"></div>\n</div>\n";
+		  return buffer + "	<div class=\"pjs-gui-controls-play-pause pjs-gui-controls-button\"></div>\n</div>\n";
 		},"useData":true});
 		
 		
 		
 		this["Templates"]["src/top/template.html"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-		  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "<div class=\"pjs-flexbox pjs-gui-top-container\">\n	<div class=\"pjs-gui-top-metadata\">";
+		  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "<div class=\"pjs-gui-flexbox pjs-gui-top-container\">\n	<div class=\"pjs-gui-top-metadata\">";
 		  stack1 = ((helper = (helper = helpers.metadata || (depth0 != null ? depth0.metadata : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"metadata","hash":{},"data":data}) : helper));
 		  if (stack1 != null) { buffer += stack1; }
-		  return buffer + "</div>\n	<div class=\"pjs-controls-share\"></div>\n	<div class=\"pjs-controls-fullscreen\"></div>\n</div>\n";
+		  return buffer + "</div>\n	<div class=\"pjs-gui-controls-share\"></div>\n	<div class=\"pjs-gui-controls-cc\"></div>\n	<div class=\"pjs-gui-controls-fullscreen\"></div>\n</div>\n";
 		},"useData":true});
 		return this.Templates;
 	}).apply({});
@@ -118,7 +118,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	var ClosedCaptionButton = (function() {
 		return Backbone.View.extend({
 			ccEnabled: false,
-			className: "pjs-controls-cc",
+			className: "pjs-gui-controls-cc",
 			events: {
 				click: "toggle",
 				touchstart: "toggle"
@@ -135,8 +135,8 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	/* global Backbone*/
 	var PlayPauseButton = Backbone.View.extend({
 		css: {
-			play: "pjs-controls-play",
-			pause: "pjs-controls-pause"
+			play: "pjs-gui-controls-play",
+			pause: "pjs-gui-controls-pause"
 		},
 		initialize: function(options) {
 			this.options = options;
@@ -160,7 +160,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 		}
 	}, {
 		isPlayEvent: function($el) {
-			return $el.hasClass("pjs-controls-pause");
+			return $el.hasClass("pjs-gui-controls-pause");
 		}
 	});
 	/* exported BaseView */
@@ -292,7 +292,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			this.$el.html($(this.template(options)));
 			// PLAY PAUSE 
 			this.playPauseButton = new PlayPauseButton({
-				el: this.$(".pjs-controls-play-pause"),
+				el: this.$(".pjs-gui-controls-play-pause"),
 				paused: options.paused
 			});
 		}
@@ -331,8 +331,8 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 		var Slider = (function() {
 			var RESIZE = "slider:resize",
 				THUMB_DRAG = "slider:thumb:drag",
-				thumb = "pjs-controls-slider-thumb",
-				thumbActive = "pjs-controls-slider-thumb-active",
+				thumb = "pjs-gui-controls-slider-thumb",
+				thumbActive = "pjs-gui-controls-slider-thumb-active",
 				getPageX = function(event) {
 					var pageX = event.pageX;
 					if (pageX > 0) {
@@ -372,7 +372,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				createDividers: function() {
 					this.$dividerContainer.empty();
 					_.each(this.durations, function() {
-						this.$dividerContainer.append($("<div class=\"pjs-controls-slider-segment\"/>"));
+						this.$dividerContainer.append($("<div class=\"pjs-gui-controls-slider-segment\"/>"));
 					}, this);
 				},
 				moveDividers: function() {
@@ -410,10 +410,10 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 					return _.extend({
 						"click": "onSliderClick",
 						"touchstart": "onSliderClick",
-						"touchstart .pjs-controls-slider-thumb-container": "onThumbActive",
-						"touchmove .pjs-controls-slider-thumb-container": "onThumbMove",
-						"touchend .pjs-controls-slider-thumb-container": "onThumbInactive",
-						"mousedown .pjs-controls-slider-thumb-container": "onThumbActive"
+						"touchstart .pjs-gui-controls-slider-thumb-container": "onThumbActive",
+						"touchmove .pjs-gui-controls-slider-thumb-container": "onThumbMove",
+						"touchend .pjs-gui-controls-slider-thumb-container": "onThumbInactive",
+						"mousedown .pjs-gui-controls-slider-thumb-container": "onThumbActive"
 					});
 				},
 				initialize: function(options) {
@@ -426,19 +426,19 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 					/**
 					 * Contains the thumb and the tooltop.
 					 */
-					this.$thumbContainer = this.$(".pjs-controls-slider-thumb-container");
+					this.$thumbContainer = this.$(".pjs-gui-controls-slider-thumb-container");
 					/**
 					 * Meets the thumb visually.
 					 */
-					this.$progress = this.$(".pjs-controls-slider-progress");
+					this.$progress = this.$(".pjs-gui-controls-slider-progress");
 					/**
 					 * The amount buffered.
 					 */
-					this.$buffered = this.$(".pjs-controls-slider-buffered");
+					this.$buffered = this.$(".pjs-gui-controls-slider-buffered");
 					/**
 					 * Segment marker container
 					 */
-					this.$dividerContainer = this.$(".pjs-controls-slider-segment-container");
+					this.$dividerContainer = this.$(".pjs-gui-controls-slider-segment-container");
 					/**
 					 * Don't fire measure too often. Perhaps a forced measure can be called from the player code.
 					 */
@@ -625,8 +625,8 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			template: Templates["src/bottom/template.html"],
 			className: "pjs-controls",
 			css: {
-				hide: "pjs-controls-hidden",
-				slider: "pjs-controls-slider",
+				hide: "pjs-gui-controls-hidden",
+				slider: "pjs-gui-controls-slider",
 				currentTime: "pjs-gui-current-time",
 	
 				duration: "pjs-gui-duration"
@@ -692,20 +692,20 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 		isShown: false,
 		logger: new Logger("GUI"),
 		events: {
-			"click": "onClick",
-			"touchstart": "onClick",
-			"click .pjs-controls-play-pause": "onPlayPause",
-			"touchstart .pjs-controls-play-pause": "onPlayPause",
+			"click": "show",
+			"touchstart": "show",
+			"click .pjs-gui-controls-play-pause": "onPlayPause",
+			"touchstart .pjs-gui-controls-play-pause": "onPlayPause",
 			"mousedown .pjs-controls": "onScrubberClick",
 			"touchstart .pjs-controls": "onScrubberClick",
-			"click .pjs-controls-fullscreen": "onFullscreen",
-			"touchstart .pjs-controls-fullscreen": "onFullscreen",
+			"click .pjs-gui-controls-fullscreen": "onFullscreen",
+			"touchstart .pjs-gui-controls-fullscreen": "onFullscreen",
 			"click .pjs-share-item": "onShare",
 			"touchstart .pjs-share-item": "onShare",
-			"click .pjs-controls-share": "showShare",
-			"touchstart .pjs-controls-share": "showShare",
-			"click .pjs-controls-rewind": "onRewind",
-			"touchstart .pjs-controls-rewind": "onRewind"
+			"click .pjs-gui-controls-share": "showShare",
+			"touchstart .pjs-gui-controls-share": "showShare",
+			"click .pjs-gui-controls-rewind": "onRewind",
+			"touchstart .pjs-gui-controls-rewind": "onRewind"
 		},
 		initialize: function(options) {
 			this.options = options;
@@ -745,11 +745,13 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			event.target = this;
 			this.trigger(event.type, event);
 		},
-		onClick: function(event) {
-			event.preventDefault();
+		show: function(event) {
+			if (event) {
+				event.preventDefault();
+			}
 			if (!this.isActive) {
 				this.isActive = true;
-				this.logger.info("onClick");
+				this.logger.info("show");
 				this.centerView.show();
 				this.$background.show();
 				this.bottomView.show();
@@ -782,6 +784,19 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				this.shareView.hide();
 			}
 		},
+		getPlayhead: function() {
+			// used for testing.
+			return this.bottomView.getPlayhead();
+		},
+		setPlayhead: function(playhead) {
+			this.bottomView.setPlayhead(playhead);
+		},
+		setBuffered: function(buffered) {
+			this.bottomView.setBuffered(buffered);
+		},
+		setDurations: function(durations) {
+			this.bottomView.setDurations(durations);
+		},
 		onScrubberClick: function() {
 			event.preventDefault();
 			this.centerView.hide();
@@ -813,7 +828,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	/* global Main, AdDisplay, Time, BottomView, Events, TopView */
 	var GUI = Main;
 	GUI.version = "0.14.0";
-	GUI.build = "Fri Jan 30 2015 18:06:39";
+	GUI.build = "Tue Feb 03 2015 09:11:33";
 	GUI.Time = Time;
 	GUI.AdDisplay = AdDisplay;
 	GUI.BottomView = BottomView;

@@ -5,7 +5,7 @@ var SegmentedSlider = {
 	createDividers: function() {
 		this.$dividerContainer.empty();
 		_.each(this.durations, function() {
-			this.$dividerContainer.append($("<div class=\"pjs-controls-slider-segment\"/>"));
+			this.$dividerContainer.append($("<div class=\"pjs-gui-controls-slider-segment\"/>"));
 		}, this);
 	},
 	moveDividers: function() {

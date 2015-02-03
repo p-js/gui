@@ -17,7 +17,7 @@
 	text-align: left;
 	font-weight: normal;
 	font-style: normal;
-	line-height: 1em;
+	line-height: 1;
 }
 @mixin transition($values) {
 	-webkit-transition: $values;

@@ -2,8 +2,8 @@
 /* global Backbone*/
 var PlayPauseButton = Backbone.View.extend({
 	css: {
-		play: "pjs-controls-play",
-		pause: "pjs-controls-pause"
+		play: "pjs-gui-controls-play",
+		pause: "pjs-gui-controls-pause"
 	},
 	initialize: function(options) {
 		this.options = options;
@@ -27,6 +27,6 @@ var PlayPauseButton = Backbone.View.extend({
 	}
 }, {
 	isPlayEvent: function($el) {
-		return $el.hasClass("pjs-controls-pause");
+		return $el.hasClass("pjs-gui-controls-pause");
 	}
 });

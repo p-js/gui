@@ -6,8 +6,8 @@ var BottomView = (function() {
 		template: Templates["src/bottom/template.html"],
 		className: "pjs-controls",
 		css: {
-			hide: "pjs-controls-hidden",
-			slider: "pjs-controls-slider",
+			hide: "pjs-gui-controls-hidden",
+			slider: "pjs-gui-controls-slider",
 			currentTime: "pjs-gui-current-time",
 
 			duration: "pjs-gui-duration"

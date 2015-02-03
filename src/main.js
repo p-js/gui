@@ -6,20 +6,20 @@ var Main = Backbone.View.extend({
 	isShown: false,
 	logger: new Logger("GUI"),
 	events: {
-		"click": "onClick",
-		"touchstart": "onClick",
-		"click .pjs-controls-play-pause": "onPlayPause",
-		"touchstart .pjs-controls-play-pause": "onPlayPause",
+		"click": "show",
+		"touchstart": "show",
+		"click .pjs-gui-controls-play-pause": "onPlayPause",
+		"touchstart .pjs-gui-controls-play-pause": "onPlayPause",
 		"mousedown .pjs-controls": "onScrubberClick",
 		"touchstart .pjs-controls": "onScrubberClick",
-		"click .pjs-controls-fullscreen": "onFullscreen",
-		"touchstart .pjs-controls-fullscreen": "onFullscreen",
+		"click .pjs-gui-controls-fullscreen": "onFullscreen",
+		"touchstart .pjs-gui-controls-fullscreen": "onFullscreen",
 		"click .pjs-share-item": "onShare",
 		"touchstart .pjs-share-item": "onShare",
-		"click .pjs-controls-share": "showShare",
-		"touchstart .pjs-controls-share": "showShare",
-		"click .pjs-controls-rewind": "onRewind",
-		"touchstart .pjs-controls-rewind": "onRewind"
+		"click .pjs-gui-controls-share": "showShare",
+		"touchstart .pjs-gui-controls-share": "showShare",
+		"click .pjs-gui-controls-rewind": "onRewind",
+		"touchstart .pjs-gui-controls-rewind": "onRewind"
 	},
 	initialize: function(options) {
 		this.options = options;
@@ -59,11 +59,13 @@ var Main = Backbone.View.extend({
 		event.target = this;
 		this.trigger(event.type, event);
 	},
-	onClick: function(event) {
-		event.preventDefault();
+	show: function(event) {
+		if (event) {
+			event.preventDefault();
+		}
 		if (!this.isActive) {
 			this.isActive = true;
-			this.logger.info("onClick");
+			this.logger.info("show");
 			this.centerView.show();
 			this.$background.show();
 			this.bottomView.show();
@@ -95,6 +97,19 @@ var Main = Backbone.View.extend({
 			this.centerView.show();
 			this.shareView.hide();
 		}
+	},
+	getPlayhead: function() {
+		// used for testing.
+		return this.bottomView.getPlayhead();
+	},
+	setPlayhead: function(playhead) {
+		this.bottomView.setPlayhead(playhead);
+	},
+	setBuffered: function(buffered) {
+		this.bottomView.setBuffered(buffered);
+	},
+	setDurations: function(durations) {
+		this.bottomView.setDurations(durations);
 	},
 	onScrubberClick: function() {
 		event.preventDefault();

@@ -3,7 +3,7 @@
 var ClosedCaptionButton = (function() {
 	return Backbone.View.extend({
 		ccEnabled: false,
-		className: "pjs-controls-cc",
+		className: "pjs-gui-controls-cc",
 		events: {
 			click: "toggle",
 			touchstart: "toggle"

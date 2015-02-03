@@ -15,7 +15,7 @@ var CenterView = BaseView.extend({
 		this.$el.html($(this.template(options)));
 		// PLAY PAUSE 
 		this.playPauseButton = new PlayPauseButton({
-			el: this.$(".pjs-controls-play-pause"),
+			el: this.$(".pjs-gui-controls-play-pause"),
 			paused: options.paused
 		});
 	}

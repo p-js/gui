@@ -3,8 +3,8 @@
 var Slider = (function() {
 	var RESIZE = "slider:resize",
 		THUMB_DRAG = "slider:thumb:drag",
-		thumb = "pjs-controls-slider-thumb",
-		thumbActive = "pjs-controls-slider-thumb-active",
+		thumb = "pjs-gui-controls-slider-thumb",
+		thumbActive = "pjs-gui-controls-slider-thumb-active",
 		getPageX = function(event) {
 			var pageX = event.pageX;
 			if (pageX > 0) {
@@ -45,10 +45,10 @@ var Slider = (function() {
 			return _.extend({
 				"click": "onSliderClick",
 				"touchstart": "onSliderClick",
-				"touchstart .pjs-controls-slider-thumb-container": "onThumbActive",
-				"touchmove .pjs-controls-slider-thumb-container": "onThumbMove",
-				"touchend .pjs-controls-slider-thumb-container": "onThumbInactive",
-				"mousedown .pjs-controls-slider-thumb-container": "onThumbActive"
+				"touchstart .pjs-gui-controls-slider-thumb-container": "onThumbActive",
+				"touchmove .pjs-gui-controls-slider-thumb-container": "onThumbMove",
+				"touchend .pjs-gui-controls-slider-thumb-container": "onThumbInactive",
+				"mousedown .pjs-gui-controls-slider-thumb-container": "onThumbActive"
 			});
 		},
 		initialize: function(options) {
@@ -61,19 +61,19 @@ var Slider = (function() {
 			/**
 			 * Contains the thumb and the tooltop.
 			 */
-			this.$thumbContainer = this.$(".pjs-controls-slider-thumb-container");
+			this.$thumbContainer = this.$(".pjs-gui-controls-slider-thumb-container");
 			/**
 			 * Meets the thumb visually.
 			 */
-			this.$progress = this.$(".pjs-controls-slider-progress");
+			this.$progress = this.$(".pjs-gui-controls-slider-progress");
 			/**
 			 * The amount buffered.
 			 */
-			this.$buffered = this.$(".pjs-controls-slider-buffered");
+			this.$buffered = this.$(".pjs-gui-controls-slider-buffered");
 			/**
 			 * Segment marker container
 			 */
-			this.$dividerContainer = this.$(".pjs-controls-slider-segment-container");
+			this.$dividerContainer = this.$(".pjs-gui-controls-slider-segment-container");
 			/**
 			 * Don't fire measure too often. Perhaps a forced measure can be called from the player code.
 			 */

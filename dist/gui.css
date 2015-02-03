@@ -1,6 +1,6 @@
 /* line 224, images/*.png */
-.images-sprite, .pjs-controls-share:before, .pjs-controls-play:before, .pjs-controls-rewind:before, .pjs-controls-pause:before, .pjs-controls-fullscreen:before, .pjs-controls-cc:before, .pjs-share-facebook:before, .pjs-share-twitter:before, .pjs-share-email:before {
-  background-image: url('images-s3bfaca0048.png');
+.images-sprite, .pjs-gui-controls-share:before, .pjs-gui-controls-play:before, .pjs-gui-controls-rewind:before, .pjs-gui-controls-pause:before, .pjs-gui-controls-fullscreen:before, .pjs-gui-controls-cc:before, .pjs-share-facebook:before, .pjs-share-twitter:before, .pjs-share-email:before {
+  background-image: url('images-saf751fd70f.png');
   background-repeat: no-repeat;
 }
 
@@ -24,12 +24,12 @@
 }
 
 /* line 11, ../src/sass/_bottom.scss */
-.pjs-controls-item, .pjs-controls-slider, .pjs-gui-current-time, .pjs-gui-duration {
+.pjs-gui-controls-item, .pjs-gui-controls-slider, .pjs-gui-current-time, .pjs-gui-duration {
   margin: 10px;
 }
 
 /* line 14, ../src/sass/_bottom.scss */
-.pjs-controls-hidden {
+.pjs-gui-controls-hidden {
   opacity: 0;
   -webkit-transform: translateY(50px);
   -moz-transform: translateY(50px);
@@ -38,12 +38,12 @@
 }
 
 /* line 18, ../src/sass/_bottom.scss */
-.pjs-controls-button {
+.pjs-gui-controls-button {
   padding: 10px;
 }
 
 /* line 21, ../src/sass/_bottom.scss */
-.pjs-controls-slider {
+.pjs-gui-controls-slider {
   -webkit-box-flex: 1;
   -webkit-flex: 1;
   -moz-box-flex: 1;
@@ -57,7 +57,7 @@
 }
 
 /* line 29, ../src/sass/_bottom.scss */
-.pjs-controls-slider-item, .pjs-controls-slider-progress-container, .pjs-controls-slider-background, .pjs-controls-slider-progress, .pjs-controls-slider-buffered, .pjs-controls-slider-thumb-container, .pjs-controls-slider-segment-container {
+.pjs-gui-controls-slider-item, .pjs-gui-controls-slider-progress-container, .pjs-gui-controls-slider-background, .pjs-gui-controls-slider-progress, .pjs-gui-controls-slider-buffered, .pjs-gui-controls-slider-thumb-container, .pjs-gui-controls-slider-segment-container {
   position: absolute;
   top: 0;
   left: 0;
@@ -75,40 +75,40 @@
 }
 
 /* line 42, ../src/sass/_bottom.scss */
-.pjs-controls-slider-progress-container {
+.pjs-gui-controls-slider-progress-container {
   height: 10px;
 }
 
 /* line 46, ../src/sass/_bottom.scss */
-.pjs-controls-slider-background {
+.pjs-gui-controls-slider-background {
   height: 10px;
   width: 100%;
   background: rgba(0, 0, 0, 0.5);
 }
 
 /* line 52, ../src/sass/_bottom.scss */
-.pjs-controls-slider-progress {
+.pjs-gui-controls-slider-progress {
   background: #1ab7ea;
   height: 10px;
   width: 0px;
 }
 
 /* line 58, ../src/sass/_bottom.scss */
-.pjs-controls-slider-buffered {
+.pjs-gui-controls-slider-buffered {
   background: rgba(255, 255, 255, 0.3);
   height: 10px;
   width: 0px;
 }
 
 /* line 64, ../src/sass/_bottom.scss */
-.pjs-controls-slider-thumb-container {
+.pjs-gui-controls-slider-thumb-container {
   -webkit-user-select: none;
   width: 0px;
   height: 0px;
 }
 
 /* line 70, ../src/sass/_bottom.scss */
-.pjs-controls-slider-thumb {
+.pjs-gui-controls-slider-thumb {
   border-radius: 50%;
   width: 48px;
   height: 48px;
@@ -125,7 +125,7 @@
 }
 
 /* line 82, ../src/sass/_bottom.scss */
-.pjs-controls-slider-thumb-active {
+.pjs-gui-controls-slider-thumb-active {
   -webkit-transform: scale(1.4);
   -moz-transform: scale(1.4);
   -o-transform: scale(1.4);
@@ -133,12 +133,12 @@
 }
 
 /* line 85, ../src/sass/_bottom.scss */
-.pjs-controls-slider-segment-container {
+.pjs-gui-controls-slider-segment-container {
   height: 10px;
 }
 
 /* line 89, ../src/sass/_bottom.scss */
-.pjs-controls-slider-segment {
+.pjs-gui-controls-slider-segment {
   position: absolute;
   width: 4px;
   height: 4px;
@@ -179,7 +179,7 @@
   transition: all 0.3s ease-out;
 }
 
-/* line 13, ../src/sass/_center-controls.scss */
+/* line 11, ../src/sass/_center-controls.scss */
 .pjs-gui-center-controls-hidden {
   opacity: 0;
 }
@@ -228,6 +228,8 @@
 /* line 1, ../src/sass/_top.scss */
 .pjs-gui-top {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
@@ -241,6 +243,21 @@
 }
 
 /* line 9, ../src/sass/_top.scss */
+.pjs-gui-top-container > * {
+  margin: 0px 20px;
+}
+
+/* line 12, ../src/sass/_top.scss */
+.pjs-gui-top-container > :first-child {
+  margin-left: 0;
+}
+
+/* line 15, ../src/sass/_top.scss */
+.pjs-gui-top-container > :last-child {
+  margin-right: 0;
+}
+
+/* line 18, ../src/sass/_top.scss */
 .pjs-gui-top-metadata {
   -webkit-box-flex: 1;
   -webkit-flex: 1;
@@ -255,7 +272,7 @@
   text-overflow: ellipsis;
 }
 
-/* line 16, ../src/sass/_top.scss */
+/* line 25, ../src/sass/_top.scss */
 .pjs-gui-top-hidden {
   -webkit-transform: translateY(-60px);
   -moz-transform: translateY(-60px);
@@ -283,19 +300,18 @@
 }
 
 /* line 3, ../src/sass/_buttons.scss */
-.pjs-controls-share:before {
-  background-position: 0 -1037px;
+.pjs-gui-controls-share:before {
+  background-position: 0 -1061px;
   width: 45px;
   height: 45px;
   content: "";
   display: inline-block;
   cursor: pointer;
-  margin: 0 30px 0 30px;
 }
 
-/* line 8, ../src/sass/_buttons.scss */
-.pjs-controls-play:before {
-  background-position: 0 -857px;
+/* line 7, ../src/sass/_buttons.scss */
+.pjs-gui-controls-play:before {
+  background-position: 0 -881px;
   width: 90px;
   height: 90px;
   content: "";
@@ -303,18 +319,18 @@
   cursor: pointer;
 }
 
-/* line 12, ../src/sass/_buttons.scss */
-.pjs-controls-rewind:before {
-  background-position: 0 -947px;
+/* line 11, ../src/sass/_buttons.scss */
+.pjs-gui-controls-rewind:before {
+  background-position: 0 -971px;
   width: 90px;
   height: 90px;
   content: "";
   display: inline-block;
 }
 
-/* line 15, ../src/sass/_buttons.scss */
-.pjs-controls-pause:before {
-  background-position: 0 -767px;
+/* line 14, ../src/sass/_buttons.scss */
+.pjs-gui-controls-pause:before {
+  background-position: 0 -791px;
   width: 90px;
   height: 90px;
   content: "";
@@ -322,9 +338,9 @@
   cursor: pointer;
 }
 
-/* line 19, ../src/sass/_buttons.scss */
-.pjs-controls-fullscreen:before {
-  background-position: 0 -550px;
+/* line 18, ../src/sass/_buttons.scss */
+.pjs-gui-controls-fullscreen:before {
+  background-position: 0 -574px;
   width: 40px;
   height: 40px;
   content: "";
@@ -332,19 +348,19 @@
   cursor: pointer;
 }
 
-/* line 23, ../src/sass/_buttons.scss */
-.pjs-controls-cc:before {
+/* line 22, ../src/sass/_buttons.scss */
+.pjs-gui-controls-cc:before {
   background-position: 0 -181px;
-  width: 26px;
-  height: 21px;
+  width: 45px;
+  height: 45px;
   content: "";
   display: inline-block;
   cursor: pointer;
 }
 
-/* line 27, ../src/sass/_buttons.scss */
+/* line 26, ../src/sass/_buttons.scss */
 .pjs-share-facebook:before {
-  background-position: 0 -434px;
+  background-position: 0 -458px;
   width: 116px;
   height: 116px;
   content: "";
@@ -352,9 +368,9 @@
   cursor: pointer;
 }
 
-/* line 31, ../src/sass/_buttons.scss */
+/* line 30, ../src/sass/_buttons.scss */
 .pjs-share-twitter:before {
-  background-position: 0 -1298px;
+  background-position: 0 -1322px;
   width: 116px;
   height: 116px;
   content: "";
@@ -362,9 +378,9 @@
   cursor: pointer;
 }
 
-/* line 35, ../src/sass/_buttons.scss */
+/* line 34, ../src/sass/_buttons.scss */
 .pjs-share-email:before {
-  background-position: 0 -202px;
+  background-position: 0 -226px;
   width: 116px;
   height: 116px;
   content: "";
@@ -385,7 +401,7 @@
   text-align: left;
   font-weight: normal;
   font-style: normal;
-  line-height: 1em;
+  line-height: 1;
   font-family: Helvetica, Arial, sans-serif;
   color: #FFFFFF;
   font-size: 14px;
@@ -393,7 +409,7 @@
 }
 
 /* line 21, ../src/sass/gui.scss */
-.pjs-flexbox {
+.pjs-gui-flexbox {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-flex;
@@ -405,12 +421,12 @@
 .pjs-gui-background {
   width: 100%;
   height: 100%;
-  position: absolute;
   background: rgba(255, 255, 255, 0.1);
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
   -o-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out;
+  position: absolute;
   top: 0;
   left: 0;
 }
