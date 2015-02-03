@@ -1,18 +1,35 @@
 /* exported ClosedCaptionButton */
 /* global Backbone, Events*/
-var ClosedCaptionButton = (function() {
-	return Backbone.View.extend({
-		ccEnabled: false,
-		className: "pjs-gui-controls-cc",
-		events: {
-			click: "toggle",
-			touchstart: "toggle"
-		},
-		toggle: function(event) {
-			event.preventDefault();
-			this.trigger(Events.CC, {
-				type: Events.CC
-			});
+var ClosedCaptionButton = Backbone.View.extend({
+	css: {
+		cc: "pjs-gui-controls-cc",
+		ccOn: "pjs-gui-controls-cc-on"
+	},
+	events: {
+		click: "toggle",
+		touchstart: "toggle"
+	},
+	initialize: function(options) {
+		this.setStyle(options.ccOn);
+	},
+	toggle: function(event) {
+		event.preventDefault();
+		var ccOn = !this.$el.hasClass(this.css.ccOn);
+		this.setStyle(ccOn);
+		this.trigger(Events.CC, {
+			type: Events.CC,
+			data: {
+				ccOn: ccOn
+			}
+		});
+	},
+	setStyle: function(ccOn) {
+		if (ccOn) {
+			this.$el.addClass(this.css.ccOn);
+			this.$el.removeClass(this.css.cc);
+		} else {
+			this.$el.addClass(this.css.cc);
+			this.$el.removeClass(this.css.ccOn);
 		}
-	});
-})();
+	}
+});

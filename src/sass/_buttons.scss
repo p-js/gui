@@ -10,6 +10,7 @@
 }
 .pjs-gui-controls-rewind:before {
 	@include image-with-dims(rewind30);
+	cursor: pointer;
 }
 .pjs-gui-controls-pause:before {
 	@include image-with-dims(pause);
@@ -21,6 +22,10 @@
 }
 .pjs-gui-controls-cc:before {
 	@include image-with-dims(cc);
+	cursor: pointer;
+}
+.pjs-gui-controls-cc-on:before {
+	@include image-with-dims(ccOn);
 	cursor: pointer;
 }
 .pjs-share-facebook:before {

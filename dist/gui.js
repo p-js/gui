@@ -67,14 +67,9 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 		
 		
 		
-		this["Templates"]["src/center-controls/template.html"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
-		  return "	<div class=\"pjs-gui-controls-rewind pjs-gui-controls-button\"></div>\n";
-		  },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-		  var stack1, buffer = "<div class=\"pjs-gui-center-controls\">\n";
-		  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isDVR : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
-		  if (stack1 != null) { buffer += stack1; }
-		  return buffer + "	<div class=\"pjs-gui-controls-play-pause pjs-gui-controls-button\"></div>\n</div>\n";
-		},"useData":true});
+		this["Templates"]["src/center-controls/template.html"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+		  return "<div class=\"pjs-gui-center-controls\">\n	<div class=\"pjs-gui-controls-rewind pjs-gui-controls-button\"></div>\n	<div class=\"pjs-gui-controls-play-pause pjs-gui-controls-button\"></div>\n</div>\n";
+		  },"useData":true});
 		
 		
 		
@@ -115,22 +110,39 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	};
 	/* exported ClosedCaptionButton */
 	/* global Backbone, Events*/
-	var ClosedCaptionButton = (function() {
-		return Backbone.View.extend({
-			ccEnabled: false,
-			className: "pjs-gui-controls-cc",
-			events: {
-				click: "toggle",
-				touchstart: "toggle"
-			},
-			toggle: function(event) {
-				event.preventDefault();
-				this.trigger(Events.CC, {
-					type: Events.CC
-				});
+	var ClosedCaptionButton = Backbone.View.extend({
+		css: {
+			cc: "pjs-gui-controls-cc",
+			ccOn: "pjs-gui-controls-cc-on"
+		},
+		events: {
+			click: "toggle",
+			touchstart: "toggle"
+		},
+		initialize: function(options) {
+			this.setStyle(options.ccOn);
+		},
+		toggle: function(event) {
+			event.preventDefault();
+			var ccOn = !this.$el.hasClass(this.css.ccOn);
+			this.setStyle(ccOn);
+			this.trigger(Events.CC, {
+				type: Events.CC,
+				data: {
+					ccOn: ccOn
+				}
+			});
+		},
+		setStyle: function(ccOn) {
+			if (ccOn) {
+				this.$el.addClass(this.css.ccOn);
+				this.$el.removeClass(this.css.cc);
+			} else {
+				this.$el.addClass(this.css.cc);
+				this.$el.removeClass(this.css.ccOn);
 			}
-		});
-	})();
+		}
+	});
 	/* exported PlayPauseButton */
 	/* global Backbone*/
 	var PlayPauseButton = Backbone.View.extend({
@@ -255,7 +267,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			return options;
 		}
 	};
-	/* global BaseView, Templates, $, TopPanelModel*/
+	/* global BaseView, Templates, $, TopPanelModel, ClosedCaptionButton*/
 	/* exported TopView */
 	var TopView = BaseView.extend({
 		template: Templates["src/top/template.html"],
@@ -266,6 +278,11 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 		initialize: function(options) {
 			this.options = TopPanelModel.validate(options || {});
 			this.render();
+			// CC has toggle-able state and dispatches event
+			// buttons without state are just handled in main.js
+			this.ccButton = new ClosedCaptionButton({
+				el: this.$(".pjs-gui-controls-cc")
+			});
 		},
 		setMetadata: function(html) {
 			this.$(".pjs-gui-top-metadata").html(html);
@@ -828,7 +845,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	/* global Main, AdDisplay, Time, BottomView, Events, TopView */
 	var GUI = Main;
 	GUI.version = "0.14.0";
-	GUI.build = "Tue Feb 03 2015 09:11:33";
+	GUI.build = "Tue Feb 03 2015 09:41:53";
 	GUI.Time = Time;
 	GUI.AdDisplay = AdDisplay;
 	GUI.BottomView = BottomView;

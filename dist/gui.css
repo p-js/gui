@@ -1,6 +1,6 @@
-/* line 224, images/*.png */
-.images-sprite, .pjs-gui-controls-share:before, .pjs-gui-controls-play:before, .pjs-gui-controls-rewind:before, .pjs-gui-controls-pause:before, .pjs-gui-controls-fullscreen:before, .pjs-gui-controls-cc:before, .pjs-share-facebook:before, .pjs-share-twitter:before, .pjs-share-email:before {
-  background-image: url('images-saf751fd70f.png');
+/* line 232, images/*.png */
+.images-sprite, .pjs-gui-controls-share:before, .pjs-gui-controls-play:before, .pjs-gui-controls-rewind:before, .pjs-gui-controls-pause:before, .pjs-gui-controls-fullscreen:before, .pjs-gui-controls-cc:before, .pjs-gui-controls-cc-on:before, .pjs-share-facebook:before, .pjs-share-twitter:before, .pjs-share-email:before {
+  background-image: url('images-see59622ba3.png');
   background-repeat: no-repeat;
 }
 
@@ -301,7 +301,7 @@
 
 /* line 3, ../src/sass/_buttons.scss */
 .pjs-gui-controls-share:before {
-  background-position: 0 -1061px;
+  background-position: 0 -1106px;
   width: 45px;
   height: 45px;
   content: "";
@@ -311,7 +311,7 @@
 
 /* line 7, ../src/sass/_buttons.scss */
 .pjs-gui-controls-play:before {
-  background-position: 0 -881px;
+  background-position: 0 -926px;
   width: 90px;
   height: 90px;
   content: "";
@@ -321,16 +321,7 @@
 
 /* line 11, ../src/sass/_buttons.scss */
 .pjs-gui-controls-rewind:before {
-  background-position: 0 -971px;
-  width: 90px;
-  height: 90px;
-  content: "";
-  display: inline-block;
-}
-
-/* line 14, ../src/sass/_buttons.scss */
-.pjs-gui-controls-pause:before {
-  background-position: 0 -791px;
+  background-position: 0 -1016px;
   width: 90px;
   height: 90px;
   content: "";
@@ -338,9 +329,19 @@
   cursor: pointer;
 }
 
-/* line 18, ../src/sass/_buttons.scss */
+/* line 15, ../src/sass/_buttons.scss */
+.pjs-gui-controls-pause:before {
+  background-position: 0 -836px;
+  width: 90px;
+  height: 90px;
+  content: "";
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* line 19, ../src/sass/_buttons.scss */
 .pjs-gui-controls-fullscreen:before {
-  background-position: 0 -574px;
+  background-position: 0 -619px;
   width: 40px;
   height: 40px;
   content: "";
@@ -348,7 +349,7 @@
   cursor: pointer;
 }
 
-/* line 22, ../src/sass/_buttons.scss */
+/* line 23, ../src/sass/_buttons.scss */
 .pjs-gui-controls-cc:before {
   background-position: 0 -181px;
   width: 45px;
@@ -358,29 +359,39 @@
   cursor: pointer;
 }
 
-/* line 26, ../src/sass/_buttons.scss */
-.pjs-share-facebook:before {
-  background-position: 0 -458px;
-  width: 116px;
-  height: 116px;
-  content: "";
-  display: inline-block;
-  cursor: pointer;
-}
-
-/* line 30, ../src/sass/_buttons.scss */
-.pjs-share-twitter:before {
-  background-position: 0 -1322px;
-  width: 116px;
-  height: 116px;
-  content: "";
-  display: inline-block;
-  cursor: pointer;
-}
-
-/* line 34, ../src/sass/_buttons.scss */
-.pjs-share-email:before {
+/* line 27, ../src/sass/_buttons.scss */
+.pjs-gui-controls-cc-on:before {
   background-position: 0 -226px;
+  width: 45px;
+  height: 45px;
+  content: "";
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* line 31, ../src/sass/_buttons.scss */
+.pjs-share-facebook:before {
+  background-position: 0 -503px;
+  width: 116px;
+  height: 116px;
+  content: "";
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* line 35, ../src/sass/_buttons.scss */
+.pjs-share-twitter:before {
+  background-position: 0 -1367px;
+  width: 116px;
+  height: 116px;
+  content: "";
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* line 39, ../src/sass/_buttons.scss */
+.pjs-share-email:before {
+  background-position: 0 -271px;
   width: 116px;
   height: 116px;
   content: "";
