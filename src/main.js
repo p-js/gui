@@ -1,13 +1,10 @@
 /* exported Main */
-/* global _, Backbone, Logger, Events, TopView, CenterView, BottomView, ShareView, PlayPauseButton, $*/
+/* global $, _, Backbone, Logger, Events, TopView, CenterView, 
+	BottomView, ShareView, PlayPauseButton, AdView*/
 var Main = Backbone.View.extend({
-	tagName: "div",
 	className: "pjs-gui",
-	isShown: false,
-	logger: new Logger("GUI"),
+	logger: new Logger("PJS-GUI"),
 	events: {
-		"click": "show",
-		"touchstart": "show",
 		"click .pjs-gui-controls-play-pause": "onPlayPause",
 		"touchstart .pjs-gui-controls-play-pause": "onPlayPause",
 		"mousedown .pjs-controls": "onScrubberClick",
@@ -23,22 +20,28 @@ var Main = Backbone.View.extend({
 	},
 	initialize: function(options) {
 		this.options = options;
-		_.bindAll(this, "onSeek");
+		_.bindAll(this, "onSeek", "sendEvent");
 		this.render();
 	},
 	render: function() {
-		var options = this.options;
-		// Center, should be behind Top and Bottom
+		var options = this.options || {};
+		// Backgorund
 		this.$background = $("<div/>").addClass("pjs-gui-background").appendTo(this.$el);
+		// Center, should be behind Top and Bottom
 		this.centerView = new CenterView(options);
 		this.centerView.$el.appendTo(this.$el);
-		this.shareView = new ShareView(options);
+		// Share
+		this.shareView = new ShareView(options.shareView);
 		this.shareView.$el.appendTo(this.$el);
 		this.shareView.hide();
 		// Top
-		this.topView = new TopView(options);
-		// this.listenTo(this.topView, TopView.Events.SHARE, this.showShare);
+		this.topView = new TopView(options.topView);
 		this.topView.$el.appendTo(this.$el);
+		// Ad View
+		this.adView = new AdView(options.adView);
+		this.adView.$el.appendTo(this.$el);
+		this.listenTo(this.adView, Events.LEARN_MORE, this.sendEvent);
+		this.adView.hide();
 		// Bottom
 		this.bottomView = new BottomView(options);
 		this.bottomView.$el.appendTo(this.$el);
@@ -52,6 +55,7 @@ var Main = Backbone.View.extend({
 		this.$background.hide();
 		this.bottomView.hide();
 		this.topView.hide();
+		this.shareView.hide();
 		this.isActive = false;
 		this.logger.info("hide()");
 	},
@@ -63,11 +67,12 @@ var Main = Backbone.View.extend({
 		if (event) {
 			event.preventDefault();
 		}
-		if (!this.isActive) {
+		if (!this.isActive && !this.adView.isShowing()) {
 			this.isActive = true;
 			this.logger.info("show");
 			this.centerView.show();
 			this.$background.show();
+			this.shareView.hide();
 			this.bottomView.show();
 			this.topView.show();
 		}
@@ -82,28 +87,49 @@ var Main = Backbone.View.extend({
 			this.hide();
 		}
 	},
+	setPaused: function(paused) {
+		this.centerView.setPaused(paused);
+	},
 	onSeek: function() {
 		this.logger.info("onSeek");
 		this.isActive = false;
 	},
+	isDragging: function() {
+		return this.bottomView.slider.dragging;
+	},
 	showShare: function() {
-		this.logger.info("show share");
 		event.preventDefault();
 		event.stopPropagation();
 		if (this.centerView.isShowing()) {
+			this.logger.info("show share panel");
 			this.centerView.hide();
 			this.shareView.show();
+			this.sendEvent({
+				type: Events.SHOW_SHARE
+			});
 		} else {
+			this.logger.info("hide share panel");
 			this.centerView.show();
 			this.shareView.hide();
 		}
 	},
-	getPlayhead: function() {
-		// used for testing.
-		return this.bottomView.getPlayhead();
+	setAdMode: function(enabled, options) {
+		if (enabled) {
+			this.hide();
+			this.shareView.hide();
+			this.setEnabled(false);
+			this.adView.render(options);
+			this.adView.show();
+		} else {
+			this.setEnabled(true);
+			this.adView.hide();
+		}
 	},
 	setPlayhead: function(playhead) {
 		this.bottomView.setPlayhead(playhead);
+	},
+	setEnabled: function(enabled) {
+		this.bottomView.slider.setEnabled(enabled);
 	},
 	setBuffered: function(buffered) {
 		this.bottomView.setBuffered(buffered);
@@ -111,20 +137,22 @@ var Main = Backbone.View.extend({
 	setDurations: function(durations) {
 		this.bottomView.setDurations(durations);
 	},
-	onScrubberClick: function() {
+	onScrubberClick: function(event) {
 		event.preventDefault();
 		this.centerView.hide();
 		this.$background.hide();
 		this.topView.hide();
 	},
-	onFullscreen: function() {
+	onFullscreen: function(event) {
 		event.preventDefault();
+		event.stopPropagation();
 		this.sendEvent({
 			type: Events.FULLSCREEN
 		});
 	},
-	onRewind: function() {
+	onRewind: function(event) {
 		event.preventDefault();
+		event.stopPropagation();
 		this.sendEvent({
 			type: Events.REWIND
 		});

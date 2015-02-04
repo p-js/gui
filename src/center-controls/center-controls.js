@@ -18,5 +18,8 @@ var CenterView = BaseView.extend({
 			el: this.$(".pjs-gui-controls-play-pause"),
 			paused: options.paused
 		});
+	},
+	setPaused: function(paused) {
+		this.playPauseButton.setPaused(paused);
 	}
 });

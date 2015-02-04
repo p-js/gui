@@ -6,7 +6,7 @@ module.exports = {
 	all: {
 		files: {
 			'compiled-templates/template.js': [
-				'src/ad-display/template.html',
+				'src/ad-view/template.html',
 				'src/bottom/template.html',
 				'src/share/template.html',
 				'src/center-controls/template.html',

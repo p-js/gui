@@ -1,11 +1,11 @@
 (function(root, factory) {
 	/* global MTVNPlayer*/
 	if (typeof MTVNPlayer === "object") {
-		MTVNPlayer.require(["_", "$", "handlebars", "backbone"], function() {
+		MTVNPlayer.require(["_", "$", "handlebars", "backbone", "pjs-logger"], function() {
 			MTVNPlayer.provide("pjs-gui", factory.apply(null, arguments));
 		});
 	}
-}(this, function(_, $, Handlebars, Backbone) {
+}(this, function(_, $, Handlebars, Backbone, Logger) {
 	/* jshint unused:false */
 	/* global GUI */
 	/* exported GUI, Templates */
@@ -16,7 +16,7 @@
 	var Templates = (function() {
 		this["Templates"] = this["Templates"] || {};
 		
-		this["Templates"]["src/ad-display/template.html"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
+		this["Templates"]["src/ad-view/template.html"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
 		  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
 		  return "    <a class=\"pjs-ad-gui-learn-more\" href=\""
 		    + escapeExpression(((helper = (helper = helpers.buttonLink || (depth0 != null ? depth0.buttonLink : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"buttonLink","hash":{},"data":data}) : helper)))
@@ -97,12 +97,32 @@
 		GO_LIVE: "GO_LIVE",
 		IS_LIVE: "IS_LIVE",
 		MUTE: "MUTE",
+		SHOW_SHARE: "show:share",
 		SHARE: "share",
 		VOLUME: "VOLUME",
 		UNMUTE: "UNMUTE",
 		REWIND: "REWIND",
-		SEEK: "SEEK"
+		SEEK: "SEEK",
+		LEARN_MORE: "LEARN_MORE"
 	};
+	/* exported BaseView */
+	/* global Backbone*/
+	/**
+	 * @ignore
+	 * Hide and show functionality is in almost every view.
+	 */
+	var BaseView = Backbone.View.extend({
+		css: {},
+		isShowing: function() {
+			return !this.$el.hasClass(this.css.hide);
+		},
+		hide: function() {
+			this.$el.addClass(this.css.hide);
+		},
+		show: function() {
+			this.$el.removeClass(this.css.hide);
+		}
+	});
 	/* exported Time */
 	var Time = {
 		format: function(sec) {
@@ -182,32 +202,16 @@
 			return $el.hasClass("pjs-gui-controls-pause");
 		}
 	});
-	/* exported BaseView */
-	/* global Backbone*/
-	/**
-	 * @ignore
-	 * Hide and show functionality is in almost every view.
-	 */
-	var BaseView = Backbone.View.extend({
-		css: {},
-		isShowing: function() {
-			return !this.$el.hasClass(this.css.hide);
-		},
-		hide: function() {
-			this.$el.addClass(this.css.hide);
-		},
-		show: function() {
-			this.$el.removeClass(this.css.hide);
-		}
-	});
-	/* global _, $, Templates, Backbone*/
-	/* exported AdDisplay */
-	var AdDisplay = Backbone.View.extend({
-		template: Templates["src/ad-display/template.html"],
-		tagName: "div",
+	/* global _, $, Templates, BaseView, Events*/
+	/* exported AdView */
+	var AdView = BaseView.extend({
+		template: Templates["src/ad-view/template.html"],
 		className: "pjs-ad-gui",
+		css: {
+			hide: "pjs-ad-gui-hidden"
+		},
 		events: function() {
-			if (this.options.buttonLink === AdDisplay.LEARN_MORE_EVENT_ONLY) {
+			if (this.options.buttonLink === AdView.LEARN_MORE_EVENT_ONLY) {
 				return {
 					"click .pjs-ad-gui-learn-more": "onLearnMore",
 					"touchstart .pjs-ad-gui-learn-more": "onLearnMore",
@@ -218,21 +222,19 @@
 			this.render(options);
 		},
 		render: function(options) {
-			options = this.options = _.defaults(options || {}, AdDisplay.DEFAULT_COPY);
+			options = this.options = _.defaults(options || {}, AdView.DEFAULT_COPY);
 			var template = options.template || this.template;
 			this.$el.html($(template(options)));
 			this.delegateEvents();
 			this.$countdown = this.$(".pjs-ad-gui-countdown");
-			this.renderMessage(options.time);
-			return this.$el;
+			this.renderMessage(options);
+			return this;
 		},
 		renderMessage: function(options) {
 			_.extend(this.options, options);
 			var messageTempate = this.getTemplate(this.options),
-				countdown = _.template(messageTempate, this.options, {
-					interpolate: /\{\{(.+?)\}\}/g
-				});
-			this.$countdown.text(countdown);
+				countdownText = _.template(messageTempate)(this.options);
+			this.$countdown.text(countdownText);
 		},
 		getTemplate: function(options) {
 			var text = options.messageText;
@@ -245,19 +247,19 @@
 			return text;
 		},
 		onLearnMore: function(event) {
-			if (this.options.buttonLink === AdDisplay.LEARN_MORE_EVENT_ONLY) {
+			if (this.options.buttonLink === AdView.LEARN_MORE_EVENT_ONLY) {
 				event.preventDefault();
-				this.trigger(AdDisplay.Events.LEARN_MORE);
+				event.stopPropagation();
+				this.trigger(Events.LEARN_MORE, {
+					type: Events.LEARN_MORE
+				});
 			}
 		}
 	}, {
-		Events: {
-			LEARN_MORE: "learn:more"
-		},
 		LEARN_MORE_EVENT_ONLY: "#",
 		DEFAULT_COPY: {
-			countdownText: "Your content will resume in {{time}}.",
-			countdownTextWithPosition: "Ad {{index + 1}} of {{total}}.",
+			countdownText: "Your content will resume in <%=time%>.",
+			countdownTextWithPosition: "Ad <%=index + 1%> of <%=total%>.",
 			messageText: "Your content will resume shortly.",
 			buttonText: "Learn More",
 			buttonTarget: "_blank"
@@ -319,6 +321,9 @@
 				el: this.$(".pjs-gui-controls-play-pause"),
 				paused: options.paused
 			});
+		},
+		setPaused: function(paused) {
+			this.playPauseButton.setPaused(paused);
 		}
 	});
 	/* exported ShareView */
@@ -477,7 +482,7 @@
 					}
 				},
 				setPlayhead: function(playhead) {
-					if (!this.dragging && !this.seeking) {
+					if (!this.dragging) {
 						if (isNaN(playhead)) {
 							playhead = parseFloat(playhead, 10);
 						}
@@ -513,15 +518,14 @@
 					this.throttledRender();
 				},
 				render: function() {
-					if (this.dragging || this.seeking) {
+					if (this.dragging) {
 						return;
 					}
-					this.checkLive();
 					this.throttledMeasure();
 					this.moveThumb(this.getLeftFromPlayhead(this.isLive() ? this.duration : this.playhead));
 				},
 				setBuffered: function(buffered) {
-					if (!this.dragging && !this.seeking && this.duration > 1) {
+					if (!this.dragging && this.duration > 1) {
 						var left = Math.max(0, this.getLeftFromPlayhead(buffered));
 						this.throttledMeasure();
 						left = Math.min(left, this.sliderWidth);
@@ -532,6 +536,7 @@
 				},
 				measure: function() {
 					var sliderWidth = this.$el[0].offsetWidth;
+					this.logger.warn("slider.js:143 sliderWidth", sliderWidth);
 					if (sliderWidth !== this.sliderWidth) {
 						this.sliderWidth = sliderWidth;
 						this.trigger(RESIZE, sliderWidth);
@@ -540,7 +545,6 @@
 				isLive: function() {
 					return false;
 				},
-				checkLive: function() {},
 				setEnabled: function(enabled) {
 					if (enabled !== this.enabled) {
 						if (enabled) {
@@ -687,7 +691,7 @@
 				return this.slider.playhead;
 			},
 			setPlayheadOnDrag: function(playhead) {
-				this.$currentTime.html(Time.format(playhead));
+				this.$currentTime.text(Time.format(playhead));
 			},
 			setPlayhead: function(playhead) {
 				this.slider.setPlayhead(playhead);
@@ -709,15 +713,12 @@
 		});
 	})();
 	/* exported Main */
-	/* global _, Backbone, Logger, Events, TopView, CenterView, BottomView, ShareView, PlayPauseButton, $*/
+	/* global $, _, Backbone, Logger, Events, TopView, CenterView, 
+		BottomView, ShareView, PlayPauseButton, AdView*/
 	var Main = Backbone.View.extend({
-		tagName: "div",
 		className: "pjs-gui",
-		isShown: false,
-		logger: new Logger("GUI"),
+		logger: new Logger("PJS-GUI"),
 		events: {
-			"click": "show",
-			"touchstart": "show",
 			"click .pjs-gui-controls-play-pause": "onPlayPause",
 			"touchstart .pjs-gui-controls-play-pause": "onPlayPause",
 			"mousedown .pjs-controls": "onScrubberClick",
@@ -733,22 +734,28 @@
 		},
 		initialize: function(options) {
 			this.options = options;
-			_.bindAll(this, "onSeek");
+			_.bindAll(this, "onSeek", "sendEvent");
 			this.render();
 		},
 		render: function() {
-			var options = this.options;
-			// Center, should be behind Top and Bottom
+			var options = this.options || {};
+			// Backgorund
 			this.$background = $("<div/>").addClass("pjs-gui-background").appendTo(this.$el);
+			// Center, should be behind Top and Bottom
 			this.centerView = new CenterView(options);
 			this.centerView.$el.appendTo(this.$el);
-			this.shareView = new ShareView(options);
+			// Share
+			this.shareView = new ShareView(options.shareView);
 			this.shareView.$el.appendTo(this.$el);
 			this.shareView.hide();
 			// Top
-			this.topView = new TopView(options);
-			// this.listenTo(this.topView, TopView.Events.SHARE, this.showShare);
+			this.topView = new TopView(options.topView);
 			this.topView.$el.appendTo(this.$el);
+			// Ad View
+			this.adView = new AdView(options.adView);
+			this.adView.$el.appendTo(this.$el);
+			this.listenTo(this.adView, Events.LEARN_MORE, this.sendEvent);
+			this.adView.hide();
 			// Bottom
 			this.bottomView = new BottomView(options);
 			this.bottomView.$el.appendTo(this.$el);
@@ -762,6 +769,7 @@
 			this.$background.hide();
 			this.bottomView.hide();
 			this.topView.hide();
+			this.shareView.hide();
 			this.isActive = false;
 			this.logger.info("hide()");
 		},
@@ -773,11 +781,12 @@
 			if (event) {
 				event.preventDefault();
 			}
-			if (!this.isActive) {
+			if (!this.isActive && !this.adView.isShowing()) {
 				this.isActive = true;
 				this.logger.info("show");
 				this.centerView.show();
 				this.$background.show();
+				this.shareView.hide();
 				this.bottomView.show();
 				this.topView.show();
 			}
@@ -792,28 +801,49 @@
 				this.hide();
 			}
 		},
+		setPaused: function(paused) {
+			this.centerView.setPaused(paused);
+		},
 		onSeek: function() {
 			this.logger.info("onSeek");
 			this.isActive = false;
 		},
+		isDragging: function() {
+			return this.bottomView.slider.dragging;
+		},
 		showShare: function() {
-			this.logger.info("show share");
 			event.preventDefault();
 			event.stopPropagation();
 			if (this.centerView.isShowing()) {
+				this.logger.info("show share panel");
 				this.centerView.hide();
 				this.shareView.show();
+				this.sendEvent({
+					type: Events.SHOW_SHARE
+				});
 			} else {
+				this.logger.info("hide share panel");
 				this.centerView.show();
 				this.shareView.hide();
 			}
 		},
-		getPlayhead: function() {
-			// used for testing.
-			return this.bottomView.getPlayhead();
+		setAdMode: function(enabled, options) {
+			if (enabled) {
+				this.hide();
+				this.shareView.hide();
+				this.setEnabled(false);
+				this.adView.render(options);
+				this.adView.show();
+			} else {
+				this.setEnabled(true);
+				this.adView.hide();
+			}
 		},
 		setPlayhead: function(playhead) {
 			this.bottomView.setPlayhead(playhead);
+		},
+		setEnabled: function(enabled) {
+			this.bottomView.slider.setEnabled(enabled);
 		},
 		setBuffered: function(buffered) {
 			this.bottomView.setBuffered(buffered);
@@ -821,20 +851,22 @@
 		setDurations: function(durations) {
 			this.bottomView.setDurations(durations);
 		},
-		onScrubberClick: function() {
+		onScrubberClick: function(event) {
 			event.preventDefault();
 			this.centerView.hide();
 			this.$background.hide();
 			this.topView.hide();
 		},
-		onFullscreen: function() {
+		onFullscreen: function(event) {
 			event.preventDefault();
+			event.stopPropagation();
 			this.sendEvent({
 				type: Events.FULLSCREEN
 			});
 		},
-		onRewind: function() {
+		onRewind: function(event) {
 			event.preventDefault();
+			event.stopPropagation();
 			this.sendEvent({
 				type: Events.REWIND
 			});
@@ -849,12 +881,12 @@
 			});
 		}
 	});
-	/* global Main, AdDisplay, Time, BottomView, Events, TopView */
+	/* global Main, AdView, Time, BottomView, Events, TopView */
 	var GUI = Main;
 	GUI.version = "0.14.0";
-	GUI.build = "Tue Feb 03 2015 09:41:53";
+	GUI.build = "Wed Feb 04 2015 09:06:11";
 	GUI.Time = Time;
-	GUI.AdDisplay = AdDisplay;
+	GUI.AdView = AdView;
 	GUI.BottomView = BottomView;
 	GUI.TopView = TopView;
 	

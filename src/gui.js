@@ -8,21 +8,20 @@ var Templates = (function() {
 	return this.Templates;
 }).apply({});
 //= events.js
-//= time.js
+//= util
 //= buttons
-//= base-view.js
-//= ad-display
+//= ad-view
 //= top
 //= center-controls
 //= share
 //= bottom
 //= main.js
-/* global Main, AdDisplay, Time, BottomView, Events, TopView */
+/* global Main, AdView, Time, BottomView, Events, TopView */
 var GUI = Main;
 GUI.version = "@@version";
 GUI.build = "@@timestamp";
 GUI.Time = Time;
-GUI.AdDisplay = AdDisplay;
+GUI.AdView = AdView;
 GUI.BottomView = BottomView;
 GUI.TopView = TopView;
 

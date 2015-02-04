@@ -44,7 +44,7 @@ var BottomView = (function() {
 			return this.slider.playhead;
 		},
 		setPlayheadOnDrag: function(playhead) {
-			this.$currentTime.html(Time.format(playhead));
+			this.$currentTime.text(Time.format(playhead));
 		},
 		setPlayhead: function(playhead) {
 			this.slider.setPlayhead(playhead);

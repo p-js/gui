@@ -182,28 +182,41 @@
 /* line 11, ../src/sass/_center-controls.scss */
 .pjs-gui-center-controls-hidden {
   opacity: 0;
+  pointer-events: none;
 }
 
 /* line 1, ../src/sass/_ad.scss */
 .pjs-ad-gui {
-  background: rgba(33, 33, 33, 0.8);
-  position: relative;
+  background: rgba(255, 255, 255, 0.1);
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
   width: 100%;
 }
 
-/* line 6, ../src/sass/_ad.scss */
+/* line 7, ../src/sass/_ad.scss */
+.pjs-ad-gui-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* line 11, ../src/sass/_ad.scss */
 .pjs-ad-gui-container {
   padding: 10px 10px;
   vertical-align: middle;
 }
 
-/* line 10, ../src/sass/_ad.scss */
+/* line 15, ../src/sass/_ad.scss */
 .pjs-ad-gui-countdown {
   padding: 4px;
   display: inline-block;
 }
 
-/* line 14, ../src/sass/_ad.scss */
+/* line 19, ../src/sass/_ad.scss */
 .pjs-ad-gui-learn-more {
   text-decoration: none;
   position: absolute;
@@ -215,12 +228,12 @@
   padding: 3px;
 }
 
-/* line 24, ../src/sass/_ad.scss */
+/* line 29, ../src/sass/_ad.scss */
 .pjs-ad-gui-learn-more:hover {
   text-decoration: none;
 }
 
-/* line 27, ../src/sass/_ad.scss */
+/* line 32, ../src/sass/_ad.scss */
 .pjs-ad-gui-learn-more:visited {
   text-decoration: none;
 }

@@ -2,16 +2,21 @@
 /* jshint devel:true */
 var gui = new GUI({
 		playing: false,
-		showVolume: true,
 		ccEnabled: true,
-		metadata: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.",
+		adView: {
+			buttonLink: "#",
+			time: 30
+		},
+		topView: {
+			metadata: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna."
+		},
 		share: ["facebook", "twitter", "email"],
 		durations: [60, 30, 60, 30, 30]
 	}),
 	buffer = 0,
 	bufferInterval = setInterval(function() {
 		buffer += 1;
-		var newBuff = gui.getPlayhead() + buffer;
+		var newBuff = gui.bottomView.getPlayhead() + buffer;
 		gui.setBuffered(newBuff);
 	}, 250),
 	goFullScreen = function($el) {
@@ -59,6 +64,9 @@ gui.on(GUI.Events.FULLSCREEN, function() {
 			exitFullScreen($gui);
 		}
 	}
+});
+$("#gui").click(function() {
+	gui.show();
 });
 gui.$el.appendTo($("#gui"));
 _.delay(function() {

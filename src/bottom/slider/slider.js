@@ -88,7 +88,7 @@ var Slider = (function() {
 			}
 		},
 		setPlayhead: function(playhead) {
-			if (!this.dragging && !this.seeking) {
+			if (!this.dragging) {
 				if (isNaN(playhead)) {
 					playhead = parseFloat(playhead, 10);
 				}
@@ -124,15 +124,14 @@ var Slider = (function() {
 			this.throttledRender();
 		},
 		render: function() {
-			if (this.dragging || this.seeking) {
+			if (this.dragging) {
 				return;
 			}
-			this.checkLive();
 			this.throttledMeasure();
 			this.moveThumb(this.getLeftFromPlayhead(this.isLive() ? this.duration : this.playhead));
 		},
 		setBuffered: function(buffered) {
-			if (!this.dragging && !this.seeking && this.duration > 1) {
+			if (!this.dragging && this.duration > 1) {
 				var left = Math.max(0, this.getLeftFromPlayhead(buffered));
 				this.throttledMeasure();
 				left = Math.min(left, this.sliderWidth);
@@ -143,6 +142,7 @@ var Slider = (function() {
 		},
 		measure: function() {
 			var sliderWidth = this.$el[0].offsetWidth;
+			this.logger.warn("slider.js:143 sliderWidth", sliderWidth);
 			if (sliderWidth !== this.sliderWidth) {
 				this.sliderWidth = sliderWidth;
 				this.trigger(RESIZE, sliderWidth);
@@ -151,7 +151,6 @@ var Slider = (function() {
 		isLive: function() {
 			return false;
 		},
-		checkLive: function() {},
 		setEnabled: function(enabled) {
 			if (enabled !== this.enabled) {
 				if (enabled) {
