@@ -1,0 +1,42 @@
+// ":before" is used so image sprites work on firefox.
+
+.pjs-gui-controls-share:before {
+	@include image-with-dims(share);
+	cursor: pointer;
+}
+.pjs-gui-controls-play:before {
+	@include image-with-dims(play);
+	cursor: pointer;
+}
+.pjs-gui-controls-rewind:before {
+	@include image-with-dims(rewind30);
+	cursor: pointer;
+}
+.pjs-gui-controls-pause:before {
+	@include image-with-dims(pause);
+	cursor: pointer;
+}
+.pjs-gui-controls-fullscreen:before {
+	@include image-with-dims(fullscreen);
+	cursor: pointer;
+}
+.pjs-gui-controls-cc:before {
+	@include image-with-dims(cc);
+	cursor: pointer;
+}
+.pjs-gui-controls-cc-on:before {
+	@include image-with-dims(ccOn);
+	cursor: pointer;
+}
+.pjs-share-facebook:before {
+	@include image-with-dims(facebook);
+	cursor: pointer;
+}
+.pjs-share-twitter:before {
+	@include image-with-dims(twitter);
+	cursor: pointer;
+}
+.pjs-share-email:before {
+	@include image-with-dims(email);
+	cursor: pointer;
+}

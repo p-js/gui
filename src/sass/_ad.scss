@@ -1,0 +1,34 @@
+.pjs-ad-gui {
+	background: rgba(255, 255, 255, 0.1);
+	@include absolute();
+	@include transition($transition);
+	width: 100%;
+}
+.pjs-ad-gui-hidden {
+	opacity: 0;
+	pointer-events: none;
+}
+.pjs-ad-gui-container {
+	padding: 10px 10px;
+	vertical-align: middle;
+}
+.pjs-ad-gui-countdown {
+	padding: 4px;
+	display: inline-block;
+}
+.pjs-ad-gui-learn-more {
+	text-decoration: none;
+	position: absolute;
+	right: 10px;
+	background-color: #5E5E5E;
+	border: 1px solid #909090;
+	border-radius: 5px;	
+	cursor: pointer;
+	padding: 3px;
+}
+.pjs-ad-gui-learn-more:hover {
+	text-decoration:none;
+}
+.pjs-ad-gui-learn-more:visited {
+	text-decoration:none;
+}

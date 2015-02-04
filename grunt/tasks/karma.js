@@ -11,6 +11,9 @@ module.exports = function(grunt, options) {
 		preprocessors = {};
 	preprocessors["dist/" + options.package.name + ".js"] = ["coverage"];
 	return {
+		/**
+		 * Run the tests and submit coverage
+		 */
 		ci: {
 			configFile: configFile,
 			frameworks: frameworks,
@@ -24,13 +27,16 @@ module.exports = function(grunt, options) {
 			},
 			singleRun: true
 		},
-		tdd: {
+		/**
+		 * For developing and testing
+		 */
+		test: {
 			configFile: configFile,
 			frameworks: frameworks,
-			autoWatch: true,
 			plugins: plugins.concat(["karma-growl-reporter"]),
 			browsers: browsers,
-			reporters: ["mocha", "growl"]
+			reporters: ["mocha", "growl"],
+			singleRun: true
 		}
 	};
 };

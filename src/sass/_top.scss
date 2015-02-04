@@ -1,0 +1,27 @@
+.pjs-gui-top {
+	@include absolute();
+	width: 100%;
+	@include transition($transition);
+}
+.pjs-gui-top-container {
+ 	margin: 15px 20px;
+}
+.pjs-gui-top-container > * {
+ 	margin: 0px 20px;
+}
+.pjs-gui-top-container > :first-child{ 
+	margin-left: 0; 
+}
+.pjs-gui-top-container > :last-child{ 
+	margin-right: 0;
+}
+.pjs-gui-top-metadata {
+	@include flex(1);
+	@include metadata-text();
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.pjs-gui-top-hidden {
+	@include transform(translateY(-60px));
+}

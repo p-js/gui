@@ -1,0 +1,10 @@
+.pjs-share-item {
+	margin: 10px;
+}
+.pjs-share-hidden {
+	opacity: 0;
+	pointer-events:none;
+}
+.pjs-share {
+	@include transition($transition);
+}

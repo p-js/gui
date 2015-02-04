@@ -5,19 +5,7 @@ module.exports = function(grunt) {
 	});
 	require('load-grunt-config')(grunt, {
 		// the path where all the grunt task live is grunt/tasks
-		configPath: require("path").join(process.cwd(), 'grunt', 'tasks'),
-		// data is passed into the tasks
-		data: {
-			// settings are a way to override the defaults.
-			settings: {
-				// defaults, these can be removed.
-				clean: "dist/*",
-				jshint: "src/**/*.js",
-				jsbeautifier: "src/**/*.js",
-				watch: ["Gruntfile.js", "src/**/*", "test/**/*"],
-				watchTasks: "default"
-			}
-		}
+		configPath: require("path").join(process.cwd(), 'grunt', 'tasks')
 	});
 	grunt.registerTask('deploy-s3', 'deploy to s3', function() {
 		var branch = grunt.option("branch");
