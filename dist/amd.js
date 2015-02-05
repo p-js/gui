@@ -18,18 +18,18 @@
 		
 		this["Templates"]["src/ad-view/template.html"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
 		  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-		  return "    <a class=\"pjs-ad-gui-learn-more\" href=\""
+		  return "<a class=\"pjs-ad-gui-learn-more\" href=\""
 		    + escapeExpression(((helper = (helper = helpers.buttonLink || (depth0 != null ? depth0.buttonLink : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"buttonLink","hash":{},"data":data}) : helper)))
 		    + "\" target=\""
 		    + escapeExpression(((helper = (helper = helpers.buttonTarget || (depth0 != null ? depth0.buttonTarget : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"buttonTarget","hash":{},"data":data}) : helper)))
-		    + "\">\n    	"
+		    + "\">\n	"
 		    + escapeExpression(((helper = (helper = helpers.buttonText || (depth0 != null ? depth0.buttonText : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"buttonText","hash":{},"data":data}) : helper)))
-		    + "\n    </a>\n";
+		    + "\n</a>\n";
 		},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-		  var stack1, buffer = "<div class=\"pjs-ad-gui-container\">\n    <span class=\"pjs-ad-gui-countdown\"></span>\n";
+		  var stack1, buffer = "<span class=\"pjs-ad-gui-countdown\"></span>\n";
 		  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.buttonLink : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
 		  if (stack1 != null) { buffer += stack1; }
-		  return buffer + "</div>\n";
+		  return buffer;
 		},"useData":true});
 		
 		
@@ -507,6 +507,7 @@
 					});
 					this.duration = this.durations.pop();
 					this.throttledMeasure();
+		
 					if (this.isSegmented) {
 						this.createDividers();
 						this.moveDividers();
@@ -536,7 +537,6 @@
 				},
 				measure: function() {
 					var sliderWidth = this.$el[0].offsetWidth;
-					this.logger.warn("slider.js:143 sliderWidth", sliderWidth);
 					if (sliderWidth !== this.sliderWidth) {
 						this.sliderWidth = sliderWidth;
 						this.trigger(RESIZE, sliderWidth);
@@ -832,7 +832,7 @@
 				this.hide();
 				this.shareView.hide();
 				this.setEnabled(false);
-				this.adView.render(options);
+				this.adView.render(_.extend(this.adView.options, options));
 				this.adView.show();
 			} else {
 				this.setEnabled(true);
@@ -884,7 +884,7 @@
 	/* global Main, AdView, Time, BottomView, Events, TopView */
 	var GUI = Main;
 	GUI.version = "0.14.0";
-	GUI.build = "Wed Feb 04 2015 10:09:30";
+	GUI.build = "Wed Feb 04 2015 19:00:53";
 	GUI.Time = Time;
 	GUI.AdView = AdView;
 	GUI.BottomView = BottomView;

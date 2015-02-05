@@ -118,7 +118,7 @@ var Main = Backbone.View.extend({
 			this.hide();
 			this.shareView.hide();
 			this.setEnabled(false);
-			this.adView.render(options);
+			this.adView.render(_.extend(this.adView.options, options));
 			this.adView.show();
 		} else {
 			this.setEnabled(true);

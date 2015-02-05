@@ -113,6 +113,7 @@ var Slider = (function() {
 			});
 			this.duration = this.durations.pop();
 			this.throttledMeasure();
+
 			if (this.isSegmented) {
 				this.createDividers();
 				this.moveDividers();
@@ -142,7 +143,6 @@ var Slider = (function() {
 		},
 		measure: function() {
 			var sliderWidth = this.$el[0].offsetWidth;
-			this.logger.warn("slider.js:143 sliderWidth", sliderWidth);
 			if (sliderWidth !== this.sliderWidth) {
 				this.sliderWidth = sliderWidth;
 				this.trigger(RESIZE, sliderWidth);

@@ -17,11 +17,17 @@ $transition: all .3s ease-out;
 	@include reset();
  	@include base-text();
 }
-
+.pjs-gui a {
+ 	@include base-text();
+ 	text-decoration:none;
+}
+.pjs-gui a:visited {
+ 	@include base-text();
+ 	text-decoration:none;
+}
 .pjs-gui-flexbox {
 	@include flexbox();
 }
-
 .pjs-gui-background {
   width: 100%;
   height: 100%;
