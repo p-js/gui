@@ -11,6 +11,7 @@ module.exports = function(config) {
 			"components/handlebars/handlebars.runtime.js",
 			"dist/gui.js",
 			"test/test-time-display.js",
+			"test/test-toggleable-button.js",
 			"test/test-info.js"
 		]
 	});

@@ -9,14 +9,13 @@ var Templates = (function() {
 }).apply({});
 //= events.js
 //= util
-//= buttons
 //= ad-view
 //= top
 //= center-controls
 //= share
 //= bottom
 //= main.js
-/* global Main, AdView, Time, BottomView, Events, TopView */
+/* global Main, AdView, Time, BottomView, Events, TopView, ToggleableButton */
 var GUI = Main;
 GUI.version = "@@version";
 GUI.build = "@@timestamp";
@@ -24,5 +23,5 @@ GUI.Time = Time;
 GUI.AdView = AdView;
 GUI.BottomView = BottomView;
 GUI.TopView = TopView;
-
+GUI.ToggleableButton = ToggleableButton;
 GUI.Events = Events;

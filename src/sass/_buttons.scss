@@ -20,6 +20,10 @@
 	@include image-with-dims(fullscreen);
 	cursor: pointer;
 }
+.pjs-gui-controls-fullscreen-minimize:before {
+	@include image-with-dims(minimize);
+	cursor: pointer;
+}
 .pjs-gui-controls-cc:before {
 	@include image-with-dims(cc);
 	cursor: pointer;

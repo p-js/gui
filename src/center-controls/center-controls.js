@@ -1,5 +1,5 @@
 /* exported CenterView */
-/* global BaseView, $, PlayPauseButton, Templates*/
+/* global BaseView, $, ToggleableButton, Templates, Events*/
 var CenterView = BaseView.extend({
 	template: Templates["src/center-controls/template.html"],
 	css: {
@@ -14,12 +14,20 @@ var CenterView = BaseView.extend({
 		var options = this.options;
 		this.$el.html($(this.template(options)));
 		// PLAY PAUSE 
-		this.playPauseButton = new PlayPauseButton({
+		this.playPause = new ToggleableButton({
 			el: this.$(".pjs-gui-controls-play-pause"),
-			paused: options.paused
+			on: options.paused,
+			eventType: {
+				on: Events.PLAY,
+				off: Events.PAUSE
+			},
+			css: {
+				on: "pjs-gui-controls-play",
+				off: "pjs-gui-controls-pause"
+			}
 		});
 	},
 	setPaused: function(paused) {
-		this.playPauseButton.setPaused(paused);
+		this.playPause.setStyle(paused);
 	}
 });

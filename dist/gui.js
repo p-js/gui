@@ -52,7 +52,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 		
 		this["Templates"]["src/share/template.html"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
 		  var lambda=this.lambda, escapeExpression=this.escapeExpression;
-		  return "<div class=\"pjs-share-item pjs-share-"
+		  return "<div class=\"pjs-gui-share-item pjs-share-"
 		    + escapeExpression(lambda(depth0, depth0))
 		    + "\" data-share-id=\""
 		    + escapeExpression(lambda(depth0, depth0))
@@ -128,71 +128,51 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			return (h === 0 ? "" : (h < 10 ? "0" + h + ":" : h + ":")) + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
 		}
 	};
-	/* exported ClosedCaptionButton */
-	/* global Backbone, Events*/
-	var ClosedCaptionButton = Backbone.View.extend({
-		css: {
-			cc: "pjs-gui-controls-cc",
-			ccOn: "pjs-gui-controls-cc-on"
-		},
-		events: {
-			click: "toggle",
-			touchstart: "toggle"
-		},
-		initialize: function(options) {
-			this.setStyle(options.ccOn);
-		},
-		toggle: function(event) {
-			event.preventDefault();
-			var ccOn = !this.$el.hasClass(this.css.ccOn);
-			this.setStyle(ccOn);
-			this.trigger(Events.CC, {
-				type: Events.CC,
-				data: {
-					ccOn: ccOn
-				}
-			});
-		},
-		setStyle: function(ccOn) {
-			if (ccOn) {
-				this.$el.addClass(this.css.ccOn);
-				this.$el.removeClass(this.css.cc);
-			} else {
-				this.$el.addClass(this.css.cc);
-				this.$el.removeClass(this.css.ccOn);
-			}
-		}
-	});
-	/* exported PlayPauseButton */
+	/* exported ToggleableButton */
 	/* global Backbone*/
-	var PlayPauseButton = Backbone.View.extend({
-		css: {
-			play: "pjs-gui-controls-play",
-			pause: "pjs-gui-controls-pause"
-		},
-		initialize: function(options) {
-			this.options = options;
-			this.$el.addClass(this.options.paused ? this.css.play : this.css.pause);
-		},
+	var ToggleableButton = Backbone.View.extend({
 		events: {
 			click: "toggle",
 			touchstart: "toggle"
 		},
-		setPaused: function(isPaused) {
-			var $el = this.$el;
-			$el.toggleClass(this.css.play, isPaused);
-			$el.toggleClass(this.css.pause, !isPaused);
+		isOn: false,
+		initialize: function(options) {
+			options = options || {};
+			this.css = options.css;
+			if (!this.css) {
+				throw "no css specified for button";
+			}
+			this.eventType = options.eventType;
+			if (!this.eventType) {
+				throw "no event type specified for button";
+			}
+			this.setStyle(!!options.on);
 		},
 		toggle: function(event) {
 			event.preventDefault();
-			var $el = this.$el,
-				showPlay = $el.hasClass(this.css.pause);
-			$el.toggleClass(this.css.play, showPlay);
-			$el.toggleClass(this.css.pause, !showPlay);
-		}
-	}, {
-		isPlayEvent: function($el) {
-			return $el.hasClass("pjs-gui-controls-pause");
+			var eventType = this.eventType;
+			if (eventType.on || eventType.off) {
+				eventType = this.isOn ? eventType.on : eventType.off;
+			}
+			// send current state
+			this.trigger(eventType, {
+				target: this,
+				type: eventType,
+				// the event was for the last state
+				data: this.isOn
+			});
+			// toggle state
+			this.setStyle(!this.isOn);
+		},
+		setStyle: function(on) {
+			this.isOn = on;
+			if (on) {
+				this.$el.addClass(this.css.on);
+				this.$el.removeClass(this.css.off);
+			} else {
+				this.$el.addClass(this.css.off);
+				this.$el.removeClass(this.css.on);
+			}
 		}
 	});
 	/* global _, $, Templates, BaseView, Events*/
@@ -269,7 +249,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			return options;
 		}
 	};
-	/* global BaseView, Templates, $, TopPanelModel, ClosedCaptionButton*/
+	/* global BaseView, Templates, $, TopPanelModel, ToggleableButton, Events*/
 	/* exported TopView */
 	var TopView = BaseView.extend({
 		template: Templates["src/top/template.html"],
@@ -282,8 +262,23 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			this.render();
 			// CC has toggle-able state and dispatches event
 			// buttons without state are just handled in main.js
-			this.ccButton = new ClosedCaptionButton({
-				el: this.$(".pjs-gui-controls-cc")
+			this.cc = new ToggleableButton({
+				el: this.$(".pjs-gui-controls-cc"),
+				on: this.options.ccEnabled,
+				css: {
+					on: "pjs-gui-controls-cc-on",
+					off: "pjs-gui-controls-cc"
+				},
+				eventType: Events.CC
+			});
+			this.fullScreen = new ToggleableButton({
+				el: this.$(".pjs-gui-controls-fullscreen"),
+				on: !this.options.isFullscreen,
+				css: {
+					on: "pjs-gui-controls-fullscreen",
+					off: "pjs-gui-controls-fullscreen-minimize"
+				},
+				eventType: Events.FULLSCREEN
 			});
 		},
 		setMetadata: function(html) {
@@ -295,7 +290,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 		}
 	});
 	/* exported CenterView */
-	/* global BaseView, $, PlayPauseButton, Templates*/
+	/* global BaseView, $, ToggleableButton, Templates, Events*/
 	var CenterView = BaseView.extend({
 		template: Templates["src/center-controls/template.html"],
 		css: {
@@ -310,13 +305,21 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			var options = this.options;
 			this.$el.html($(this.template(options)));
 			// PLAY PAUSE 
-			this.playPauseButton = new PlayPauseButton({
+			this.playPause = new ToggleableButton({
 				el: this.$(".pjs-gui-controls-play-pause"),
-				paused: options.paused
+				on: options.paused,
+				eventType: {
+					on: Events.PLAY,
+					off: Events.PAUSE
+				},
+				css: {
+					on: "pjs-gui-controls-play",
+					off: "pjs-gui-controls-pause"
+				}
 			});
 		},
 		setPaused: function(paused) {
-			this.playPauseButton.setPaused(paused);
+			this.playPause.setStyle(paused);
 		}
 	});
 	/* exported ShareView */
@@ -707,19 +710,15 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	})();
 	/* exported Main */
 	/* global $, _, Backbone, Logger, Events, TopView, CenterView, 
-		BottomView, ShareView, PlayPauseButton, AdView*/
+		BottomView, ShareView, AdView*/
 	var Main = Backbone.View.extend({
 		className: "pjs-gui",
 		logger: new Logger("PJS-GUI"),
 		events: {
-			"click .pjs-gui-controls-play-pause": "onPlayPause",
-			"touchstart .pjs-gui-controls-play-pause": "onPlayPause",
 			"mousedown .pjs-controls": "onScrubberClick",
 			"touchstart .pjs-controls": "onScrubberClick",
-			"click .pjs-gui-controls-fullscreen": "onFullscreen",
-			"touchstart .pjs-gui-controls-fullscreen": "onFullscreen",
-			"click .pjs-share-item": "onShare",
-			"touchstart .pjs-share-item": "onShare",
+			"click .pjs-gui-share-item": "onShare",
+			"touchstart .pjs-gui-share-item": "onShare",
 			"click .pjs-gui-controls-share": "showShare",
 			"touchstart .pjs-gui-controls-share": "showShare",
 			"click .pjs-gui-controls-rewind": "onRewind",
@@ -727,7 +726,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 		},
 		initialize: function(options) {
 			this.options = options;
-			_.bindAll(this, "onSeek", "sendEvent");
+			_.bindAll(this, "onSeek", "sendEvent", "onPlay");
 			this.render();
 		},
 		render: function() {
@@ -737,6 +736,9 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			// Center, should be behind Top and Bottom
 			this.centerView = new CenterView(options);
 			this.centerView.$el.appendTo(this.$el);
+			this.listenTo(this.centerView.playPause, Events.PLAY, this.onPlay);
+			this.listenTo(this.centerView.playPause, Events.PLAY, this.sendEvent);
+			this.listenTo(this.centerView.playPause, Events.PAUSE, this.sendEvent);
 			// Share
 			this.shareView = new ShareView(options.shareView);
 			this.shareView.$el.appendTo(this.$el);
@@ -744,6 +746,9 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			// Top
 			this.topView = new TopView(options.topView);
 			this.topView.$el.appendTo(this.$el);
+			this.listenTo(this.topView.cc, Events.CC, this.sendEvent);
+	
+			this.listenTo(this.topView.fullScreen, Events.FULLSCREEN, this.sendEvent);
 			// Ad View
 			this.adView = new AdView(options.adView);
 			this.adView.$el.appendTo(this.$el);
@@ -784,15 +789,8 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				this.topView.show();
 			}
 		},
-		onPlayPause: function(event) {
-			event.preventDefault();
-			var isPlayEvent = PlayPauseButton.isPlayEvent($(event.currentTarget));
-			this.sendEvent({
-				type: isPlayEvent ? Events.PLAY : Events.PAUSE
-			});
-			if (isPlayEvent) {
-				this.hide();
-			}
+		onPlay: function() {
+			this.hide();
 		},
 		setPaused: function(paused) {
 			this.centerView.setPaused(paused);
@@ -874,15 +872,15 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			});
 		}
 	});
-	/* global Main, AdView, Time, BottomView, Events, TopView */
+	/* global Main, AdView, Time, BottomView, Events, TopView, ToggleableButton */
 	var GUI = Main;
 	GUI.version = "0.14.0";
-	GUI.build = "Wed Feb 04 2015 19:00:53";
+	GUI.build = "Thu Feb 05 2015 14:09:12";
 	GUI.Time = Time;
 	GUI.AdView = AdView;
 	GUI.BottomView = BottomView;
 	GUI.TopView = TopView;
-	
+	GUI.ToggleableButton = ToggleableButton;
 	GUI.Events = Events;
 	return GUI;
 })(_, $, Handlebars, Backbone);

@@ -1,18 +1,14 @@
 /* exported Main */
 /* global $, _, Backbone, Logger, Events, TopView, CenterView, 
-	BottomView, ShareView, PlayPauseButton, AdView*/
+	BottomView, ShareView, AdView*/
 var Main = Backbone.View.extend({
 	className: "pjs-gui",
 	logger: new Logger("PJS-GUI"),
 	events: {
-		"click .pjs-gui-controls-play-pause": "onPlayPause",
-		"touchstart .pjs-gui-controls-play-pause": "onPlayPause",
 		"mousedown .pjs-controls": "onScrubberClick",
 		"touchstart .pjs-controls": "onScrubberClick",
-		"click .pjs-gui-controls-fullscreen": "onFullscreen",
-		"touchstart .pjs-gui-controls-fullscreen": "onFullscreen",
-		"click .pjs-share-item": "onShare",
-		"touchstart .pjs-share-item": "onShare",
+		"click .pjs-gui-share-item": "onShare",
+		"touchstart .pjs-gui-share-item": "onShare",
 		"click .pjs-gui-controls-share": "showShare",
 		"touchstart .pjs-gui-controls-share": "showShare",
 		"click .pjs-gui-controls-rewind": "onRewind",
@@ -20,7 +16,7 @@ var Main = Backbone.View.extend({
 	},
 	initialize: function(options) {
 		this.options = options;
-		_.bindAll(this, "onSeek", "sendEvent");
+		_.bindAll(this, "onSeek", "sendEvent", "onPlay");
 		this.render();
 	},
 	render: function() {
@@ -30,6 +26,9 @@ var Main = Backbone.View.extend({
 		// Center, should be behind Top and Bottom
 		this.centerView = new CenterView(options);
 		this.centerView.$el.appendTo(this.$el);
+		this.listenTo(this.centerView.playPause, Events.PLAY, this.onPlay);
+		this.listenTo(this.centerView.playPause, Events.PLAY, this.sendEvent);
+		this.listenTo(this.centerView.playPause, Events.PAUSE, this.sendEvent);
 		// Share
 		this.shareView = new ShareView(options.shareView);
 		this.shareView.$el.appendTo(this.$el);
@@ -37,6 +36,9 @@ var Main = Backbone.View.extend({
 		// Top
 		this.topView = new TopView(options.topView);
 		this.topView.$el.appendTo(this.$el);
+		this.listenTo(this.topView.cc, Events.CC, this.sendEvent);
+
+		this.listenTo(this.topView.fullScreen, Events.FULLSCREEN, this.sendEvent);
 		// Ad View
 		this.adView = new AdView(options.adView);
 		this.adView.$el.appendTo(this.$el);
@@ -77,15 +79,8 @@ var Main = Backbone.View.extend({
 			this.topView.show();
 		}
 	},
-	onPlayPause: function(event) {
-		event.preventDefault();
-		var isPlayEvent = PlayPauseButton.isPlayEvent($(event.currentTarget));
-		this.sendEvent({
-			type: isPlayEvent ? Events.PLAY : Events.PAUSE
-		});
-		if (isPlayEvent) {
-			this.hide();
-		}
+	onPlay: function() {
+		this.hide();
 	},
 	setPaused: function(paused) {
 		this.centerView.setPaused(paused);

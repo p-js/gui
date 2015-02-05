@@ -1,6 +1,6 @@
-/* line 232, images/*.png */
-.images-sprite, .pjs-gui-controls-share:before, .pjs-gui-controls-play:before, .pjs-gui-controls-rewind:before, .pjs-gui-controls-pause:before, .pjs-gui-controls-fullscreen:before, .pjs-gui-controls-cc:before, .pjs-gui-controls-cc-on:before, .pjs-share-facebook:before, .pjs-share-twitter:before, .pjs-share-email:before {
-  background-image: url('images-see59622ba3.png');
+/* line 240, images/*.png */
+.images-sprite, .pjs-gui-controls-share:before, .pjs-gui-controls-play:before, .pjs-gui-controls-rewind:before, .pjs-gui-controls-pause:before, .pjs-gui-controls-fullscreen:before, .pjs-gui-controls-fullscreen-minimize:before, .pjs-gui-controls-cc:before, .pjs-gui-controls-cc-on:before, .pjs-share-facebook:before, .pjs-share-twitter:before, .pjs-share-email:before {
+  background-image: url('images-sb97b01dec4.png');
   background-repeat: no-repeat;
 }
 
@@ -296,7 +296,7 @@
 }
 
 /* line 1, ../src/sass/_share.scss */
-.pjs-share-item {
+.pjs-gui-share-item {
   margin: 10px;
 }
 
@@ -316,9 +316,9 @@
 
 /* line 3, ../src/sass/_buttons.scss */
 .pjs-gui-controls-share:before {
-  background-position: 0 -1106px;
-  width: 45px;
-  height: 45px;
+  background-position: 0 -1412px;
+  width: 53px;
+  height: 53px;
   content: "";
   display: inline-block;
   cursor: pointer;
@@ -326,9 +326,9 @@
 
 /* line 7, ../src/sass/_buttons.scss */
 .pjs-gui-controls-play:before {
-  background-position: 0 -926px;
-  width: 90px;
-  height: 90px;
+  background-position: 0 -1151px;
+  width: 130px;
+  height: 130px;
   content: "";
   display: inline-block;
   cursor: pointer;
@@ -336,9 +336,9 @@
 
 /* line 11, ../src/sass/_buttons.scss */
 .pjs-gui-controls-rewind:before {
-  background-position: 0 -1016px;
-  width: 90px;
-  height: 90px;
+  background-position: 0 -1281px;
+  width: 131px;
+  height: 131px;
   content: "";
   display: inline-block;
   cursor: pointer;
@@ -346,9 +346,9 @@
 
 /* line 15, ../src/sass/_buttons.scss */
 .pjs-gui-controls-pause:before {
-  background-position: 0 -836px;
-  width: 90px;
-  height: 90px;
+  background-position: 0 -1020px;
+  width: 131px;
+  height: 131px;
   content: "";
   display: inline-block;
   cursor: pointer;
@@ -356,17 +356,17 @@
 
 /* line 19, ../src/sass/_buttons.scss */
 .pjs-gui-controls-fullscreen:before {
-  background-position: 0 -619px;
-  width: 40px;
-  height: 40px;
+  background-position: 0 -724px;
+  width: 44px;
+  height: 44px;
   content: "";
   display: inline-block;
   cursor: pointer;
 }
 
 /* line 23, ../src/sass/_buttons.scss */
-.pjs-gui-controls-cc:before {
-  background-position: 0 -181px;
+.pjs-gui-controls-fullscreen-minimize:before {
+  background-position: 0 -956px;
   width: 45px;
   height: 45px;
   content: "";
@@ -375,40 +375,50 @@
 }
 
 /* line 27, ../src/sass/_buttons.scss */
-.pjs-gui-controls-cc-on:before {
-  background-position: 0 -226px;
-  width: 45px;
-  height: 45px;
+.pjs-gui-controls-cc:before {
+  background-position: 0 -181px;
+  width: 53px;
+  height: 53px;
   content: "";
   display: inline-block;
   cursor: pointer;
 }
 
 /* line 31, ../src/sass/_buttons.scss */
-.pjs-share-facebook:before {
-  background-position: 0 -503px;
-  width: 116px;
-  height: 116px;
+.pjs-gui-controls-cc-on:before {
+  background-position: 0 -234px;
+  width: 52px;
+  height: 52px;
   content: "";
   display: inline-block;
   cursor: pointer;
 }
 
 /* line 35, ../src/sass/_buttons.scss */
-.pjs-share-twitter:before {
-  background-position: 0 -1367px;
-  width: 116px;
-  height: 116px;
+.pjs-share-facebook:before {
+  background-position: 0 -578px;
+  width: 146px;
+  height: 146px;
   content: "";
   display: inline-block;
   cursor: pointer;
 }
 
 /* line 39, ../src/sass/_buttons.scss */
+.pjs-share-twitter:before {
+  background-position: 0 -1711px;
+  width: 146px;
+  height: 146px;
+  content: "";
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* line 43, ../src/sass/_buttons.scss */
 .pjs-share-email:before {
-  background-position: 0 -271px;
-  width: 116px;
-  height: 116px;
+  background-position: 0 -286px;
+  width: 146px;
+  height: 146px;
   content: "";
   display: inline-block;
   cursor: pointer;
