@@ -1,5 +1,5 @@
 /* exported ShareView */
-/* global Backbone, $, Templates*/
+/* global Backbone, $, Templates, ShareItems*/
 var ShareView = (function() {
 	var css = {
 		hide: "pjs-share-hidden"
@@ -13,7 +13,7 @@ var ShareView = (function() {
 			this.render();
 		},
 		render: function() {
-			var options = this.options;
+			var options = ShareItems.validate(this.options || {});
 			this.$el.html($(this.template(options)));
 		},
 		hide: function() {

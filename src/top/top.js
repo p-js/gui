@@ -1,13 +1,11 @@
-/* global BaseView, Templates, $, TopPanelModel, ToggleableButton, Events*/
+/* global _, Backbone, Templates, $, ToggleableButton, Events, PrefixTransform*/
 /* exported TopView */
-var TopView = BaseView.extend({
+var TopView = Backbone.View.extend({
 	template: Templates["src/top/template.html"],
 	className: "pjs-gui-top",
-	css: {
-		hide: "pjs-gui-top-hidden"
-	},
 	initialize: function(options) {
-		this.options = TopPanelModel.validate(options || {});
+		_.bindAll(this, "hide");
+		this.options = options = options || {};
 		this.render();
 		// CC has toggle-able state and dispatches event
 		// buttons without state are just handled in main.js
@@ -29,6 +27,20 @@ var TopView = BaseView.extend({
 			},
 			eventType: Events.FULLSCREEN
 		});
+		_.delay(this.hide, 10);
+	},
+	show: function() {
+		this.$el.css(PrefixTransform.get("translateY(0)"));
+	},
+	hide: function() {
+		var height = this.getHeight();
+		this.$el.css(PrefixTransform.get("translateY(" + -height + "px)"));
+	},
+	getHeight: function() {
+		if (!this.outerHeight) {
+			this.outerHeight = this.$el[0].offsetHeight;
+		}
+		return this.outerHeight ? this.outerHeight : 300;
 	},
 	setMetadata: function(html) {
 		this.$(".pjs-gui-top-metadata").html(html);

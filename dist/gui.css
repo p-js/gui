@@ -1,5 +1,5 @@
 /* line 240, images/*.png */
-.images-sprite, .pjs-gui-controls-share:before, .pjs-gui-controls-play:before, .pjs-gui-controls-rewind:before, .pjs-gui-controls-pause:before, .pjs-gui-controls-fullscreen:before, .pjs-gui-controls-fullscreen-minimize:before, .pjs-gui-controls-cc:before, .pjs-gui-controls-cc-on:before, .pjs-share-facebook:before, .pjs-share-twitter:before, .pjs-share-email:before {
+.images-sprite, .pjs-gui-controls-share:before, .pjs-gui-controls-play:before, .pjs-gui-controls-rewind:before, .pjs-gui-controls-pause:before, .pjs-gui-controls-fullscreen:before, .pjs-gui-controls-fullscreen-minimize:before, .pjs-gui-controls-cc:before, .pjs-gui-controls-cc-on:before, .pjs-share-facebook:before, .pjs-share-twitter:before, .pjs-share-embed:before, .pjs-share-link:before {
   background-image: url('images-sb97b01dec4.png');
   background-repeat: no-repeat;
 }
@@ -287,14 +287,6 @@
   text-overflow: ellipsis;
 }
 
-/* line 25, ../src/sass/_top.scss */
-.pjs-gui-top-hidden {
-  -webkit-transform: translateY(-60px);
-  -moz-transform: translateY(-60px);
-  -o-transform: translateY(-60px);
-  transform: translateY(-60px);
-}
-
 /* line 1, ../src/sass/_share.scss */
 .pjs-gui-share-item {
   margin: 10px;
@@ -415,8 +407,18 @@
 }
 
 /* line 43, ../src/sass/_buttons.scss */
-.pjs-share-email:before {
-  background-position: 0 -286px;
+.pjs-share-embed:before {
+  background-position: 0 -432px;
+  width: 146px;
+  height: 146px;
+  content: "";
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* line 47, ../src/sass/_buttons.scss */
+.pjs-share-link:before {
+  background-position: 0 -789px;
   width: 146px;
   height: 146px;
   content: "";

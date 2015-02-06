@@ -16,7 +16,7 @@ var Main = Backbone.View.extend({
 	},
 	initialize: function(options) {
 		this.options = options;
-		_.bindAll(this, "onSeek", "sendEvent", "onPlay");
+		_.bindAll(this, "onSeek", "sendEvent", "hide");
 		this.render();
 	},
 	render: function() {
@@ -26,22 +26,24 @@ var Main = Backbone.View.extend({
 		// Center, should be behind Top and Bottom
 		this.centerView = new CenterView(options);
 		this.centerView.$el.appendTo(this.$el);
-		this.listenTo(this.centerView.playPause, Events.PLAY, this.onPlay);
+		this.listenTo(this.centerView.playPause, Events.PLAY, this.hide);
 		this.listenTo(this.centerView.playPause, Events.PLAY, this.sendEvent);
 		this.listenTo(this.centerView.playPause, Events.PAUSE, this.sendEvent);
 		// Share
-		this.shareView = new ShareView(options.shareView);
+		this.shareView = new ShareView(options);
 		this.shareView.$el.appendTo(this.$el);
 		this.shareView.hide();
 		// Top
-		this.topView = new TopView(options.topView);
+		this.topView = new TopView(options);
 		this.topView.$el.appendTo(this.$el);
+		// Top CC
 		this.listenTo(this.topView.cc, Events.CC, this.sendEvent);
-
+		// Top Fullscreen
 		this.listenTo(this.topView.fullScreen, Events.FULLSCREEN, this.sendEvent);
 		// Ad View
 		this.adView = new AdView(options.adView);
 		this.adView.$el.appendTo(this.$el);
+		// Ad Learn more
 		this.listenTo(this.adView, Events.LEARN_MORE, this.sendEvent);
 		this.adView.hide();
 		// Bottom
@@ -49,19 +51,21 @@ var Main = Backbone.View.extend({
 		this.bottomView.$el.appendTo(this.$el);
 		this.listenTo(this.bottomView, Events.SEEK, this.onSeek);
 		this.listenTo(this.bottomView, Events.SEEK, this.sendEvent);
+		this.allViews = [this.centerView, this.$background, this.bottomView, this.topView, this.shareView];
 		this.hide();
 		return this;
 	},
 	hide: function() {
-		this.centerView.hide();
-		this.$background.hide();
-		this.bottomView.hide();
-		this.topView.hide();
-		this.shareView.hide();
+		_.invoke(this.allViews, "hide");
 		this.isActive = false;
 		this.logger.info("hide()");
 	},
 	sendEvent: function(event) {
+		if (_.isString(event)) {
+			event = {
+				type: event
+			};
+		}
 		event.target = this;
 		this.trigger(event.type, event);
 	},
@@ -79,9 +83,6 @@ var Main = Backbone.View.extend({
 			this.topView.show();
 		}
 	},
-	onPlay: function() {
-		this.hide();
-	},
 	setPaused: function(paused) {
 		this.centerView.setPaused(paused);
 	},
@@ -92,16 +93,14 @@ var Main = Backbone.View.extend({
 	isDragging: function() {
 		return this.bottomView.slider.dragging;
 	},
-	showShare: function() {
+	showShare: function(event) {
 		event.preventDefault();
 		event.stopPropagation();
 		if (this.centerView.isShowing()) {
 			this.logger.info("show share panel");
 			this.centerView.hide();
 			this.shareView.show();
-			this.sendEvent({
-				type: Events.SHOW_SHARE
-			});
+			this.sendEvent(Events.SHOW_SHARE);
 		} else {
 			this.logger.info("hide share panel");
 			this.centerView.show();
@@ -141,16 +140,15 @@ var Main = Backbone.View.extend({
 	onFullscreen: function(event) {
 		event.preventDefault();
 		event.stopPropagation();
-		this.sendEvent({
-			type: Events.FULLSCREEN
-		});
+		this.sendEvent(Events.FULLSCREEN);
+	},
+	showFullscreenButton: function(showFullscreenButton) {
+		this.topView.fullScreen.setStyle(showFullscreenButton);
 	},
 	onRewind: function(event) {
 		event.preventDefault();
 		event.stopPropagation();
-		this.sendEvent({
-			type: Events.REWIND
-		});
+		this.sendEvent(Events.REWIND);
 	},
 	onShare: function(event) {
 		this.logger.info("onShare");

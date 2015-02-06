@@ -7,10 +7,8 @@ var gui = new GUI({
 			buttonLink: "#",
 			time: 30
 		},
-		topView: {
-			metadata: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna."
-		},
-		share: ["facebook", "twitter", "email"],
+		metadata: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.",
+		share: ["facebook", "twitter", "embed", "link"],
 		durations: [60, 30, 60, 30, 30]
 	}),
 	buffer = 0,
@@ -34,6 +32,7 @@ var gui = new GUI({
 			position: "relative",
 			zIndex: "auto"
 		}).width(640).height(420);
+
 	};
 _.each(GUI.Events, function(eventType) {
 	gui.on(eventType, function(event) {
@@ -53,6 +52,7 @@ FullScreen.on(FullScreen.Events.FULL_SCREEN_CHANGE, function(event) {
 		$gui.width("100%").height("100%");
 	} else {
 		$gui.width(640).height(420);
+		gui.showFullscreenButton(true);
 	}
 });
 gui.on(GUI.Events.FULLSCREEN, function() {

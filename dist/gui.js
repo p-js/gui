@@ -116,6 +116,16 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			this.$el.removeClass(this.css.hide);
 		}
 	});
+	/* exported PrefixTransform */
+	var PrefixTransform = {
+		get: function(value) {
+			return {
+				'-webkit-transform': value,
+				'-ms-transform': value,
+				transform: value
+			};
+		}
+	};
 	/* exported Time */
 	var Time = {
 		format: function(sec) {
@@ -150,6 +160,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 		},
 		toggle: function(event) {
 			event.preventDefault();
+			event.stopPropagation();
 			var eventType = this.eventType;
 			if (eventType.on || eventType.off) {
 				eventType = this.isOn ? eventType.on : eventType.off;
@@ -238,27 +249,14 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			buttonTarget: "_blank"
 		}
 	});
-	/* global _ */
-	/* exported TopPanelModel */
-	var TopPanelModel = {
-		availableShareItems: ["facebook", "twitter", "email"],
-		validate: function(options) {
-			if (options.share) {
-				options.share = _.intersection(options.share, TopPanelModel.availableShareItems);
-			}
-			return options;
-		}
-	};
-	/* global BaseView, Templates, $, TopPanelModel, ToggleableButton, Events*/
+	/* global _, Backbone, Templates, $, ToggleableButton, Events, PrefixTransform*/
 	/* exported TopView */
-	var TopView = BaseView.extend({
+	var TopView = Backbone.View.extend({
 		template: Templates["src/top/template.html"],
 		className: "pjs-gui-top",
-		css: {
-			hide: "pjs-gui-top-hidden"
-		},
 		initialize: function(options) {
-			this.options = TopPanelModel.validate(options || {});
+			_.bindAll(this, "hide");
+			this.options = options = options || {};
 			this.render();
 			// CC has toggle-able state and dispatches event
 			// buttons without state are just handled in main.js
@@ -280,6 +278,20 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				},
 				eventType: Events.FULLSCREEN
 			});
+			_.delay(this.hide, 10);
+		},
+		show: function() {
+			this.$el.css(PrefixTransform.get("translateY(0)"));
+		},
+		hide: function() {
+			var height = this.getHeight();
+			this.$el.css(PrefixTransform.get("translateY(" + -height + "px)"));
+		},
+		getHeight: function() {
+			if (!this.outerHeight) {
+				this.outerHeight = this.$el[0].offsetHeight;
+			}
+			return this.outerHeight ? this.outerHeight : 300;
 		},
 		setMetadata: function(html) {
 			this.$(".pjs-gui-top-metadata").html(html);
@@ -322,8 +334,19 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			this.playPause.setStyle(paused);
 		}
 	});
+	/* global _ */
+	/* exported ShareItems */
+	var ShareItems = {
+		availableShareItems: ["facebook", "twitter", "embed", "link"],
+		validate: function(options) {
+			if (options.share) {
+				options.share = _.intersection(options.share, ShareItems.availableShareItems);
+			}
+			return options;
+		}
+	};
 	/* exported ShareView */
-	/* global Backbone, $, Templates*/
+	/* global Backbone, $, Templates, ShareItems*/
 	var ShareView = (function() {
 		var css = {
 			hide: "pjs-share-hidden"
@@ -337,7 +360,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				this.render();
 			},
 			render: function() {
-				var options = this.options;
+				var options = ShareItems.validate(this.options || {});
 				this.$el.html($(this.template(options)));
 			},
 			hide: function() {
@@ -726,7 +749,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 		},
 		initialize: function(options) {
 			this.options = options;
-			_.bindAll(this, "onSeek", "sendEvent", "onPlay");
+			_.bindAll(this, "onSeek", "sendEvent", "hide");
 			this.render();
 		},
 		render: function() {
@@ -736,22 +759,24 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			// Center, should be behind Top and Bottom
 			this.centerView = new CenterView(options);
 			this.centerView.$el.appendTo(this.$el);
-			this.listenTo(this.centerView.playPause, Events.PLAY, this.onPlay);
+			this.listenTo(this.centerView.playPause, Events.PLAY, this.hide);
 			this.listenTo(this.centerView.playPause, Events.PLAY, this.sendEvent);
 			this.listenTo(this.centerView.playPause, Events.PAUSE, this.sendEvent);
 			// Share
-			this.shareView = new ShareView(options.shareView);
+			this.shareView = new ShareView(options);
 			this.shareView.$el.appendTo(this.$el);
 			this.shareView.hide();
 			// Top
-			this.topView = new TopView(options.topView);
+			this.topView = new TopView(options);
 			this.topView.$el.appendTo(this.$el);
+			// Top CC
 			this.listenTo(this.topView.cc, Events.CC, this.sendEvent);
-	
+			// Top Fullscreen
 			this.listenTo(this.topView.fullScreen, Events.FULLSCREEN, this.sendEvent);
 			// Ad View
 			this.adView = new AdView(options.adView);
 			this.adView.$el.appendTo(this.$el);
+			// Ad Learn more
 			this.listenTo(this.adView, Events.LEARN_MORE, this.sendEvent);
 			this.adView.hide();
 			// Bottom
@@ -759,19 +784,21 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			this.bottomView.$el.appendTo(this.$el);
 			this.listenTo(this.bottomView, Events.SEEK, this.onSeek);
 			this.listenTo(this.bottomView, Events.SEEK, this.sendEvent);
+			this.allViews = [this.centerView, this.$background, this.bottomView, this.topView, this.shareView];
 			this.hide();
 			return this;
 		},
 		hide: function() {
-			this.centerView.hide();
-			this.$background.hide();
-			this.bottomView.hide();
-			this.topView.hide();
-			this.shareView.hide();
+			_.invoke(this.allViews, "hide");
 			this.isActive = false;
 			this.logger.info("hide()");
 		},
 		sendEvent: function(event) {
+			if (_.isString(event)) {
+				event = {
+					type: event
+				};
+			}
 			event.target = this;
 			this.trigger(event.type, event);
 		},
@@ -789,9 +816,6 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 				this.topView.show();
 			}
 		},
-		onPlay: function() {
-			this.hide();
-		},
 		setPaused: function(paused) {
 			this.centerView.setPaused(paused);
 		},
@@ -802,16 +826,14 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 		isDragging: function() {
 			return this.bottomView.slider.dragging;
 		},
-		showShare: function() {
+		showShare: function(event) {
 			event.preventDefault();
 			event.stopPropagation();
 			if (this.centerView.isShowing()) {
 				this.logger.info("show share panel");
 				this.centerView.hide();
 				this.shareView.show();
-				this.sendEvent({
-					type: Events.SHOW_SHARE
-				});
+				this.sendEvent(Events.SHOW_SHARE);
 			} else {
 				this.logger.info("hide share panel");
 				this.centerView.show();
@@ -851,16 +873,15 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 		onFullscreen: function(event) {
 			event.preventDefault();
 			event.stopPropagation();
-			this.sendEvent({
-				type: Events.FULLSCREEN
-			});
+			this.sendEvent(Events.FULLSCREEN);
+		},
+		showFullscreenButton: function(showFullscreenButton) {
+			this.topView.fullScreen.setStyle(showFullscreenButton);
 		},
 		onRewind: function(event) {
 			event.preventDefault();
 			event.stopPropagation();
-			this.sendEvent({
-				type: Events.REWIND
-			});
+			this.sendEvent(Events.REWIND);
 		},
 		onShare: function(event) {
 			this.logger.info("onShare");
@@ -875,7 +896,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	/* global Main, AdView, Time, BottomView, Events, TopView, ToggleableButton */
 	var GUI = Main;
 	GUI.version = "0.14.0";
-	GUI.build = "Thu Feb 05 2015 14:09:12";
+	GUI.build = "Fri Feb 06 2015 11:09:24";
 	GUI.Time = Time;
 	GUI.AdView = AdView;
 	GUI.BottomView = BottomView;

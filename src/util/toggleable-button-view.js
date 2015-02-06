@@ -20,6 +20,7 @@ var ToggleableButton = Backbone.View.extend({
 	},
 	toggle: function(event) {
 		event.preventDefault();
+		event.stopPropagation();
 		var eventType = this.eventType;
 		if (eventType.on || eventType.off) {
 			eventType = this.isOn ? eventType.on : eventType.off;

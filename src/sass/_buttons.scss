@@ -40,7 +40,11 @@
 	@include image-with-dims(twitter);
 	cursor: pointer;
 }
-.pjs-share-email:before {
-	@include image-with-dims(email);
+.pjs-share-embed:before {
+	@include image-with-dims(embed);
+	cursor: pointer;
+}
+.pjs-share-link:before {
+	@include image-with-dims(link);
 	cursor: pointer;
 }
