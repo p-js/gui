@@ -1,5 +1,5 @@
 /* exported BaseView */
-/* global Backbone*/
+/* global Backbone, _*/
 /**
  * @ignore
  * Hide and show functionality is in almost every view.
@@ -14,5 +14,14 @@ var BaseView = Backbone.View.extend({
 	},
 	show: function() {
 		this.$el.removeClass(this.css.hide);
+	},
+	sendEvent: function(event) {
+		if (_.isString(event)) {
+			event = {
+				type: event
+			};
+		}
+		event.target = this;
+		this.trigger(event.type, event);
 	}
 });

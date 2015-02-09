@@ -4,5 +4,6 @@ var States = {
 	SHARE: "SHARE",
 	SCRUBBING: "SCRUBBING",
 	AD: "AD",
+	AD_ACTIVE: "AD_ACTIVE",
 	HIDDEN: "HIDDEN"
 };

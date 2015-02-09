@@ -24,9 +24,9 @@ var Main = Backbone.View.extend({
 		// Center, should be behind Top and Bottom
 		this.centerView = new CenterView(options);
 		this.centerView.$el.appendTo(this.$el);
-		this.listenTo(this.centerView.playPause, Events.PLAY, this.hide);
-		this.listenTo(this.centerView.playPause, Events.PLAY, this.sendEvent);
-		this.listenTo(this.centerView.playPause, Events.PAUSE, this.sendEvent);
+		this.listenTo(this.centerView, Events.PLAY, this.hide);
+		this.listenTo(this.centerView, Events.PLAY, this.sendEvent);
+		this.listenTo(this.centerView, Events.PAUSE, this.sendEvent);
 		// Share
 		this.shareView = new ShareView(options);
 		this.shareView.$el.appendTo(this.$el);
@@ -50,7 +50,7 @@ var Main = Backbone.View.extend({
 		this.listenTo(this.bottomView, Events.SEEK, this.hide);
 		this.listenTo(this.bottomView, Events.SCRUB_START, this.onScrubbing);
 		this.listenTo(this.bottomView, Events.SEEK, this.sendEvent);
-		this.allViews = [this.centerView, this.$background, this.bottomView, this.topView, this.shareView];
+		this.allViews = [this.centerView, this.$background, this.bottomView, this.topView, this.shareView, this.adView];
 		this.hide();
 		return this;
 	},
@@ -67,6 +67,7 @@ var Main = Backbone.View.extend({
 			};
 		}
 		event.target = this;
+		this.logger.info("send event:", event.type, event);
 		this.trigger(event.type, event);
 	},
 	setPaused: function(paused) {
@@ -82,7 +83,8 @@ var Main = Backbone.View.extend({
 			case States.ACTIVE:
 				this.bottomView.slider.setEnabled(true);
 				_.invoke([this.shareView, this.adView], "hide");
-				_.invoke(_.without(this.allViews, this.shareView), "show");
+				this.centerView.$rewind.show();
+				_.invoke(_.without(this.allViews, this.shareView, this.adView), "show");
 				break;
 			case States.SHARE:
 				this.logger.info("show share panel");
@@ -99,9 +101,14 @@ var Main = Backbone.View.extend({
 			case States.AD:
 				this.logger.info("ad state options:", options);
 				_.invoke(this.allViews, "hide");
-				this.bottomView.slider.setEnabled(false);
 				this.adView.render(_.extend(this.adView.options, options));
 				this.adView.show();
+				break;
+			case States.AD_ACTIVE:
+				this.logger.info("ad with controls options:", options);
+				_.invoke(this.allViews, "hide");
+				this.centerView.$rewind.hide();
+				_.invoke([this.adView, this.centerView], "show");
 				break;
 			default:
 				this.logger.error("Unrecognized state", state);

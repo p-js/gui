@@ -10,6 +10,12 @@
 	text-shadow: 1px 1px 1px black;
 } 
 
+@mixin ad-text {
+	font-size: 14px;
+	font-weight: bold;
+	text-shadow: 1px 1px 1px black;
+} 
+
 @mixin playhead-text {
 }
 

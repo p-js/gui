@@ -122,10 +122,11 @@
 		SHARE: "SHARE",
 		SCRUBBING: "SCRUBBING",
 		AD: "AD",
+		AD_ACTIVE: "AD_ACTIVE",
 		HIDDEN: "HIDDEN"
 	};
 	/* exported BaseView */
-	/* global Backbone*/
+	/* global Backbone, _*/
 	/**
 	 * @ignore
 	 * Hide and show functionality is in almost every view.
@@ -140,6 +141,15 @@
 		},
 		show: function() {
 			this.$el.removeClass(this.css.hide);
+		},
+		sendEvent: function(event) {
+			if (_.isString(event)) {
+				event = {
+					type: event
+				};
+			}
+			event.target = this;
+			this.trigger(event.type, event);
 		}
 	});
 	/* exported PrefixTransform */
@@ -329,7 +339,7 @@
 		}
 	});
 	/* exported CenterView */
-	/* global BaseView, $, ToggleableButton, Templates, Events*/
+	/* global BaseView, _, $, ToggleableButton, Templates, Events*/
 	var CenterView = BaseView.extend({
 		template: Templates["src/center-controls/template.html"],
 		css: {
@@ -337,11 +347,11 @@
 		},
 		className: "pjs-gui-center-controls",
 		initialize: function(options) {
-			this.options = options;
+			this.options = _.clone(options);
 			this.render();
 		},
-		render: function() {
-			var options = this.options;
+		render: function(options) {
+			options = this.options = _.extend(this.options, options);
 			this.$el.html($(this.template(options)));
 			// PLAY PAUSE 
 			this.playPause = new ToggleableButton({
@@ -356,9 +366,13 @@
 					off: "pjs-gui-controls-pause"
 				}
 			});
+			this.listenTo(this.playPause, Events.PLAY, this.sendEvent);
+			this.listenTo(this.playPause, Events.PAUSE, this.sendEvent);
+			this.$rewind = this.$(".pjs-gui-controls-rewind");
 		},
 		setPaused: function(paused) {
 			this.playPause.setStyle(paused);
+			this.options.paused = paused;
 		}
 	});
 	/* global _ */
@@ -754,10 +768,6 @@
 				}, 0);
 				this.$duration.html(Time.format(this.totalDuration));
 				this.slider.setDurations(durations);
-			},
-			sendEvent: function(event) {
-				event.target = this;
-				this.trigger(event.type, event);
 			}
 		});
 	})();
@@ -787,9 +797,9 @@
 			// Center, should be behind Top and Bottom
 			this.centerView = new CenterView(options);
 			this.centerView.$el.appendTo(this.$el);
-			this.listenTo(this.centerView.playPause, Events.PLAY, this.hide);
-			this.listenTo(this.centerView.playPause, Events.PLAY, this.sendEvent);
-			this.listenTo(this.centerView.playPause, Events.PAUSE, this.sendEvent);
+			this.listenTo(this.centerView, Events.PLAY, this.hide);
+			this.listenTo(this.centerView, Events.PLAY, this.sendEvent);
+			this.listenTo(this.centerView, Events.PAUSE, this.sendEvent);
 			// Share
 			this.shareView = new ShareView(options);
 			this.shareView.$el.appendTo(this.$el);
@@ -813,7 +823,7 @@
 			this.listenTo(this.bottomView, Events.SEEK, this.hide);
 			this.listenTo(this.bottomView, Events.SCRUB_START, this.onScrubbing);
 			this.listenTo(this.bottomView, Events.SEEK, this.sendEvent);
-			this.allViews = [this.centerView, this.$background, this.bottomView, this.topView, this.shareView];
+			this.allViews = [this.centerView, this.$background, this.bottomView, this.topView, this.shareView, this.adView];
 			this.hide();
 			return this;
 		},
@@ -830,6 +840,7 @@
 				};
 			}
 			event.target = this;
+			this.logger.info("send event:", event.type, event);
 			this.trigger(event.type, event);
 		},
 		setPaused: function(paused) {
@@ -845,7 +856,8 @@
 				case States.ACTIVE:
 					this.bottomView.slider.setEnabled(true);
 					_.invoke([this.shareView, this.adView], "hide");
-					_.invoke(_.without(this.allViews, this.shareView), "show");
+					this.centerView.$rewind.show();
+					_.invoke(_.without(this.allViews, this.shareView, this.adView), "show");
 					break;
 				case States.SHARE:
 					this.logger.info("show share panel");
@@ -862,9 +874,14 @@
 				case States.AD:
 					this.logger.info("ad state options:", options);
 					_.invoke(this.allViews, "hide");
-					this.bottomView.slider.setEnabled(false);
 					this.adView.render(_.extend(this.adView.options, options));
 					this.adView.show();
+					break;
+				case States.AD_ACTIVE:
+					this.logger.info("ad with controls options:", options);
+					_.invoke(this.allViews, "hide");
+					this.centerView.$rewind.hide();
+					_.invoke([this.adView, this.centerView], "show");
 					break;
 				default:
 					this.logger.error("Unrecognized state", state);
@@ -924,7 +941,7 @@
 	/* global Main, AdView, Time, States, BottomView, Events, TopView, ToggleableButton */
 	var GUI = Main;
 	GUI.version = "0.14.0";
-	GUI.build = "Mon Feb 09 2015 08:49:38";
+	GUI.build = "Mon Feb 09 2015 15:31:50";
 	GUI.Time = Time;
 	GUI.AdView = AdView;
 	GUI.BottomView = BottomView;

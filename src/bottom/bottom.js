@@ -60,10 +60,6 @@ var BottomView = (function() {
 			}, 0);
 			this.$duration.html(Time.format(this.totalDuration));
 			this.slider.setDurations(durations);
-		},
-		sendEvent: function(event) {
-			event.target = this;
-			this.trigger(event.type, event);
 		}
 	});
 })();

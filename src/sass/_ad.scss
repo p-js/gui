@@ -1,5 +1,7 @@
 .pjs-ad-gui {
+	@include ad-text();
 	@include flexbox();
+	@include absolute();
 	@include transition($transition);
 	width: 100%;	
 }

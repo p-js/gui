@@ -1,5 +1,5 @@
 /* exported CenterView */
-/* global BaseView, $, ToggleableButton, Templates, Events*/
+/* global BaseView, _, $, ToggleableButton, Templates, Events*/
 var CenterView = BaseView.extend({
 	template: Templates["src/center-controls/template.html"],
 	css: {
@@ -7,11 +7,11 @@ var CenterView = BaseView.extend({
 	},
 	className: "pjs-gui-center-controls",
 	initialize: function(options) {
-		this.options = options;
+		this.options = _.clone(options);
 		this.render();
 	},
-	render: function() {
-		var options = this.options;
+	render: function(options) {
+		options = this.options = _.extend(this.options, options);
 		this.$el.html($(this.template(options)));
 		// PLAY PAUSE 
 		this.playPause = new ToggleableButton({
@@ -26,8 +26,12 @@ var CenterView = BaseView.extend({
 				off: "pjs-gui-controls-pause"
 			}
 		});
+		this.listenTo(this.playPause, Events.PLAY, this.sendEvent);
+		this.listenTo(this.playPause, Events.PAUSE, this.sendEvent);
+		this.$rewind = this.$(".pjs-gui-controls-rewind");
 	},
 	setPaused: function(paused) {
 		this.playPause.setStyle(paused);
+		this.options.paused = paused;
 	}
 });
