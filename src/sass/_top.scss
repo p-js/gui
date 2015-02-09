@@ -1,13 +1,14 @@
+$top-item-margin: 20px;
 .pjs-gui-top {
 	@include absolute();
 	width: 100%;
 	@include transition($transition);
 }
 .pjs-gui-top-container {
- 	margin: 15px 20px;
+ 	margin: 15px $top-item-margin;
 }
 .pjs-gui-top-container > * {
- 	margin: 0px 20px;
+ 	margin: 0px $top-item-margin;
 }
 .pjs-gui-top-container > :first-child{ 
 	margin-left: 0; 

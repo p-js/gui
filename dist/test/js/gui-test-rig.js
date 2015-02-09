@@ -3,6 +3,7 @@
 var gui = new GUI({
 		playing: false,
 		ccEnabled: true,
+		fullscreenEnabled: true,
 		adView: {
 			buttonLink: "#",
 			time: 30

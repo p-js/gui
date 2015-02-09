@@ -1,22 +1,20 @@
 /* exported Main */
 /* global $, _, Backbone, Logger, Events, TopView, CenterView, 
-	BottomView, ShareView, AdView*/
+	States, BottomView, ShareView, AdView*/
 var Main = Backbone.View.extend({
 	className: "pjs-gui",
 	logger: new Logger("PJS-GUI"),
 	events: {
-		"mousedown .pjs-controls": "onScrubberClick",
-		"touchstart .pjs-controls": "onScrubberClick",
 		"click .pjs-gui-share-item": "onShare",
 		"touchstart .pjs-gui-share-item": "onShare",
-		"click .pjs-gui-controls-share": "showShare",
-		"touchstart .pjs-gui-controls-share": "showShare",
+		"click .pjs-gui-controls-share": "shareButtonClick",
+		"touchstart .pjs-gui-controls-share": "shareButtonClick",
 		"click .pjs-gui-controls-rewind": "onRewind",
 		"touchstart .pjs-gui-controls-rewind": "onRewind"
 	},
 	initialize: function(options) {
 		this.options = options;
-		_.bindAll(this, "onSeek", "sendEvent", "hide");
+		_.bindAll(this, "sendEvent", "hide");
 		this.render();
 	},
 	render: function() {
@@ -49,16 +47,18 @@ var Main = Backbone.View.extend({
 		// Bottom
 		this.bottomView = new BottomView(options);
 		this.bottomView.$el.appendTo(this.$el);
-		this.listenTo(this.bottomView, Events.SEEK, this.onSeek);
+		this.listenTo(this.bottomView, Events.SEEK, this.hide);
+		this.listenTo(this.bottomView, Events.SCRUB_START, this.onScrubbing);
 		this.listenTo(this.bottomView, Events.SEEK, this.sendEvent);
 		this.allViews = [this.centerView, this.$background, this.bottomView, this.topView, this.shareView];
 		this.hide();
 		return this;
 	},
+	show: function() {
+		this.setState(States.ACTIVE);
+	},
 	hide: function() {
-		_.invoke(this.allViews, "hide");
-		this.isActive = false;
-		this.logger.info("hide()");
+		this.setState(States.HIDDEN);
 	},
 	sendEvent: function(event) {
 		if (_.isString(event)) {
@@ -69,54 +69,52 @@ var Main = Backbone.View.extend({
 		event.target = this;
 		this.trigger(event.type, event);
 	},
-	show: function(event) {
-		if (event) {
-			event.preventDefault();
-		}
-		if (!this.isActive && !this.adView.isShowing()) {
-			this.isActive = true;
-			this.logger.info("show");
-			this.centerView.show();
-			this.$background.show();
-			this.shareView.hide();
-			this.bottomView.show();
-			this.topView.show();
-		}
-	},
 	setPaused: function(paused) {
 		this.centerView.setPaused(paused);
-	},
-	onSeek: function() {
-		this.logger.info("onSeek");
-		this.isActive = false;
 	},
 	isDragging: function() {
 		return this.bottomView.slider.dragging;
 	},
-	showShare: function(event) {
+	setState: function(state, options) {
+		this.state = state;
+		this.logger.info("state:", state);
+		switch (state) {
+			case States.ACTIVE:
+				this.bottomView.slider.setEnabled(true);
+				_.invoke([this.shareView, this.adView], "hide");
+				_.invoke(_.without(this.allViews, this.shareView), "show");
+				break;
+			case States.SHARE:
+				this.logger.info("show share panel");
+				this.centerView.hide();
+				this.shareView.show();
+				this.sendEvent(Events.SHOW_SHARE);
+				break;
+			case States.SCRUBBING:
+				_.invoke(_.without(this.allViews, this.bottomView), "hide");
+				break;
+			case States.HIDDEN:
+				_.invoke(this.allViews, "hide");
+				break;
+			case States.AD:
+				this.logger.info("ad state options:", options);
+				_.invoke(this.allViews, "hide");
+				this.bottomView.slider.setEnabled(false);
+				this.adView.render(_.extend(this.adView.options, options));
+				this.adView.show();
+				break;
+			default:
+				this.logger.error("Unrecognized state", state);
+				break;
+		}
+	},
+	shareButtonClick: function(event) {
 		event.preventDefault();
 		event.stopPropagation();
 		if (this.centerView.isShowing()) {
-			this.logger.info("show share panel");
-			this.centerView.hide();
-			this.shareView.show();
-			this.sendEvent(Events.SHOW_SHARE);
+			this.setState(States.SHARE);
 		} else {
-			this.logger.info("hide share panel");
-			this.centerView.show();
-			this.shareView.hide();
-		}
-	},
-	setAdMode: function(enabled, options) {
-		if (enabled) {
-			this.hide();
-			this.shareView.hide();
-			this.setEnabled(false);
-			this.adView.render(_.extend(this.adView.options, options));
-			this.adView.show();
-		} else {
-			this.setEnabled(true);
-			this.adView.hide();
+			this.setState(States.ACTIVE);
 		}
 	},
 	setPlayhead: function(playhead) {
@@ -131,11 +129,8 @@ var Main = Backbone.View.extend({
 	setDurations: function(durations) {
 		this.bottomView.setDurations(durations);
 	},
-	onScrubberClick: function(event) {
-		event.preventDefault();
-		this.centerView.hide();
-		this.$background.hide();
-		this.topView.hide();
+	onScrubbing: function() {
+		this.setState(States.SCRUBBING);
 	},
 	onFullscreen: function(event) {
 		event.preventDefault();
@@ -148,7 +143,10 @@ var Main = Backbone.View.extend({
 	onRewind: function(event) {
 		event.preventDefault();
 		event.stopPropagation();
-		this.sendEvent(Events.REWIND);
+		this.sendEvent({
+			type: Events.REWIND,
+			data: 10
+		});
 	},
 	onShare: function(event) {
 		this.logger.info("onShare");

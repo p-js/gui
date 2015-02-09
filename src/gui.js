@@ -8,6 +8,7 @@ var Templates = (function() {
 	return this.Templates;
 }).apply({});
 //= events.js
+//= states.js
 //= util
 //= ad-view
 //= top
@@ -15,7 +16,7 @@ var Templates = (function() {
 //= share
 //= bottom
 //= main.js
-/* global Main, AdView, Time, BottomView, Events, TopView, ToggleableButton */
+/* global Main, AdView, Time, States, BottomView, Events, TopView, ToggleableButton */
 var GUI = Main;
 GUI.version = "@@version";
 GUI.build = "@@timestamp";
@@ -25,3 +26,4 @@ GUI.BottomView = BottomView;
 GUI.TopView = TopView;
 GUI.ToggleableButton = ToggleableButton;
 GUI.Events = Events;
+GUI.States = States;

@@ -2,7 +2,6 @@
 /* exported Slider */
 var Slider = (function() {
 	var RESIZE = "slider:resize",
-		THUMB_DRAG = "slider:thumb:drag",
 		thumb = "pjs-gui-controls-slider-thumb",
 		thumbActive = "pjs-gui-controls-slider-thumb-active",
 		getPageX = function(event) {
@@ -189,7 +188,10 @@ var Slider = (function() {
 			this.$buffered.css({
 				width: 0
 			});
-			this.trigger(THUMB_DRAG, this.playhead);
+			this.trigger(Events.SCRUB_START, {
+				type: Events.SCRUB_START,
+				data: this.playhead
+			});
 		},
 		onThumbMove: function(event) {
 			if (this.dragging) {
@@ -225,7 +227,10 @@ var Slider = (function() {
 			this.$progress.css({
 				width: left
 			});
-			this.trigger(THUMB_DRAG, this.getTimeFromThumb(left));
+			this.trigger(Events.SCRUBBING, {
+				type: Events.SCRUBBING,
+				data: this.getTimeFromThumb(left)
+			});
 			this.lastLeft = left;
 		},
 		getLeftFromPlayhead: function(playhead) {
@@ -248,10 +253,6 @@ var Slider = (function() {
 				type: Events.SEEK,
 				data: this.playhead
 			});
-		}
-	}, {
-		Events: {
-			THUMB_DRAG: THUMB_DRAG
 		}
 	});
 })();

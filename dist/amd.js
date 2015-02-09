@@ -80,11 +80,20 @@
 		
 		
 		
-		this["Templates"]["src/top/template.html"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+		this["Templates"]["src/top/template.html"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
+		  return "	<div class=\"pjs-gui-controls-cc\"></div>\n";
+		  },"3":function(depth0,helpers,partials,data) {
+		  return "	<div class=\"pjs-gui-controls-fullscreen\"></div>\n";
+		  },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
 		  var stack1, helper, functionType="function", helperMissing=helpers.helperMissing, buffer = "<div class=\"pjs-gui-flexbox pjs-gui-top-container\">\n	<div class=\"pjs-gui-top-metadata\">";
 		  stack1 = ((helper = (helper = helpers.metadata || (depth0 != null ? depth0.metadata : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"metadata","hash":{},"data":data}) : helper));
 		  if (stack1 != null) { buffer += stack1; }
-		  return buffer + "</div>\n	<div class=\"pjs-gui-controls-share\"></div>\n	<div class=\"pjs-gui-controls-cc\"></div>\n	<div class=\"pjs-gui-controls-fullscreen\"></div>\n</div>\n";
+		  buffer += "</div>\n	<div class=\"pjs-gui-controls-share\"></div>\n";
+		  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.ccEnabled : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
+		  if (stack1 != null) { buffer += stack1; }
+		  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.fullscreenEnabled : depth0), {"name":"if","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data});
+		  if (stack1 != null) { buffer += stack1; }
+		  return buffer + "</div>\n";
 		},"useData":true});
 		return this.Templates;
 	}).apply({});
@@ -103,7 +112,17 @@
 		UNMUTE: "UNMUTE",
 		REWIND: "REWIND",
 		SEEK: "SEEK",
+		SCRUB_START: "SCRUB_START",
+		SCRUBBING: "SCRUBBING",
 		LEARN_MORE: "LEARN_MORE"
+	};
+	/* exported States */
+	var States = {
+		ACTIVE: "ACTIVE",
+		SHARE: "SHARE",
+		SCRUBBING: "SCRUBBING",
+		AD: "AD",
+		HIDDEN: "HIDDEN"
 	};
 	/* exported BaseView */
 	/* global Backbone*/
@@ -260,6 +279,7 @@
 	/* exported TopView */
 	var TopView = Backbone.View.extend({
 		template: Templates["src/top/template.html"],
+		height: 0,
 		className: "pjs-gui-top",
 		initialize: function(options) {
 			_.bindAll(this, "hide");
@@ -295,10 +315,10 @@
 			this.$el.css(PrefixTransform.get("translateY(" + -height + "px)"));
 		},
 		getHeight: function() {
-			if (!this.outerHeight) {
-				this.outerHeight = this.$el[0].offsetHeight;
+			if (this.height < 50) {
+				this.height = this.$el.height();
 			}
-			return this.outerHeight ? this.outerHeight : 300;
+			return this.height > 50 ? this.height : 300;
 		},
 		setMetadata: function(html) {
 			this.$(".pjs-gui-top-metadata").html(html);
@@ -385,7 +405,6 @@
 		/* exported Slider */
 		var Slider = (function() {
 			var RESIZE = "slider:resize",
-				THUMB_DRAG = "slider:thumb:drag",
 				thumb = "pjs-gui-controls-slider-thumb",
 				thumbActive = "pjs-gui-controls-slider-thumb-active",
 				getPageX = function(event) {
@@ -609,7 +628,10 @@
 					this.$buffered.css({
 						width: 0
 					});
-					this.trigger(THUMB_DRAG, this.playhead);
+					this.trigger(Events.SCRUB_START, {
+						type: Events.SCRUB_START,
+						data: this.playhead
+					});
 				},
 				onThumbMove: function(event) {
 					if (this.dragging) {
@@ -645,7 +667,10 @@
 					this.$progress.css({
 						width: left
 					});
-					this.trigger(THUMB_DRAG, this.getTimeFromThumb(left));
+					this.trigger(Events.SCRUBBING, {
+						type: Events.SCRUBBING,
+						data: this.getTimeFromThumb(left)
+					});
 					this.lastLeft = left;
 				},
 				getLeftFromPlayhead: function(playhead) {
@@ -669,10 +694,6 @@
 						data: this.playhead
 					});
 				}
-			}, {
-				Events: {
-					THUMB_DRAG: THUMB_DRAG
-				}
 			});
 		})();
 		return BaseView.extend({
@@ -687,7 +708,7 @@
 			},
 			initialize: function(options) {
 				this.options = options;
-				_.bindAll(this, "sendEvent", "setPlayheadOnDrag");
+				_.bindAll(this, "sendEvent", "onScrubbing");
 				_.extend(this.options, {
 					slider: this.css.slider
 				});
@@ -710,14 +731,16 @@
 				this.setDurations(options.durations);
 				// Seek Event
 				this.listenTo(this.slider, Events.SEEK, this.sendEvent);
-				this.listenTo(this.slider, Slider.Events.THUMB_DRAG, this.setPlayheadOnDrag);
+				this.listenTo(this.slider, Events.SCRUB_START, this.sendEvent);
+				this.listenTo(this.slider, Events.SCRUBBING, this.sendEvent);
+				this.listenTo(this.slider, Events.SCRUBBING, this.onScrubbing);
 			},
 			getPlayhead: function() {
 				// used for testing.
 				return this.slider.playhead;
 			},
-			setPlayheadOnDrag: function(playhead) {
-				this.$currentTime.text(Time.format(playhead));
+			onScrubbing: function(event) {
+				this.$currentTime.text(Time.format(event.data));
 			},
 			setPlayhead: function(playhead) {
 				this.slider.setPlayhead(playhead);
@@ -740,23 +763,21 @@
 	})();
 	/* exported Main */
 	/* global $, _, Backbone, Logger, Events, TopView, CenterView, 
-		BottomView, ShareView, AdView*/
+		States, BottomView, ShareView, AdView*/
 	var Main = Backbone.View.extend({
 		className: "pjs-gui",
 		logger: new Logger("PJS-GUI"),
 		events: {
-			"mousedown .pjs-controls": "onScrubberClick",
-			"touchstart .pjs-controls": "onScrubberClick",
 			"click .pjs-gui-share-item": "onShare",
 			"touchstart .pjs-gui-share-item": "onShare",
-			"click .pjs-gui-controls-share": "showShare",
-			"touchstart .pjs-gui-controls-share": "showShare",
+			"click .pjs-gui-controls-share": "shareButtonClick",
+			"touchstart .pjs-gui-controls-share": "shareButtonClick",
 			"click .pjs-gui-controls-rewind": "onRewind",
 			"touchstart .pjs-gui-controls-rewind": "onRewind"
 		},
 		initialize: function(options) {
 			this.options = options;
-			_.bindAll(this, "onSeek", "sendEvent", "hide");
+			_.bindAll(this, "sendEvent", "hide");
 			this.render();
 		},
 		render: function() {
@@ -789,16 +810,18 @@
 			// Bottom
 			this.bottomView = new BottomView(options);
 			this.bottomView.$el.appendTo(this.$el);
-			this.listenTo(this.bottomView, Events.SEEK, this.onSeek);
+			this.listenTo(this.bottomView, Events.SEEK, this.hide);
+			this.listenTo(this.bottomView, Events.SCRUB_START, this.onScrubbing);
 			this.listenTo(this.bottomView, Events.SEEK, this.sendEvent);
 			this.allViews = [this.centerView, this.$background, this.bottomView, this.topView, this.shareView];
 			this.hide();
 			return this;
 		},
+		show: function() {
+			this.setState(States.ACTIVE);
+		},
 		hide: function() {
-			_.invoke(this.allViews, "hide");
-			this.isActive = false;
-			this.logger.info("hide()");
+			this.setState(States.HIDDEN);
 		},
 		sendEvent: function(event) {
 			if (_.isString(event)) {
@@ -809,54 +832,52 @@
 			event.target = this;
 			this.trigger(event.type, event);
 		},
-		show: function(event) {
-			if (event) {
-				event.preventDefault();
-			}
-			if (!this.isActive && !this.adView.isShowing()) {
-				this.isActive = true;
-				this.logger.info("show");
-				this.centerView.show();
-				this.$background.show();
-				this.shareView.hide();
-				this.bottomView.show();
-				this.topView.show();
-			}
-		},
 		setPaused: function(paused) {
 			this.centerView.setPaused(paused);
-		},
-		onSeek: function() {
-			this.logger.info("onSeek");
-			this.isActive = false;
 		},
 		isDragging: function() {
 			return this.bottomView.slider.dragging;
 		},
-		showShare: function(event) {
+		setState: function(state, options) {
+			this.state = state;
+			this.logger.info("state:", state);
+			switch (state) {
+				case States.ACTIVE:
+					this.bottomView.slider.setEnabled(true);
+					_.invoke([this.shareView, this.adView], "hide");
+					_.invoke(_.without(this.allViews, this.shareView), "show");
+					break;
+				case States.SHARE:
+					this.logger.info("show share panel");
+					this.centerView.hide();
+					this.shareView.show();
+					this.sendEvent(Events.SHOW_SHARE);
+					break;
+				case States.SCRUBBING:
+					_.invoke(_.without(this.allViews, this.bottomView), "hide");
+					break;
+				case States.HIDDEN:
+					_.invoke(this.allViews, "hide");
+					break;
+				case States.AD:
+					this.logger.info("ad state options:", options);
+					_.invoke(this.allViews, "hide");
+					this.bottomView.slider.setEnabled(false);
+					this.adView.render(_.extend(this.adView.options, options));
+					this.adView.show();
+					break;
+				default:
+					this.logger.error("Unrecognized state", state);
+					break;
+			}
+		},
+		shareButtonClick: function(event) {
 			event.preventDefault();
 			event.stopPropagation();
 			if (this.centerView.isShowing()) {
-				this.logger.info("show share panel");
-				this.centerView.hide();
-				this.shareView.show();
-				this.sendEvent(Events.SHOW_SHARE);
+				this.setState(States.SHARE);
 			} else {
-				this.logger.info("hide share panel");
-				this.centerView.show();
-				this.shareView.hide();
-			}
-		},
-		setAdMode: function(enabled, options) {
-			if (enabled) {
-				this.hide();
-				this.shareView.hide();
-				this.setEnabled(false);
-				this.adView.render(_.extend(this.adView.options, options));
-				this.adView.show();
-			} else {
-				this.setEnabled(true);
-				this.adView.hide();
+				this.setState(States.ACTIVE);
 			}
 		},
 		setPlayhead: function(playhead) {
@@ -871,11 +892,8 @@
 		setDurations: function(durations) {
 			this.bottomView.setDurations(durations);
 		},
-		onScrubberClick: function(event) {
-			event.preventDefault();
-			this.centerView.hide();
-			this.$background.hide();
-			this.topView.hide();
+		onScrubbing: function() {
+			this.setState(States.SCRUBBING);
 		},
 		onFullscreen: function(event) {
 			event.preventDefault();
@@ -888,7 +906,10 @@
 		onRewind: function(event) {
 			event.preventDefault();
 			event.stopPropagation();
-			this.sendEvent(Events.REWIND);
+			this.sendEvent({
+				type: Events.REWIND,
+				data: 10
+			});
 		},
 		onShare: function(event) {
 			this.logger.info("onShare");
@@ -900,15 +921,16 @@
 			});
 		}
 	});
-	/* global Main, AdView, Time, BottomView, Events, TopView, ToggleableButton */
+	/* global Main, AdView, Time, States, BottomView, Events, TopView, ToggleableButton */
 	var GUI = Main;
 	GUI.version = "0.14.0";
-	GUI.build = "Fri Feb 06 2015 11:09:24";
+	GUI.build = "Mon Feb 09 2015 08:49:38";
 	GUI.Time = Time;
 	GUI.AdView = AdView;
 	GUI.BottomView = BottomView;
 	GUI.TopView = TopView;
 	GUI.ToggleableButton = ToggleableButton;
 	GUI.Events = Events;
+	GUI.States = States;
 	return GUI;
 }));

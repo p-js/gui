@@ -1,6 +1,7 @@
+$thumb-size: 60px;
+$large-thumb-size: 80px;
 .pjs-controls {
 	@include flexbox();
-	height: 30px;
 	width: 100%;
 	position:absolute;
 	bottom: 0;
@@ -8,8 +9,10 @@
 	-webkit-user-select: none;
 	@include transition($transition);
 }
-.pjs-gui-controls-item {
-	margin: 10px;
+.pjs-controls > * {
+ 	margin-left: $large-thumb-size/4;
+ 	margin-right: $large-thumb-size/4;
+ 	margin-bottom: 10px;
 }
 .pjs-gui-controls-hidden {
 	opacity: 0;
@@ -20,7 +23,6 @@
 }
 .pjs-gui-controls-slider {
 	@include flex(1);
-	@extend .pjs-gui-controls-item;
 	text-align: right;
 	position: relative;
 	height: $slider-height;
@@ -30,12 +32,10 @@
 	@include absolute();
 }
 .pjs-gui-current-time {
-	@extend .pjs-gui-controls-item;
 	@include playhead-text();
 	display:inline-block;
 }
 .pjs-gui-duration {
-	@extend .pjs-gui-controls-item;
 	@include duration-text();
 	display:inline-block;
 }
@@ -69,18 +69,18 @@
 }
 .pjs-gui-controls-slider-thumb {
 	border-radius: 50%;
-	width: 48px;
-	height: 48px;
+	width: $thumb-size;
+	height: $thumb-size;
 	@include transition($transition);
-	margin-left: -19px;
-	margin-top: -25px;
+	margin-left: -($thumb-size/2);
+	margin-top: -($thumb-size/2 - $slider-height/3);
 	background-color: #D9F2FA;
 	border: rgb(179, 179, 179);
 	border-style: solid;
 	border-width: thin;
 }
 .pjs-gui-controls-slider-thumb-active {
-	@include transform(scale(1.4));
+	@include transform(scale($large-thumb-size/$thumb-size));
 }
 .pjs-gui-controls-slider-segment-container {
 	@extend .pjs-gui-controls-slider-item;

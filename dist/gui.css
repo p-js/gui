@@ -4,14 +4,13 @@
   background-repeat: no-repeat;
 }
 
-/* line 1, ../src/sass/_bottom.scss */
+/* line 3, ../src/sass/_bottom.scss */
 .pjs-controls {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-flex;
   display: -ms-flexbox;
   display: flex;
-  height: 30px;
   width: 100%;
   position: absolute;
   bottom: 0;
@@ -23,12 +22,14 @@
   transition: all 0.3s ease-out;
 }
 
-/* line 11, ../src/sass/_bottom.scss */
-.pjs-gui-controls-item, .pjs-gui-controls-slider, .pjs-gui-current-time, .pjs-gui-duration {
-  margin: 10px;
+/* line 12, ../src/sass/_bottom.scss */
+.pjs-controls > * {
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 10px;
 }
 
-/* line 14, ../src/sass/_bottom.scss */
+/* line 17, ../src/sass/_bottom.scss */
 .pjs-gui-controls-hidden {
   opacity: 0;
   -webkit-transform: translateY(50px);
@@ -37,12 +38,12 @@
   transform: translateY(50px);
 }
 
-/* line 18, ../src/sass/_bottom.scss */
+/* line 21, ../src/sass/_bottom.scss */
 .pjs-gui-controls-button {
   padding: 10px;
 }
 
-/* line 21, ../src/sass/_bottom.scss */
+/* line 24, ../src/sass/_bottom.scss */
 .pjs-gui-controls-slider {
   -webkit-box-flex: 1;
   -webkit-flex: 1;
@@ -52,23 +53,23 @@
   flex: 1;
   text-align: right;
   position: relative;
-  height: 10px;
+  height: 13px;
   -webkit-user-select: none;
 }
 
-/* line 29, ../src/sass/_bottom.scss */
+/* line 31, ../src/sass/_bottom.scss */
 .pjs-gui-controls-slider-item, .pjs-gui-controls-slider-progress-container, .pjs-gui-controls-slider-background, .pjs-gui-controls-slider-progress, .pjs-gui-controls-slider-buffered, .pjs-gui-controls-slider-thumb-container, .pjs-gui-controls-slider-segment-container {
   position: absolute;
   top: 0;
   left: 0;
 }
 
-/* line 32, ../src/sass/_bottom.scss */
+/* line 34, ../src/sass/_bottom.scss */
 .pjs-gui-current-time {
   display: inline-block;
 }
 
-/* line 37, ../src/sass/_bottom.scss */
+/* line 38, ../src/sass/_bottom.scss */
 .pjs-gui-duration {
   color: #C8C8C8;
   display: inline-block;
@@ -76,12 +77,12 @@
 
 /* line 42, ../src/sass/_bottom.scss */
 .pjs-gui-controls-slider-progress-container {
-  height: 10px;
+  height: 13px;
 }
 
 /* line 46, ../src/sass/_bottom.scss */
 .pjs-gui-controls-slider-background {
-  height: 10px;
+  height: 13px;
   width: 100%;
   background: rgba(0, 0, 0, 0.5);
 }
@@ -89,14 +90,14 @@
 /* line 52, ../src/sass/_bottom.scss */
 .pjs-gui-controls-slider-progress {
   background: #1ab7ea;
-  height: 10px;
+  height: 13px;
   width: 0px;
 }
 
 /* line 58, ../src/sass/_bottom.scss */
 .pjs-gui-controls-slider-buffered {
   background: rgba(255, 255, 255, 0.3);
-  height: 10px;
+  height: 13px;
   width: 0px;
 }
 
@@ -110,14 +111,14 @@
 /* line 70, ../src/sass/_bottom.scss */
 .pjs-gui-controls-slider-thumb {
   border-radius: 50%;
-  width: 48px;
-  height: 48px;
+  width: 60px;
+  height: 60px;
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
   -o-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out;
-  margin-left: -19px;
-  margin-top: -25px;
+  margin-left: -30px;
+  margin-top: -25.66667px;
   background-color: #D9F2FA;
   border: #b3b3b3;
   border-style: solid;
@@ -126,15 +127,15 @@
 
 /* line 82, ../src/sass/_bottom.scss */
 .pjs-gui-controls-slider-thumb-active {
-  -webkit-transform: scale(1.4);
-  -moz-transform: scale(1.4);
-  -o-transform: scale(1.4);
-  transform: scale(1.4);
+  -webkit-transform: scale(1.33333);
+  -moz-transform: scale(1.33333);
+  -o-transform: scale(1.33333);
+  transform: scale(1.33333);
 }
 
 /* line 85, ../src/sass/_bottom.scss */
 .pjs-gui-controls-slider-segment-container {
-  height: 10px;
+  height: 13px;
 }
 
 /* line 89, ../src/sass/_bottom.scss */
@@ -240,7 +241,7 @@
   padding: 10px;
 }
 
-/* line 1, ../src/sass/_top.scss */
+/* line 2, ../src/sass/_top.scss */
 .pjs-gui-top {
   position: absolute;
   top: 0;
@@ -252,27 +253,27 @@
   transition: all 0.3s ease-out;
 }
 
-/* line 6, ../src/sass/_top.scss */
+/* line 7, ../src/sass/_top.scss */
 .pjs-gui-top-container {
   margin: 15px 20px;
 }
 
-/* line 9, ../src/sass/_top.scss */
+/* line 10, ../src/sass/_top.scss */
 .pjs-gui-top-container > * {
   margin: 0px 20px;
 }
 
-/* line 12, ../src/sass/_top.scss */
+/* line 13, ../src/sass/_top.scss */
 .pjs-gui-top-container > :first-child {
   margin-left: 0;
 }
 
-/* line 15, ../src/sass/_top.scss */
+/* line 16, ../src/sass/_top.scss */
 .pjs-gui-top-container > :last-child {
   margin-right: 0;
 }
 
-/* line 18, ../src/sass/_top.scss */
+/* line 19, ../src/sass/_top.scss */
 .pjs-gui-top-metadata {
   -webkit-box-flex: 1;
   -webkit-flex: 1;
@@ -282,6 +283,7 @@
   flex: 1;
   font-size: 22px;
   font-weight: bold;
+  text-shadow: 1px 1px 1px black;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -443,7 +445,6 @@
   font-family: Helvetica, Arial, sans-serif;
   color: #FFFFFF;
   font-size: 14px;
-  text-shadow: 1px 1px 1px black;
 }
 
 /* line 20, ../src/sass/gui.scss */
@@ -451,7 +452,6 @@
   font-family: Helvetica, Arial, sans-serif;
   color: #FFFFFF;
   font-size: 14px;
-  text-shadow: 1px 1px 1px black;
   text-decoration: none;
 }
 
@@ -460,7 +460,6 @@
   font-family: Helvetica, Arial, sans-serif;
   color: #FFFFFF;
   font-size: 14px;
-  text-shadow: 1px 1px 1px black;
   text-decoration: none;
 }
 

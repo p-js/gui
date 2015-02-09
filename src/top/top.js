@@ -2,6 +2,7 @@
 /* exported TopView */
 var TopView = Backbone.View.extend({
 	template: Templates["src/top/template.html"],
+	height: 0,
 	className: "pjs-gui-top",
 	initialize: function(options) {
 		_.bindAll(this, "hide");
@@ -37,10 +38,10 @@ var TopView = Backbone.View.extend({
 		this.$el.css(PrefixTransform.get("translateY(" + -height + "px)"));
 	},
 	getHeight: function() {
-		if (!this.outerHeight) {
-			this.outerHeight = this.$el[0].offsetHeight;
+		if (this.height < 50) {
+			this.height = this.$el.height();
 		}
-		return this.outerHeight ? this.outerHeight : 300;
+		return this.height > 50 ? this.height : 300;
 	},
 	setMetadata: function(html) {
 		this.$(".pjs-gui-top-metadata").html(html);

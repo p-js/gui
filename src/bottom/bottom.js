@@ -14,7 +14,7 @@ var BottomView = (function() {
 		},
 		initialize: function(options) {
 			this.options = options;
-			_.bindAll(this, "sendEvent", "setPlayheadOnDrag");
+			_.bindAll(this, "sendEvent", "onScrubbing");
 			_.extend(this.options, {
 				slider: this.css.slider
 			});
@@ -37,14 +37,16 @@ var BottomView = (function() {
 			this.setDurations(options.durations);
 			// Seek Event
 			this.listenTo(this.slider, Events.SEEK, this.sendEvent);
-			this.listenTo(this.slider, Slider.Events.THUMB_DRAG, this.setPlayheadOnDrag);
+			this.listenTo(this.slider, Events.SCRUB_START, this.sendEvent);
+			this.listenTo(this.slider, Events.SCRUBBING, this.sendEvent);
+			this.listenTo(this.slider, Events.SCRUBBING, this.onScrubbing);
 		},
 		getPlayhead: function() {
 			// used for testing.
 			return this.slider.playhead;
 		},
-		setPlayheadOnDrag: function(playhead) {
-			this.$currentTime.text(Time.format(playhead));
+		onScrubbing: function(event) {
+			this.$currentTime.text(Time.format(event.data));
 		},
 		setPlayhead: function(playhead) {
 			this.slider.setPlayhead(playhead);

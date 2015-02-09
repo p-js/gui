@@ -1,6 +1,10 @@
 <div class="pjs-gui-flexbox pjs-gui-top-container">
 	<div class="pjs-gui-top-metadata">{{{metadata}}}</div>
 	<div class="pjs-gui-controls-share"></div>
+	{{#if ccEnabled}}
 	<div class="pjs-gui-controls-cc"></div>
+	{{/if}}
+	{{#if fullscreenEnabled}}
 	<div class="pjs-gui-controls-fullscreen"></div>
+	{{/if}}
 </div>
