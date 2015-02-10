@@ -159,9 +159,27 @@ var Main = Backbone.View.extend({
 		this.logger.info("onShare");
 		event.preventDefault();
 		event.stopPropagation();
-		this.sendEvent({
-			type: Events.SHARE,
-			data: $(event.target).data("share-id")
-		});
+		var data = $(event.target).data("share-id");
+		switch (data) {
+			case "embed":
+				this.sendEvent({
+					type: Events.SHARE_EMBED,
+					data: data
+				});
+				break;
+			case "link":
+				this.sendEvent({
+					type: Events.SHARE_LINK,
+					data: data
+				});
+				break;
+			default:
+				this.sendEvent({
+					type: Events.SHARE,
+					data: data
+				});
+				break;
+		}
+
 	}
 });

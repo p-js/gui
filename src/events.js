@@ -8,6 +8,8 @@ var Events = {
 	IS_LIVE: "IS_LIVE",
 	MUTE: "MUTE",
 	SHOW_SHARE: "show:share",
+	SHARE_EMBED: "SHARE_EMBED",
+	SHARE_LINK: "SHARE_LINK",
 	SHARE: "share",
 	VOLUME: "VOLUME",
 	UNMUTE: "UNMUTE",

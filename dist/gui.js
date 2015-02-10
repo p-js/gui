@@ -100,6 +100,8 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 		IS_LIVE: "IS_LIVE",
 		MUTE: "MUTE",
 		SHOW_SHARE: "show:share",
+		SHARE_EMBED: "SHARE_EMBED",
+		SHARE_LINK: "SHARE_LINK",
 		SHARE: "share",
 		VOLUME: "VOLUME",
 		UNMUTE: "UNMUTE",
@@ -925,16 +927,34 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 			this.logger.info("onShare");
 			event.preventDefault();
 			event.stopPropagation();
-			this.sendEvent({
-				type: Events.SHARE,
-				data: $(event.target).data("share-id")
-			});
+			var data = $(event.target).data("share-id");
+			switch (data) {
+				case "embed":
+					this.sendEvent({
+						type: Events.SHARE_EMBED,
+						data: data
+					});
+					break;
+				case "link":
+					this.sendEvent({
+						type: Events.SHARE_LINK,
+						data: data
+					});
+					break;
+				default:
+					this.sendEvent({
+						type: Events.SHARE,
+						data: data
+					});
+					break;
+			}
+	
 		}
 	});
 	/* global Main, AdView, Time, States, BottomView, Events, TopView, ToggleableButton */
 	var GUI = Main;
 	GUI.version = "0.14.0";
-	GUI.build = "Mon Feb 09 2015 15:31:50";
+	GUI.build = "Mon Feb 09 2015 16:02:41";
 	GUI.Time = Time;
 	GUI.AdView = AdView;
 	GUI.BottomView = BottomView;
