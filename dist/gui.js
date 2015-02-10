@@ -946,7 +946,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	/* global Main, AdView, Time, States, BottomView, Events, TopView, ToggleableButton */
 	var GUI = Main;
 	GUI.version = "0.14.0";
-	GUI.build = "Mon Feb 09 2015 20:32:20";
+	GUI.build = "Mon Feb 09 2015 20:39:02";
 	GUI.Time = Time;
 	GUI.AdView = AdView;
 	GUI.BottomView = BottomView;
