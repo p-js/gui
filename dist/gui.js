@@ -25,8 +25,6 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 		  return buffer;
 		},"useData":true});
 		
-		
-		
 		this["Templates"]["src/bottom/template.html"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
 		  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
 		  return "<div class=\"pjs-gui-current-time\">00:00</div>\n<div class=\""
@@ -48,8 +46,6 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 		    + "-thumb\"/>\n	</div>\n</div>\n<div class=\"pjs-gui-duration\">00:00</div>\n";
 		},"useData":true});
 		
-		
-		
 		this["Templates"]["src/share/template.html"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
 		  var lambda=this.lambda, escapeExpression=this.escapeExpression;
 		  return "<div class=\"pjs-gui-share-item pjs-share-"
@@ -65,13 +61,9 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 		  return buffer;
 		},"useData":true});
 		
-		
-		
 		this["Templates"]["src/center-controls/template.html"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
 		  return "<div class=\"pjs-gui-center-controls\">\n	<div class=\"pjs-gui-controls-rewind pjs-gui-controls-button\"></div>\n	<div class=\"pjs-gui-controls-play-pause pjs-gui-controls-button\"></div>\n</div>\n";
 		  },"useData":true});
-		
-		
 		
 		this["Templates"]["src/top/template.html"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
 		  return "	<div class=\"pjs-gui-controls-cc\"></div>\n";
@@ -954,7 +946,7 @@ var GUI = (function(_, $, Handlebars, Backbone) {
 	/* global Main, AdView, Time, States, BottomView, Events, TopView, ToggleableButton */
 	var GUI = Main;
 	GUI.version = "0.14.0";
-	GUI.build = "Mon Feb 09 2015 16:02:41";
+	GUI.build = "Mon Feb 09 2015 20:32:20";
 	GUI.Time = Time;
 	GUI.AdView = AdView;
 	GUI.BottomView = BottomView;

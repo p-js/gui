@@ -1,7 +1,7 @@
 /* jshint node:true */
 module.exports = {
 	options: {
-		coverage_dir: 'coverage',
+		coverageDir: 'coverage',
 		dryRun: false,
 		force: true,
 		recursive: true

@@ -1,5 +1,5 @@
 /* jshint node:true */
-module.exports = function(grunt, options) {
+module.exports = function() {
 	var configFile = "karma.conf.js",
 		frameworks = ["mocha"],
 		plugins = [
@@ -9,7 +9,7 @@ module.exports = function(grunt, options) {
 		],
 		browsers = ["PhantomJS"],
 		preprocessors = {};
-	preprocessors["dist/" + options.package.name + ".js"] = ["coverage"];
+	preprocessors["dist/gui.js"] = ["coverage"];
 	return {
 		/**
 		 * Run the tests and submit coverage
