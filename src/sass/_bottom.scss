@@ -1,18 +1,17 @@
-$thumb-size: 60px;
-$large-thumb-size: 80px;
+$thumb-size: 30px;
+$large-thumb-size: 40px;
+$border-radius: 50%;
 .pjs-controls {
 	@include flexbox();
 	width: 100%;
 	position:absolute;
-	bottom: 0;
+	bottom: 0.5em;
 	left: 0;
 	-webkit-user-select: none;
 	@include transition($transition);
 }
 .pjs-controls > * {
- 	margin-left: $large-thumb-size/4;
- 	margin-right: $large-thumb-size/4;
- 	margin-bottom: 10px;
+	margin: 5px $large-thumb-size/4;
 }
 .pjs-gui-controls-hidden {
 	opacity: 0;
@@ -27,9 +26,11 @@ $large-thumb-size: 80px;
 	position: relative;
 	height: $slider-height;
 	-webkit-user-select: none;
+	margin: auto;
 }
 .pjs-gui-controls-slider-item {
 	@include absolute();
+	border-radius: 1em;
 }
 .pjs-gui-current-time {
 	@include playhead-text();
@@ -46,7 +47,8 @@ $large-thumb-size: 80px;
 .pjs-gui-controls-slider-background {
 	height: $slider-height;
 	width: 100%;
-	background: rgba(0, 0, 0, .5);
+	// background: rgba(0, 0, 0, .5);
+	background: rgba(255, 255, 255, .5);
 	@extend .pjs-gui-controls-slider-item;
 }
 .pjs-gui-controls-slider-progress {
@@ -56,7 +58,8 @@ $large-thumb-size: 80px;
 	width: 0px;
 }
 .pjs-gui-controls-slider-buffered {
-	background: rgba(255, 255, 255, .3);
+	// background: rgba(255, 255, 255, .3);
+	background: rgba(255, 0, 0, .5);
 	height: $slider-height;
 	width: 0px;
 	@extend .pjs-gui-controls-slider-item;
@@ -68,16 +71,16 @@ $large-thumb-size: 80px;
 	@extend .pjs-gui-controls-slider-item;
 }
 .pjs-gui-controls-slider-thumb {
-	border-radius: 50%;
+	border-radius: $border-radius;
 	width: $thumb-size;
 	height: $thumb-size;
 	@include transition($transition);
 	margin-left: -($thumb-size/2);
 	margin-top: -($thumb-size/2 - $slider-height/3);
 	background-color: #D9F2FA;
-	border: rgb(179, 179, 179);
-	border-style: solid;
-	border-width: thin;
+	-webkit-box-shadow: 0 0 0.5em rgb(179, 179, 179);
+	-moz-box-shadow: 0 0 0.5em rgb(179, 179, 179);
+	box-shadow: 0 0 0.5em rgb(179, 179, 179);
 }
 .pjs-gui-controls-slider-thumb-active {
 	@include transform(scale($large-thumb-size/$thumb-size));
@@ -91,7 +94,7 @@ $large-thumb-size: 80px;
 	width: 4px;
 	height: 4px;
 	top: 50%;
-	border-radius: 50%;
+	border-radius: $border-radius;
 	@include transform(translateY(-50%));
 	background-color: #9B9B9B;
 }

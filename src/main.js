@@ -19,7 +19,7 @@ var Main = Backbone.View.extend({
 	},
 	render: function() {
 		var options = this.options || {};
-		// Backgorund
+		// Background
 		this.$background = $("<div/>").addClass("pjs-gui-background").appendTo(this.$el);
 		// Center, should be behind Top and Bottom
 		this.centerView = new CenterView(options);

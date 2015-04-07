@@ -1,10 +1,11 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
 /* line 240, images/*.png */
 .images-sprite, .pjs-gui-controls-share:before, .pjs-gui-controls-play:before, .pjs-gui-controls-rewind:before, .pjs-gui-controls-pause:before, .pjs-gui-controls-fullscreen:before, .pjs-gui-controls-fullscreen-minimize:before, .pjs-gui-controls-cc:before, .pjs-gui-controls-cc-on:before, .pjs-share-facebook:before, .pjs-share-twitter:before, .pjs-share-embed:before, .pjs-share-link:before {
   background-image: url('images-s1b76969fbf.png');
   background-repeat: no-repeat;
 }
 
-/* line 3, ../src/sass/_bottom.scss */
+/* line 4, ../src/sass/_bottom.scss */
 .pjs-controls {
   display: -webkit-box;
   display: -webkit-flex;
@@ -13,7 +14,7 @@
   display: flex;
   width: 100%;
   position: absolute;
-  bottom: 0;
+  bottom: 0.5em;
   left: 0;
   -webkit-user-select: none;
   -webkit-transition: all 0.3s ease-out;
@@ -22,14 +23,12 @@
   transition: all 0.3s ease-out;
 }
 
-/* line 12, ../src/sass/_bottom.scss */
+/* line 13, ../src/sass/_bottom.scss */
 .pjs-controls > * {
-  margin-left: 20px;
-  margin-right: 20px;
-  margin-bottom: 10px;
+  margin: 5px 10px;
 }
 
-/* line 17, ../src/sass/_bottom.scss */
+/* line 16, ../src/sass/_bottom.scss */
 .pjs-gui-controls-hidden {
   opacity: 0;
   -webkit-transform: translateY(50px);
@@ -38,12 +37,12 @@
   transform: translateY(50px);
 }
 
-/* line 21, ../src/sass/_bottom.scss */
+/* line 20, ../src/sass/_bottom.scss */
 .pjs-gui-controls-button {
   padding: 10px;
 }
 
-/* line 24, ../src/sass/_bottom.scss */
+/* line 23, ../src/sass/_bottom.scss */
 .pjs-gui-controls-slider {
   -webkit-box-flex: 1;
   -webkit-flex: 1;
@@ -53,8 +52,9 @@
   flex: 1;
   text-align: right;
   position: relative;
-  height: 13px;
+  height: 5px;
   -webkit-user-select: none;
+  margin: auto;
 }
 
 /* line 31, ../src/sass/_bottom.scss */
@@ -62,70 +62,72 @@
   position: absolute;
   top: 0;
   left: 0;
+  border-radius: 1em;
 }
 
-/* line 34, ../src/sass/_bottom.scss */
+/* line 35, ../src/sass/_bottom.scss */
 .pjs-gui-current-time {
+  color: #C8C8C8;
   display: inline-block;
 }
 
-/* line 38, ../src/sass/_bottom.scss */
+/* line 39, ../src/sass/_bottom.scss */
 .pjs-gui-duration {
   color: #C8C8C8;
   display: inline-block;
 }
 
-/* line 42, ../src/sass/_bottom.scss */
+/* line 43, ../src/sass/_bottom.scss */
 .pjs-gui-controls-slider-progress-container {
-  height: 13px;
+  height: 5px;
 }
 
-/* line 46, ../src/sass/_bottom.scss */
+/* line 47, ../src/sass/_bottom.scss */
 .pjs-gui-controls-slider-background {
-  height: 13px;
+  height: 5px;
   width: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(255, 255, 255, 0.5);
 }
 
-/* line 52, ../src/sass/_bottom.scss */
+/* line 54, ../src/sass/_bottom.scss */
 .pjs-gui-controls-slider-progress {
   background: #1ab7ea;
-  height: 13px;
+  height: 5px;
   width: 0px;
 }
 
-/* line 58, ../src/sass/_bottom.scss */
+/* line 60, ../src/sass/_bottom.scss */
 .pjs-gui-controls-slider-buffered {
-  background: rgba(255, 255, 255, 0.3);
-  height: 13px;
+  background: rgba(255, 0, 0, 0.5);
+  height: 5px;
   width: 0px;
 }
 
-/* line 64, ../src/sass/_bottom.scss */
+/* line 67, ../src/sass/_bottom.scss */
 .pjs-gui-controls-slider-thumb-container {
   -webkit-user-select: none;
   width: 0px;
   height: 0px;
 }
 
-/* line 70, ../src/sass/_bottom.scss */
+/* line 73, ../src/sass/_bottom.scss */
 .pjs-gui-controls-slider-thumb {
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
+  width: 30px;
+  height: 30px;
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
   -o-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out;
-  margin-left: -30px;
-  margin-top: -25.66667px;
+  margin-left: -15px;
+  margin-top: -13.33333px;
   background-color: #D9F2FA;
-  border: #b3b3b3;
-  border-style: solid;
-  border-width: thin;
+  -webkit-box-shadow: 0 0 0.5em #b3b3b3;
+  -moz-box-shadow: 0 0 0.5em #b3b3b3;
+  box-shadow: 0 0 0.5em #b3b3b3;
 }
 
-/* line 82, ../src/sass/_bottom.scss */
+/* line 85, ../src/sass/_bottom.scss */
 .pjs-gui-controls-slider-thumb-active {
   -webkit-transform: scale(1.33333);
   -moz-transform: scale(1.33333);
@@ -133,12 +135,12 @@
   transform: scale(1.33333);
 }
 
-/* line 85, ../src/sass/_bottom.scss */
+/* line 88, ../src/sass/_bottom.scss */
 .pjs-gui-controls-slider-segment-container {
-  height: 13px;
+  height: 5px;
 }
 
-/* line 89, ../src/sass/_bottom.scss */
+/* line 92, ../src/sass/_bottom.scss */
 .pjs-gui-controls-slider-segment {
   position: absolute;
   width: 4px;
@@ -190,7 +192,6 @@
 .pjs-ad-gui {
   font-size: 14px;
   font-weight: bold;
-  text-shadow: 1px 1px 1px black;
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-flex;
@@ -289,7 +290,6 @@
   flex: 1;
   font-size: 22px;
   font-weight: bold;
-  text-shadow: 1px 1px 1px black;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -297,7 +297,7 @@
 
 /* line 1, ../src/sass/_share.scss */
 .pjs-gui-share-item {
-  margin: 10px;
+  margin: 0 auto;
 }
 
 /* line 4, ../src/sass/_share.scss */
@@ -448,14 +448,14 @@
   font-weight: normal;
   font-style: normal;
   line-height: 1;
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans', sans-serif;
   color: #FFFFFF;
   font-size: 14px;
 }
 
 /* line 20, ../src/sass/gui.scss */
 .pjs-gui a {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans', sans-serif;
   color: #FFFFFF;
   font-size: 14px;
   text-decoration: none;
@@ -463,7 +463,7 @@
 
 /* line 24, ../src/sass/gui.scss */
 .pjs-gui a:visited {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans', sans-serif;
   color: #FFFFFF;
   font-size: 14px;
   text-decoration: none;
@@ -482,7 +482,6 @@
 .pjs-gui-background {
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.1);
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
   -o-transition: all 0.3s ease-out;
@@ -490,4 +489,5 @@
   position: absolute;
   top: 0;
   left: 0;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), transparent 85%, rgba(0, 0, 0, 0.7));
 }

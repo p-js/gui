@@ -786,7 +786,7 @@
 		},
 		render: function() {
 			var options = this.options || {};
-			// Backgorund
+			// Background
 			this.$background = $("<div/>").addClass("pjs-gui-background").appendTo(this.$el);
 			// Center, should be behind Top and Bottom
 			this.centerView = new CenterView(options);
@@ -953,7 +953,7 @@
 	/* global Main, AdView, Time, States, BottomView, Events, TopView, ToggleableButton */
 	var GUI = Main;
 	GUI.version = "0.14.0";
-	GUI.build = "Mon Feb 09 2015 20:39:02";
+	GUI.build = "Tue Apr 07 2015 16:37:01";
 	GUI.Time = Time;
 	GUI.AdView = AdView;
 	GUI.BottomView = BottomView;

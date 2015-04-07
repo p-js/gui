@@ -1,5 +1,7 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+
 @mixin base-text {
-	font-family: Helvetica, Arial, sans-serif;
+	font-family: 'Open Sans', sans-serif;
 	color: #FFFFFF;
 	font-size: 14px;
 }
@@ -7,16 +9,15 @@
 @mixin metadata-text {
 	font-size: 22px;
 	font-weight: bold;
-	text-shadow: 1px 1px 1px black;
 } 
 
 @mixin ad-text {
 	font-size: 14px;
 	font-weight: bold;
-	text-shadow: 1px 1px 1px black;
 } 
 
 @mixin playhead-text {
+	color: #C8C8C8;
 }
 
 @mixin duration-text {
