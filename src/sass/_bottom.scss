@@ -1,14 +1,15 @@
-$thumb-size: 30px;
-$large-thumb-size: 40px;
+$thumb-size: 25px;
+$large-thumb-size: 35px;
 $border-radius: 50%;
 .pjs-controls {
 	@include flexbox();
 	width: 100%;
 	position:absolute;
-	bottom: 0.5em;
+	bottom: 10px;
 	left: 0;
 	-webkit-user-select: none;
 	@include transition($transition);
+	font-size: 12px;
 }
 .pjs-controls > * {
 	margin: 5px $large-thumb-size/4;
@@ -35,10 +36,12 @@ $border-radius: 50%;
 .pjs-gui-current-time {
 	@include playhead-text();
 	display:inline-block;
+	margin-left: 20px;
 }
 .pjs-gui-duration {
 	@include duration-text();
 	display:inline-block;
+	margin-right: 20px;
 }
 .pjs-gui-controls-slider-progress-container {
 	@extend .pjs-gui-controls-slider-item;
@@ -78,9 +81,9 @@ $border-radius: 50%;
 	margin-left: -($thumb-size/2);
 	margin-top: -($thumb-size/2 - $slider-height/3);
 	background-color: #D9F2FA;
-	-webkit-box-shadow: 0 0 0.5em rgb(179, 179, 179);
-	-moz-box-shadow: 0 0 0.5em rgb(179, 179, 179);
-	box-shadow: 0 0 0.5em rgb(179, 179, 179);
+	-webkit-box-shadow: 0 0 5px rgb(179, 179, 179);
+	-moz-box-shadow: 0 0 5px rgb(179, 179, 179);
+	box-shadow: 0 0 5px rgb(179, 179, 179);
 }
 .pjs-gui-controls-slider-thumb-active {
 	@include transform(scale($large-thumb-size/$thumb-size));

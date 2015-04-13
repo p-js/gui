@@ -5,12 +5,13 @@ $top-item-margin: 20px;
 	@include transition($transition);
 }
 .pjs-gui-top-container {
- 	margin: 15px $top-item-margin;
+ 	margin: $top-item-margin;
 }
 .pjs-gui-top-container > * {
  	margin: 0px $top-item-margin;
 }
 .pjs-gui-top-container > :first-child{ 
+	margin: auto;
 	margin-left: 0; 
 }
 .pjs-gui-top-container > :last-child{ 
@@ -22,4 +23,9 @@ $top-item-margin: 20px;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+.pjs-gui.pjs-share-active {
+	.pjs-gui-controls-share:before {
+		opacity: 1.0;
+	}
 }

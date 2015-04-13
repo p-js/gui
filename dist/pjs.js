@@ -384,7 +384,8 @@
 	/* global Backbone, $, Templates, ShareItems*/
 	var ShareView = (function() {
 		var css = {
-			hide: "pjs-share-hidden"
+			hide: "pjs-share-hidden",
+			show: "pjs-share-active"
 		};
 		return Backbone.View.extend({
 			tagName: "div",
@@ -400,9 +401,11 @@
 			},
 			hide: function() {
 				this.$el.addClass(css.hide);
+				this.$el.parent().removeClass(css.show);
 			},
 			show: function() {
 				this.$el.removeClass(css.hide);
+				this.$el.parent().addClass(css.show);
 			}
 		});
 	})();
@@ -953,7 +956,7 @@
 	/* global Main, AdView, Time, States, BottomView, Events, TopView, ToggleableButton */
 	var GUI = Main;
 	GUI.version = "0.14.0";
-	GUI.build = "Tue Apr 07 2015 16:37:01";
+	GUI.build = "Mon Apr 13 2015 10:04:08";
 	GUI.Time = Time;
 	GUI.AdView = AdView;
 	GUI.BottomView = BottomView;

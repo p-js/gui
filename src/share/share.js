@@ -2,7 +2,8 @@
 /* global Backbone, $, Templates, ShareItems*/
 var ShareView = (function() {
 	var css = {
-		hide: "pjs-share-hidden"
+		hide: "pjs-share-hidden",
+		show: "pjs-share-active"
 	};
 	return Backbone.View.extend({
 		tagName: "div",
@@ -18,9 +19,11 @@ var ShareView = (function() {
 		},
 		hide: function() {
 			this.$el.addClass(css.hide);
+			this.$el.parent().removeClass(css.show);
 		},
 		show: function() {
 			this.$el.removeClass(css.hide);
+			this.$el.parent().addClass(css.show);
 		}
 	});
 })();

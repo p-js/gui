@@ -1,7 +1,7 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans);
 /* line 240, images/*.png */
 .images-sprite, .pjs-gui-controls-share:before, .pjs-gui-controls-play:before, .pjs-gui-controls-rewind:before, .pjs-gui-controls-pause:before, .pjs-gui-controls-fullscreen:before, .pjs-gui-controls-fullscreen-minimize:before, .pjs-gui-controls-cc:before, .pjs-gui-controls-cc-on:before, .pjs-share-facebook:before, .pjs-share-twitter:before, .pjs-share-embed:before, .pjs-share-link:before {
-  background-image: url('images-s1b76969fbf.png');
+  background-image: url('images-s014c31b937.png');
   background-repeat: no-repeat;
 }
 
@@ -14,21 +14,22 @@
   display: flex;
   width: 100%;
   position: absolute;
-  bottom: 0.5em;
+  bottom: 10px;
   left: 0;
   -webkit-user-select: none;
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
   -o-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out;
+  font-size: 12px;
 }
 
-/* line 13, ../src/sass/_bottom.scss */
+/* line 14, ../src/sass/_bottom.scss */
 .pjs-controls > * {
-  margin: 5px 10px;
+  margin: 5px 8.75px;
 }
 
-/* line 16, ../src/sass/_bottom.scss */
+/* line 17, ../src/sass/_bottom.scss */
 .pjs-gui-controls-hidden {
   opacity: 0;
   -webkit-transform: translateY(50px);
@@ -37,12 +38,12 @@
   transform: translateY(50px);
 }
 
-/* line 20, ../src/sass/_bottom.scss */
+/* line 21, ../src/sass/_bottom.scss */
 .pjs-gui-controls-button {
   padding: 10px;
 }
 
-/* line 23, ../src/sass/_bottom.scss */
+/* line 24, ../src/sass/_bottom.scss */
 .pjs-gui-controls-slider {
   -webkit-box-flex: 1;
   -webkit-flex: 1;
@@ -52,12 +53,12 @@
   flex: 1;
   text-align: right;
   position: relative;
-  height: 5px;
+  height: 4px;
   -webkit-user-select: none;
   margin: auto;
 }
 
-/* line 31, ../src/sass/_bottom.scss */
+/* line 32, ../src/sass/_bottom.scss */
 .pjs-gui-controls-slider-item, .pjs-gui-controls-slider-progress-container, .pjs-gui-controls-slider-background, .pjs-gui-controls-slider-progress, .pjs-gui-controls-slider-buffered, .pjs-gui-controls-slider-thumb-container, .pjs-gui-controls-slider-segment-container {
   position: absolute;
   top: 0;
@@ -65,82 +66,84 @@
   border-radius: 1em;
 }
 
-/* line 35, ../src/sass/_bottom.scss */
+/* line 36, ../src/sass/_bottom.scss */
 .pjs-gui-current-time {
   color: #C8C8C8;
   display: inline-block;
+  margin-left: 20px;
 }
 
-/* line 39, ../src/sass/_bottom.scss */
+/* line 41, ../src/sass/_bottom.scss */
 .pjs-gui-duration {
   color: #C8C8C8;
   display: inline-block;
+  margin-right: 20px;
 }
 
-/* line 43, ../src/sass/_bottom.scss */
+/* line 46, ../src/sass/_bottom.scss */
 .pjs-gui-controls-slider-progress-container {
-  height: 5px;
+  height: 4px;
 }
 
-/* line 47, ../src/sass/_bottom.scss */
+/* line 50, ../src/sass/_bottom.scss */
 .pjs-gui-controls-slider-background {
-  height: 5px;
+  height: 4px;
   width: 100%;
   background: rgba(255, 255, 255, 0.5);
 }
 
-/* line 54, ../src/sass/_bottom.scss */
+/* line 57, ../src/sass/_bottom.scss */
 .pjs-gui-controls-slider-progress {
   background: #1ab7ea;
-  height: 5px;
+  height: 4px;
   width: 0px;
 }
 
-/* line 60, ../src/sass/_bottom.scss */
+/* line 63, ../src/sass/_bottom.scss */
 .pjs-gui-controls-slider-buffered {
   background: rgba(255, 0, 0, 0.5);
-  height: 5px;
+  height: 4px;
   width: 0px;
 }
 
-/* line 67, ../src/sass/_bottom.scss */
+/* line 70, ../src/sass/_bottom.scss */
 .pjs-gui-controls-slider-thumb-container {
   -webkit-user-select: none;
   width: 0px;
   height: 0px;
 }
 
-/* line 73, ../src/sass/_bottom.scss */
+/* line 76, ../src/sass/_bottom.scss */
 .pjs-gui-controls-slider-thumb {
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   -webkit-transition: all 0.3s ease-out;
   -moz-transition: all 0.3s ease-out;
   -o-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out;
-  margin-left: -15px;
-  margin-top: -13.33333px;
+  margin-left: -12.5px;
+  margin-top: -11.16667px;
   background-color: #D9F2FA;
-  -webkit-box-shadow: 0 0 0.5em #b3b3b3;
-  -moz-box-shadow: 0 0 0.5em #b3b3b3;
-  box-shadow: 0 0 0.5em #b3b3b3;
-}
-
-/* line 85, ../src/sass/_bottom.scss */
-.pjs-gui-controls-slider-thumb-active {
-  -webkit-transform: scale(1.33333);
-  -moz-transform: scale(1.33333);
-  -o-transform: scale(1.33333);
-  transform: scale(1.33333);
+  -webkit-box-shadow: 0 0 5px #b3b3b3;
+  -moz-box-shadow: 0 0 5px #b3b3b3;
+  box-shadow: 0 0 5px #b3b3b3;
 }
 
 /* line 88, ../src/sass/_bottom.scss */
-.pjs-gui-controls-slider-segment-container {
-  height: 5px;
+.pjs-gui-controls-slider-thumb-active {
+  -webkit-transform: scale(1.4);
+  -moz-transform: scale(1.4);
+  -o-transform: scale(1.4);
+  transform: scale(1.4);
 }
 
-/* line 92, ../src/sass/_bottom.scss */
+/* line 91, ../src/sass/_bottom.scss */
+.pjs-gui-controls-slider-segment-container {
+  height: 4px;
+}
+
+/* line 95, ../src/sass/_bottom.scss */
 .pjs-gui-controls-slider-segment {
   position: absolute;
   width: 4px;
@@ -262,7 +265,7 @@
 
 /* line 7, ../src/sass/_top.scss */
 .pjs-gui-top-container {
-  margin: 15px 20px;
+  margin: 20px;
 }
 
 /* line 10, ../src/sass/_top.scss */
@@ -272,15 +275,16 @@
 
 /* line 13, ../src/sass/_top.scss */
 .pjs-gui-top-container > :first-child {
+  margin: auto;
   margin-left: 0;
 }
 
-/* line 16, ../src/sass/_top.scss */
+/* line 17, ../src/sass/_top.scss */
 .pjs-gui-top-container > :last-child {
   margin-right: 0;
 }
 
-/* line 19, ../src/sass/_top.scss */
+/* line 20, ../src/sass/_top.scss */
 .pjs-gui-top-metadata {
   -webkit-box-flex: 1;
   -webkit-flex: 1;
@@ -288,16 +292,21 @@
   -moz-flex: 1;
   -ms-flex: 1;
   flex: 1;
-  font-size: 22px;
+  font-size: 15px;
   font-weight: bold;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
+/* line 28, ../src/sass/_top.scss */
+.pjs-gui.pjs-share-active .pjs-gui-controls-share:before {
+  opacity: 1.0;
+}
+
 /* line 1, ../src/sass/_share.scss */
 .pjs-gui-share-item {
-  margin: 0 auto;
+  margin: 0;
 }
 
 /* line 4, ../src/sass/_share.scss */
@@ -312,123 +321,130 @@
   -moz-transition: all 0.3s ease-out;
   -o-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -webkit-justify-content: flex-start;
+  -moz-justify-content: flex-start;
+  justify-content: flex-start;
+  padding: 20px;
 }
 
 /* line 3, ../src/sass/_buttons.scss */
 .pjs-gui-controls-share:before {
-  background-position: 0 -1413px;
-  width: 53px;
-  height: 53px;
+  background-position: 0 -1283px;
+  width: 38px;
+  height: 38px;
   content: "";
   display: inline-block;
   cursor: pointer;
+  opacity: 0.8;
 }
 
-/* line 7, ../src/sass/_buttons.scss */
+/* line 8, ../src/sass/_buttons.scss */
 .pjs-gui-controls-play:before {
-  background-position: 0 -1152px;
-  width: 130px;
-  height: 130px;
+  background-position: 0 -1043px;
+  width: 120px;
+  height: 120px;
   content: "";
   display: inline-block;
   cursor: pointer;
 }
 
-/* line 11, ../src/sass/_buttons.scss */
+/* line 12, ../src/sass/_buttons.scss */
 .pjs-gui-controls-rewind:before {
-  background-position: 0 -1282px;
-  width: 131px;
-  height: 131px;
+  background-position: 0 -1163px;
+  width: 121px;
+  height: 120px;
   content: "";
   display: inline-block;
   cursor: pointer;
 }
 
-/* line 15, ../src/sass/_buttons.scss */
+/* line 16, ../src/sass/_buttons.scss */
 .pjs-gui-controls-pause:before {
-  background-position: 0 -1021px;
-  width: 131px;
-  height: 131px;
+  background-position: 0 -923px;
+  width: 121px;
+  height: 120px;
   content: "";
   display: inline-block;
   cursor: pointer;
 }
 
-/* line 19, ../src/sass/_buttons.scss */
+/* line 20, ../src/sass/_buttons.scss */
 .pjs-gui-controls-fullscreen:before {
-  background-position: 0 -725px;
-  width: 44px;
-  height: 44px;
+  background-position: 0 -666px;
+  width: 32px;
+  height: 32px;
   content: "";
   display: inline-block;
   cursor: pointer;
 }
 
-/* line 23, ../src/sass/_buttons.scss */
+/* line 24, ../src/sass/_buttons.scss */
 .pjs-gui-controls-fullscreen-minimize:before {
-  background-position: 0 -957px;
-  width: 45px;
-  height: 45px;
+  background-position: 0 -872px;
+  width: 32px;
+  height: 32px;
   content: "";
   display: inline-block;
   cursor: pointer;
 }
 
-/* line 27, ../src/sass/_buttons.scss */
+/* line 28, ../src/sass/_buttons.scss */
 .pjs-gui-controls-cc:before {
   background-position: 0 -181px;
-  width: 53px;
-  height: 53px;
+  width: 38px;
+  height: 38px;
   content: "";
   display: inline-block;
   cursor: pointer;
 }
 
-/* line 31, ../src/sass/_buttons.scss */
+/* line 32, ../src/sass/_buttons.scss */
 .pjs-gui-controls-cc-on:before {
-  background-position: 0 -234px;
-  width: 53px;
-  height: 53px;
+  background-position: 0 -219px;
+  width: 36px;
+  height: 37px;
   content: "";
   display: inline-block;
   cursor: pointer;
 }
 
-/* line 35, ../src/sass/_buttons.scss */
+/* line 36, ../src/sass/_buttons.scss */
 .pjs-share-facebook:before {
-  background-position: 0 -579px;
-  width: 146px;
-  height: 146px;
+  background-position: 0 -534px;
+  width: 132px;
+  height: 132px;
   content: "";
   display: inline-block;
   cursor: pointer;
 }
 
-/* line 39, ../src/sass/_buttons.scss */
+/* line 40, ../src/sass/_buttons.scss */
 .pjs-share-twitter:before {
-  background-position: 0 -1712px;
-  width: 146px;
-  height: 146px;
+  background-position: 0 -1567px;
+  width: 132px;
+  height: 132px;
   content: "";
   display: inline-block;
   cursor: pointer;
 }
 
-/* line 43, ../src/sass/_buttons.scss */
+/* line 44, ../src/sass/_buttons.scss */
 .pjs-share-embed:before {
-  background-position: 0 -433px;
-  width: 146px;
-  height: 146px;
+  background-position: 0 -402px;
+  width: 132px;
+  height: 132px;
   content: "";
   display: inline-block;
   cursor: pointer;
 }
 
-/* line 47, ../src/sass/_buttons.scss */
+/* line 48, ../src/sass/_buttons.scss */
 .pjs-share-link:before {
-  background-position: 0 -790px;
-  width: 146px;
-  height: 146px;
+  background-position: 0 -719px;
+  width: 132px;
+  height: 132px;
   content: "";
   display: inline-block;
   cursor: pointer;
@@ -489,5 +505,5 @@
   position: absolute;
   top: 0;
   left: 0;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.7), transparent 85%, rgba(0, 0, 0, 0.7));
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), transparent 65%, transparent 85%, rgba(0, 0, 0, 0.7));
 }

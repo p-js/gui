@@ -3,6 +3,7 @@
 .pjs-gui-controls-share:before {
 	@include image-with-dims(share);
 	cursor: pointer;
+	opacity: 0.8;
 }
 .pjs-gui-controls-play:before {
 	@include image-with-dims(play);
