@@ -636,9 +636,6 @@
 					$el.addClass(thumbActive);
 					this.dragging = true;
 					this.throttledMeasure();
-					this.$buffered.css({
-						width: 0
-					});
 					this.trigger(Events.SCRUB_START, {
 						type: Events.SCRUB_START,
 						data: this.playhead
@@ -956,7 +953,7 @@
 	/* global Main, AdView, Time, States, BottomView, Events, TopView, ToggleableButton */
 	var GUI = Main;
 	GUI.version = "0.14.0";
-	GUI.build = "Mon Apr 13 2015 10:04:08";
+	GUI.build = "Mon Apr 13 2015 12:22:25";
 	GUI.Time = Time;
 	GUI.AdView = AdView;
 	GUI.BottomView = BottomView;

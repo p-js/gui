@@ -185,9 +185,6 @@ var Slider = (function() {
 			$el.addClass(thumbActive);
 			this.dragging = true;
 			this.throttledMeasure();
-			this.$buffered.css({
-				width: 0
-			});
 			this.trigger(Events.SCRUB_START, {
 				type: Events.SCRUB_START,
 				data: this.playhead
